@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using GameComponents.Entity;
 using Microsoft.Xna.Framework.Graphics;
 namespace GameComponents;
 public class Raycast 
@@ -47,7 +48,7 @@ public class Raycast
         for(int i = 0; i < 4; i++) 
         {
             var p1 = Vertices[i];
-            var p2 = Vertices[(i - 1) % 4];
+            var p2 = Vertices[(i + 1) % 4];
             var segDir = p2 - p1;
             var Perp = new Vector2(-segDir.Y, segDir.X);
             float Dot = Vector2.Dot(Perp, Direction);
@@ -72,5 +73,10 @@ public class Raycast
         }
         hitT = maxDistance;
         return false;
+    }
+    
+    public void DebugLine(SpriteBatch batch, Texture2D pixel, Color pixelColor) 
+    {
+        batch.Draw(pixel, Origin, null, pixelColor, Radians, new Vector2(0f, 0.5f), new Vector2(MaxDistance, 1), SpriteEffects.None, 1f);
     }
 }
