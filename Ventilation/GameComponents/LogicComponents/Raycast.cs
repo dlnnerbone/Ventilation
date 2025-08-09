@@ -37,19 +37,40 @@ public class Raycast
             return false;
         }
     }
-    /*public bool IntersectsWithRectangle(Rectangle bounds, out float hitT) 
+    public bool IntersectsWithRectangle(Rectangle bounds, out float hitT) 
     {
-        Vector2 boxMin = new Vector2(bounds.X, bounds.Y);
-        Vector2 boxMax = new Vector2(bounds.X + bounds.Width, bounds.Y + bounds.Height);
-        var tMin = float.NegativeInfinity;
-        var tMax = float.PositiveInfinity;
-        float t1 = (boxMin.X - Origin.X) / Direction.X;
-        float t2 = (boxMin.Y - Origin.Y) / Direction.Y;
-        float t3 = (boxMax.X - Origin.X) / Direction.X;
-        float t4 = (boxMax.Y - Origin.Y) / Direction.Y;
-
-        var tx_near = (float)Math.Min(boxMin.X, boxMax.X);
-        var tx_far = (float)Math.Max(boxMin.Y, boxMax.Y);
-        var ty_near = (float)Math.Min()
-    } */
+        Vector2[] Vertices = new Vector2[4];
+        Vertices[0] = new(bounds.Left, bounds.Top);
+        Vertices[1] = new(bounds.Right, bounds.Top);
+        Vertices[2] = new(bounds.Right, bounds.Bottom);
+        Vertices[3] = new(bounds.Left, bounds.Bottom);
+        for(int i = 0; i < 4; i++) 
+        {
+            var p1 = Vertices[i];
+            var p2 = Vertices[(i - 1) % 4];
+            var segDir = p2 - p1;
+            var Perp = new Vector2(-segDir.Y, segDir.X);
+            float Dot = Vector2.Dot(Perp, Direction);
+            float calculatedT = Vector2.Dot(Perp, p1 - Origin) / Dot;
+            float U = Vector2.Dot(new Vector2(-Direction.Y, Direction.X), p1 - Origin) / Dot;
+            bool UValid = U >= 0 && U <= 1;
+            if (Math.Abs(Dot) <= 0.0001f) 
+            {
+                hitT = calculatedT;
+                return false;
+            }
+            if (UValid && calculatedT >= 0 && calculatedT <= maxDistance) 
+            {
+                hitT = calculatedT;
+                return true;
+            }
+            else 
+            {
+                hitT = calculatedT;
+                return false;
+            }
+        }
+        hitT = maxDistance;
+        return false;
+    }
 }
