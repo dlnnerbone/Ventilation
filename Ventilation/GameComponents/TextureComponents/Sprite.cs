@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameComponents.Interfaces;
-namespace GameComponents;
+namespace GameComponents.Rendering;
 public class Sprite : ITexture 
 {
     private Texture2D texture;

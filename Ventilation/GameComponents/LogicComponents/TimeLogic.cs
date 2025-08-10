@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-namespace GameComponents;
+namespace GameComponents.Logic;
 public class Timer 
 {
     private float elapsedTime;

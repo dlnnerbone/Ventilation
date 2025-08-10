@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using GameComponents.Entity;
 using Microsoft.Xna.Framework.Graphics;
-namespace GameComponents;
+namespace GameComponents.Logic;
 public class Raycast 
 {
     private Vector2 origin;
@@ -12,10 +12,16 @@ public class Raycast
     public Vector2 Origin { get { return origin; } private set { origin = value; } }
     public Vector2 Direction { get { return direction; } private set { direction = Vector2.Normalize(value); } }
     public float MaxDistance { get { return maxDistance; } set { maxDistance = value; } }
-    public float Radians => (float)Math.Atan2(-Direction.Y, Direction.X);
+    public float Angle => (float)Math.Atan2(-Direction.Y, Direction.X);
     public Vector2 GetEndPoints() => maxDistance < 0 ? Origin + (Direction * 1000) : Origin + (Direction * MaxDistance);
     public void LookAt(Vector2 target) => Direction = target - Origin;
     public void NewOrigin(Vector2 location) => Origin = location;
+    public Raycast(Vector2 position, Vector2 direction, float maxDistance) 
+    {
+        origin = position;
+        Direction = direction;
+        this.maxDistance = maxDistance;
+    }
     public bool IntersectsWithLineSegment(Vector2 start, Vector2 end, out float HitT) 
     {
         Vector2 SegDir = end - start;
@@ -57,8 +63,7 @@ public class Raycast
             bool UValid = U >= 0 && U <= 1;
             if (Math.Abs(Dot) <= 0.0001f) 
             {
-                hitT = calculatedT;
-                return false;
+                continue;
             }
             if (UValid && calculatedT >= 0 && calculatedT <= maxDistance) 
             {
@@ -77,6 +82,6 @@ public class Raycast
     
     public void DebugLine(SpriteBatch batch, Texture2D pixel, Color pixelColor) 
     {
-        batch.Draw(pixel, Origin, null, pixelColor, Radians, new Vector2(0f, 0.5f), new Vector2(MaxDistance, 1), SpriteEffects.None, 1f);
+        batch.Draw(pixel, Origin, null, pixelColor, Angle, new Vector2(0f, 0.5f), new Vector2(MaxDistance, 1), SpriteEffects.None, 1f);
     }
 }
