@@ -4,6 +4,13 @@ using System;
 namespace GameComponents.Logic;
 public class Camera 
 {
+    public enum CameraStates 
+    {
+        Fixed,
+        Lerped,
+        None,
+        Inverted
+    }
     private CameraStates CamState = CameraStates.None;
     private Matrix transformMatrix = new(), rotationMatrix = new(), scaleMatrix = new();
     private Vector2 cameraPosition = Vector2.Zero, cameraVelocity = Vector2.Zero, offset = Vector2.Zero, cameraTarget = Vector2.Zero;
@@ -28,14 +35,16 @@ public class Camera
     public float Radians { get { return radians; } set { radians = MathHelper.ToRadians(value); } }
     public float Scale { get { return scale; } set { scale = MathHelper.Clamp(value, 0f, 10f); } }
     public float Z_Depth { get { return zaxis; } set { zaxis = MathHelper.Clamp(value, 0f, 1f); } }
-    public Camera(float LerpFactor = 1f, float scaleFactor = 1f, float radians = 0f) 
+    public Camera(float LerpFactor = 0.5f, float scaleFactor = 1f, float radians = 0f) 
     {
         LerpTemperature = LerpFactor;
         scale = scaleFactor;
         this.radians = radians;
     }
-    public void CreateScreenTarget(Vector2 ScreenResolution) => HalfSize = ScreenResolution / 2;
+    public void CreateScreenMatch(Vector2 ScreenResolution) => HalfSize = ScreenResolution / 2;
+    public void CreateScreenMatch(Rectangle bounds) => HalfSize = new Vector2(bounds.Width / 2, bounds.Height / 2);
     public void SetTarget(Vector2 cameraTarget) => this.cameraTarget = cameraTarget;
+    public void CenterOn(Vector2 location) => CameraPosition = -location;
     public void UpdateCamera(GameTime GT) 
     {
         CameraPosition += CameraVelocity * (float)GT.ElapsedGameTime.TotalSeconds;
