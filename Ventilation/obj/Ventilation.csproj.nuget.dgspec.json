@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/dinnerbone/Downloads/Ventilation-main/Ventilation/Ventilation.csproj": {}
+    "/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/Ventilation.csproj": {}
   },
   "projects": {
-    "/home/dinnerbone/Downloads/Ventilation-main/Ventilation/Ventilation.csproj": {
+    "/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/Ventilation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/dinnerbone/Downloads/Ventilation-main/Ventilation/Ventilation.csproj",
+        "projectUniqueName": "/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/Ventilation.csproj",
         "projectName": "Ventilation",
-        "projectPath": "/home/dinnerbone/Downloads/Ventilation-main/Ventilation/Ventilation.csproj",
+        "projectPath": "/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/Ventilation.csproj",
         "packagesPath": "/home/dinnerbone/.nuget/packages/",
-        "outputPath": "/home/dinnerbone/Downloads/Ventilation-main/Ventilation/obj/",
+        "outputPath": "/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/dinnerbone/.nuget/NuGet/NuGet.Config"

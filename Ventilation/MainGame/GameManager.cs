@@ -8,10 +8,14 @@ public class GameLogicManager : GameManager
 {
     private Camera GameCamera;
     private Matrix GameMatrix;
-    public override void Initialize(Game game)
+    public GameLogicManager(Game game) 
     {
         GameCamera = new();
         GameCamera.CreateScreenMatch(game.GraphicsDevice.PresentationParameters.Bounds);
+    }
+    public override void Initialize(Game game)
+    {
+        
     }
     public override void LoadContent(Game game)
     {

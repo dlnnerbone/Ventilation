@@ -92,3 +92,36 @@
 /home/dinnerbone/Downloads/Ventilation-main/Ventilation/obj/Debug/net8.0/Ventilation.pdb
 /home/dinnerbone/Downloads/Ventilation-main/Ventilation/obj/Debug/net8.0/Ventilation.genruntimeconfig.cache
 /home/dinnerbone/Downloads/Ventilation-main/Ventilation/obj/Debug/net8.0/ref/Ventilation.dll
+/home/dinnerbone/Downloads/Ventilation-main/Ventilation/obj/Debug/net8.0/Ventilation.sourcelink.json
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.csproj.AssemblyReference.cache
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.GeneratedMSBuildEditorConfig.editorconfig
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.AssemblyInfoInputs.cache
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.AssemblyInfo.cs
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.csproj.CoreCompileInputs.cache
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.sourcelink.json
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.dll
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/refint/Ventilation.dll
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.pdb
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/Ventilation
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/Ventilation.deps.json
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/Ventilation.runtimeconfig.json
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/Ventilation.dll
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/Ventilation.pdb
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/MonoGame.Framework.dll
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/NVorbis.dll
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/android-arm/native/libopenal.so
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/android-arm64/native/libopenal.so
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/android-x64/native/libopenal.so
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/android-x86/native/libopenal.so
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/ios-arm64/native/libopenal.dylib
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/iossimulator-arm64/native/libopenal.dylib
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/iossimulator-x64/native/libopenal.dylib
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/linux-x64/native/libopenal.so
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/osx/native/libopenal.dylib
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/win-x64/native/openal.dll
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/linux-x64/native/libSDL2-2.0.so.0
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/osx/native/libSDL2-2.0.0.dylib
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/win-x64/native/SDL2.dll
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilat.18F31FFE.Up2Date
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.genruntimeconfig.cache
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/ref/Ventilation.dll

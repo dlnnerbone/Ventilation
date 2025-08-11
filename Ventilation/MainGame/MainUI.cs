@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Main;
 public class MainUI : GameManager 
 {
-    
+    public MainUI(Game game) {}
     public override void Initialize(Game game) 
     {
         
