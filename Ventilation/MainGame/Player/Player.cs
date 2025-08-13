@@ -49,7 +49,15 @@ public class Player : Entity
             if (Input.IsKeyDown(Keys.W) || Input.IsKeyDown(Keys.A) || Input.IsKeyDown(Keys.S) || Input.IsKeyDown(Keys.D)) SwitchMotion(Motions.Moving);
         }
         else if (!IsDashing) SwitchMotion(Motions.Idle);
-        
+        if (DashCooldown.TimerIsZero() && !IsDashing && IsControllable && Stamina != 0) 
+        {
+            SwitchMotion(Motions.Sliding);
+            IsControllable = false;
+            IsDashing = true;
+            DashCooldown.RestartTimer();
+            DashDuration.RestartTimer();
+            Stamina -= 1;
+        }
     }
     private void ActionInputStates() {}
     private void MotionStating() {}
@@ -75,9 +83,12 @@ public class Player : Entity
     private void Dashing() 
     {
         Velocity += Direction * DashForce;
-        if (DashDuration.ElapsedTime <= 0) 
+        if (DashDuration.TimerIsZero()) 
         {
             IsDashing = false;
+            IsControllable = true;
+            SwitchMotion(Motions.Idle);
+            DashDuration.Deactivate();
         }
     }
     public void LoadContent(GraphicsDevice device) 

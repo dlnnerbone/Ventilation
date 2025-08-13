@@ -12,7 +12,7 @@ public class Raycast
     public Vector2 Origin { get { return origin; } private set { origin = value; } }
     public Vector2 Direction { get { return direction; } private set { direction = Vector2.Normalize(value); } }
     public float MaxDistance { get { return maxDistance; } set { maxDistance = value; } }
-    public float Angle => (float)Math.Atan2(-Direction.Y, Direction.X);
+    public float Angle => (float)Math.Atan2(Direction.Y, Direction.X);
     public Vector2 GetEndPoints() => maxDistance < 0 ? Origin + (Direction * 1000) : Origin + (Direction * MaxDistance);
     public void LookAt(Vector2 target) => Direction = target - Origin;
     public void NewOrigin(Vector2 location) => Origin = location;

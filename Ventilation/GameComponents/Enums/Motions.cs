@@ -4,5 +4,6 @@ public enum Motions
 {
     Idle,
     Moving,
-    jumping
+    Jumping,
+    Sliding
 }

@@ -20,6 +20,8 @@ public class Timer
     public void Activate() => isActive = true;
     public void AutoRestartOnZero() => autoRestart = true;
     public void DisableAutoRestart() => autoRestart = false;
+    public bool TimerIsZero() => ElapsedTime <= 0;
+    public void RestartTimer() => ElapsedTime = DeclaredTime;
     public Timer(float seconds) 
     {
         elapsedTime = seconds;
