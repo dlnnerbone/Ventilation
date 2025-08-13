@@ -7,7 +7,7 @@ public class PlayerManager : GameManager
     public Player player { get; private set; }
     public PlayerManager() 
     {
-        player = new(new(250, 250), 75, 75, 100);
+        player = new(250, 250, 75, 75, 100);
     }
     public override void Initialize(Game game) {}
     public override void LoadContent(Game game) 
@@ -16,7 +16,7 @@ public class PlayerManager : GameManager
     }
     public override void UpdateLogic(GameTime gt) 
     {
-        player.UpdatePlayer(gt);
+        player.UpdateLogic(gt);
     }
     public override void Draw(SpriteBatch batch) 
     {
