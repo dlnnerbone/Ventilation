@@ -34,7 +34,7 @@ public class GameLogicManager : GameManager
     }
     public override void Draw(SpriteBatch batch)
     {
-        batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, GameCamera.TransformMatrix);
+        batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, GameMatrix);
         playerManager.Draw(batch);
         batch.End();
     }

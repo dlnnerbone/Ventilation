@@ -16,8 +16,8 @@ public class Timer
     public float TimerInterval => timeInterval;
     public int GetTimeFromArray(int value) => timeArray[value <= 0 ? timeArray.Length - 1 : (value - 1) % timeArray.Length];
     public bool IsActive => isActive;
-    public void Deactivate() => isActive = false;
-    public void Activate() => isActive = true;
+    public void PauseTimer() => isActive = false;
+    public void ContinueTimer() => isActive = true;
     public void AutoRestartOnZero() => autoRestart = true;
     public void DisableAutoRestart() => autoRestart = false;
     public bool TimerIsZero() => ElapsedTime <= 0;
