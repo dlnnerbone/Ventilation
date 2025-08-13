@@ -62,5 +62,10 @@ public sealed class Camera
         CameraPosition = CameraTarget + screenSize;
         transformMatrix = Matrix.CreateTranslation(CameraPosition.X, CameraPosition.Y, 1);
     }
-    private void Lerped() {}
+    private void Lerped() 
+    {
+        Vector2 delta = CameraTarget - CameraPosition + screenSize;
+        CameraPosition += delta * Speed;
+        transformMatrix = Matrix.CreateTranslation(CameraPosition.X, CameraPosition.Y, 0);
+    }
 }

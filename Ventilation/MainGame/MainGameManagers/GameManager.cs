@@ -12,7 +12,7 @@ public class GameLogicManager : GameManager
     public GameLogicManager(Game game) 
     {
         GameCamera = new(game.GraphicsDevice.Viewport.Bounds);
-        GameCamera.SwitchStates(CameraStates.Fixed);
+        GameCamera.SwitchStates(CameraStates.Lerped);
         playerManager = new();
     }
     public override void Initialize(Game game)
