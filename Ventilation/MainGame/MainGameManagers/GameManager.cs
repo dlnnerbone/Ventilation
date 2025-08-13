@@ -10,7 +10,7 @@ public class GameLogicManager : GameManager
     private Matrix GameMatrix;
     private PlayerManager playerManager;
     private Texture2D pixelTest;
-    private Color[] color = new Color[] { Color.White }
+    private Color[] color = new Color[] { Color.White };
     private Rectangle pixelBoundsTest;
     public GameLogicManager(Game game) 
     {
@@ -29,6 +29,7 @@ public class GameLogicManager : GameManager
     {
         playerManager.LoadContent(game);
         pixelTest = new(game.GraphicsDevice, 1, 1);
+        pixelTest.SetData<Color>(color);
     }
     public override void UpdateLogic(GameTime gt)
     {
