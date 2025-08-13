@@ -11,13 +11,15 @@ public class GameLogicManager : GameManager
     private PlayerManager playerManager;
     public GameLogicManager(Game game) 
     {
-        GameCamera = new();
+        GameCamera = new(game.GraphicsDevice.Viewport.Bounds);
+        GameCamera.SwitchStates(CameraStates.Fixed);
         playerManager = new();
-        GameCamera.CreateScreenMatch(game.GraphicsDevice.PresentationParameters.Bounds);
     }
     public override void Initialize(Game game)
     {
         playerManager.Initialize(game);
+        
+        GameCamera.SetTarget(playerManager.player.Center);
     }
     public override void LoadContent(Game game)
     {
@@ -25,9 +27,9 @@ public class GameLogicManager : GameManager
     }
     public override void UpdateLogic(GameTime gt)
     {
-        GameCamera.UpdateCamera(gt);
+        GameCamera.UpdateCamera();
+        GameCamera.SetTarget(playerManager.player.Center);
         playerManager.UpdateLogic(gt);
-        
         GameMatrix = GameCamera.ScaleMatrix * GameCamera.RotationMatrix * GameCamera.TransformMatrix;
     }
     public override void Draw(SpriteBatch batch)

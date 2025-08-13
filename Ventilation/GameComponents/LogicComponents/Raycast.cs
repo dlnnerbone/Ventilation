@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using GameComponents.Entity;
 using Microsoft.Xna.Framework.Graphics;
 namespace GameComponents.Logic;
-public class Raycast 
+public sealed class Raycast 
 {
     private Vector2 origin;
     private Vector2 direction = Vector2.Zero;
