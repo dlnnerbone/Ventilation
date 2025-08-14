@@ -22,7 +22,7 @@ public class GameLogicManager : GameManager
     public override void Initialize(Game game)
     {
         playerManager.Initialize(game);
-        
+        GameCamera.Speed = 0.2f;
         GameCamera.SetTarget(playerManager.player.Center);
     }
     public override void LoadContent(Game game)
