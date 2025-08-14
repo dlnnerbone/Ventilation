@@ -103,7 +103,7 @@ public class Player : Entity
     public void UpdateLogic(GameTime gt) 
     {
         Input.UpdateInputs();
-        MoveAndSlide(gt);
+        Position = MoveAndSlide(gt) * SpeedMultiplier;
         HandleStates();
         Velocity = Vector2.Clamp(Velocity, new Vector2(-MaxSpeed, -MaxSpeed), new Vector2(MaxSpeed, MaxSpeed));
     }
