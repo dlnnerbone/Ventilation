@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using GameComponents.Interfaces;
-namespace GameComponents;
+namespace GameComponents.Managers;
 public class InputManager : IMouse, InterfaceInputs
 {
     public KeyboardState CurrentKeyboardState { get; set; }
@@ -21,10 +21,6 @@ public class InputManager : IMouse, InterfaceInputs
     public bool IsMiddleHeld => CurrentMouseState.MiddleButton == ButtonState.Pressed;
     public bool IsBackHeld => CurrentMouseState.XButton1 == ButtonState.Pressed;
     public bool IsForwardHeld => CurrentMouseState.XButton2 == ButtonState.Pressed;
-    public InputManager() 
-    {
-        CurrentKeyboardState = Keyboard.GetState();
-    }
     public bool IsKeyDown(Keys key) 
     {
         return CurrentKeyboardState.IsKeyDown(key);
