@@ -9,9 +9,9 @@ namespace Main;
 public class Player : Entity 
 {
     private InputManager Input = new();
-    private float moveSpeed = 100f;
+    private float moveSpeed = 50f;
     private float dashForce = 2000f;
-    private float maxSpeed = 2500f;
+    private float maxSpeed = 750f;
     private int stamina = 3;
     private int maxStamina = 3;
     private float speedMultiplier = 1;
@@ -59,7 +59,6 @@ public class Player : Entity
     }
     private void Moving() 
     {
-        Velocity = Vector2.Lerp(Velocity, Vector2.Zero, 0.1f);
         IsDashing = false;
         if (Input.IsKeyDown(Keys.W)) Velocity_Y += -MoveSpeed;
         else if (Input.IsKeyDown(Keys.S)) Velocity_Y += MoveSpeed;
