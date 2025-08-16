@@ -14,12 +14,11 @@ public class Timer
     public float DeclaredTime => declaredTime;
     public float TimeMultiplier { get { return timeMulti; } set { timeMulti = value; } }
     public float TimerInterval => timeInterval;
+    public bool AutoRestart { get { return autoRestart; } set { autoRestart = value; } }
     public int GetTimeFromArray(int value) => timeArray[value <= 0 ? timeArray.Length - 1 : (value - 1) % timeArray.Length];
     public bool IsActive => isActive;
     public void PauseTimer() => isActive = false;
     public void ContinueTimer() => isActive = true;
-    public void AutoRestartOnZero() => autoRestart = true;
-    public void DisableAutoRestart() => autoRestart = false;
     public bool TimerIsZero() => ElapsedTime <= 0;
     public void RestartTimer() => ElapsedTime = DeclaredTime;
     public Timer(float seconds) 

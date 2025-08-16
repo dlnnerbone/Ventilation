@@ -5,5 +5,6 @@ public enum Motions
     Idle,
     Moving,
     Jumping,
-    Sliding
+    Sliding,
+    Dashing
 }
