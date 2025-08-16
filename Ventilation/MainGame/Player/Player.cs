@@ -4,33 +4,23 @@ using Microsoft.Xna.Framework.Input;
 using GameComponents;
 using GameComponents.Entity;
 using GameComponents.Rendering;
-using GameComponents.Logic;
+using GameComponents.Managers;
 namespace Main;
 public class Player : Entity 
 {
-    private PlayerMotion playerMovement = new();
+    private Motions Motion = Motions.Idle;
+    public InputManager Input = new();
+    private float moveSpeed = 50f;
+    private float maxSpeed = 750f;
+    private float lerpSpeed = 0.15f;
+    private float dashForce = 2000f;
+    private int stamina = 3;
     // private fields
-    public Sprite PlayerSprite { get; private set; }
-    public bool IsAlive { get; set; } = true;
-    public bool IsControllable { get; set; } = true;
-    public float SpeedMultiplier { get; set; } = 1;
-    public Player(int x, int y, int width, int height, float HP) : base(x, y, width, height, HP) 
-    {
-        
-    }
-    public void LoadContent(GraphicsDevice device) 
-    {
-        PlayerSprite = new(new Texture2D(device, 1, 1), Color.Red);
-        PlayerSprite.SetToData();
-    }
-    public void UpdateLogic(GameTime gt) 
-    {
-        MoveAndSlide(gt);
-        playerMovement.HandleMotionStates(this);
-    }
-    public void Draw(SpriteBatch batch) 
-    {
-        PlayerSprite.Draw(batch, Bounds);
-    }
+    public Motions SetMotion(Motions motion) => Motion = motion;
+    public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
+    public float MaxSpeed { get { return maxSpeed; } set { maxSpeed = value < 0 ? 0 : value; } }
+    public float LerpSpeed { get { return lerpSpeed; } set { lerpSpeed = MathHelper.Clamp(value, 0f, 1f); } }
+    public float DashForce { get { return dashForce; } set { dashForce = value <= maxSpeed ? value * 2 : value; } }
+    public bool IsDashing { get; set; } = false;
     
 }
