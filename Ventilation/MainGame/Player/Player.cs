@@ -31,6 +31,7 @@ public class Player : Entity
     public bool IsControllable { get; set; } = true;
     public Sprite PlayerSprite { get; private set; }
     public bool IsAlive { get; set; } = true;
+    private Raycast cast;
     public Player(int x, int y, int width, int height, float HP) : base(x, y, width, height, HP) 
     {
         dashCool = new(0.45f);
@@ -45,6 +46,7 @@ public class Player : Entity
     public void LoadContent(GraphicsDevice device) 
     {
         PlayerSprite = new(new(device, 1, 1), Color.Red);
+        cast = new(Center, TopRight, 300);
         PlayerSprite.SetToData();
     }
     private void Idle() 
@@ -81,6 +83,8 @@ public class Player : Entity
     {
         HandleMotionInput();
         Velocity = Vector2.Clamp(Velocity, new Vector2(-maxSpeed, -maxSpeed), new Vector2(maxSpeed, maxSpeed));
+        cast.LookAt(Input.ClientMousePosition);
+        cast.NewOrigin(Center);
         switch (Motion) 
         {
             case Motions.Idle: Idle(); break;
@@ -100,6 +104,7 @@ public class Player : Entity
     public void Draw(SpriteBatch batch) 
     {
         PlayerSprite.Draw(batch, Bounds);
+        cast.DebugLine(batch, PlayerSprite.Texture, Color.White);
     }
     
 }
