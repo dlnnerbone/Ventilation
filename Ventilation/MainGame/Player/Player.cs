@@ -59,8 +59,14 @@ public class Player : Entity
         IsDashing = false;
         if (Input.IsKeyDown(Keys.W)) Velocity_Y += -moveSpeed;
         else if (Input.IsKeyDown(Keys.S)) Velocity_Y += moveSpeed;
+        else Velocity_Y = MathHelper.Lerp(Velocity_Y, 0, 0.05f);
         if (Input.IsKeyDown(Keys.A)) Velocity_X += -moveSpeed;
         else if (Input.IsKeyDown(Keys.D)) Velocity_X += moveSpeed;
+        else Velocity_X = MathHelper.Lerp(Velocity_X, 0, 0.05f);
+    }
+    private void Dashing() 
+    {
+        
     }
     private void HandleMotionInput() 
     {
@@ -69,6 +75,7 @@ public class Player : Entity
             SetMotion(Motions.Moving);
         }
         else if (!IsDashing) SetMotion(Motions.Idle);
+        
     }
     private void HandleMotionStates() 
     {
@@ -78,12 +85,15 @@ public class Player : Entity
         {
             case Motions.Idle: Idle(); break;
             case Motions.Moving: Moving(); break;
-            case Motions.Dashing: break;
+            case Motions.Dashing: Dashing(); break;
         }
     }
     public void UpdateLogic(GameTime gt) 
     {
         Input.UpdateInputs();
+        dashCool.UpdateTimer(gt);
+        dashDur.UpdateTimer(gt);
+        staminaRegen.UpdateTimer(gt);
         MoveAndSlide(gt);
         HandleMotionStates();
     }
