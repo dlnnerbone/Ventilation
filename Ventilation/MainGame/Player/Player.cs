@@ -31,7 +31,7 @@ public class Player : Entity
     public bool IsControllable { get; set; } = true;
     public Sprite PlayerSprite { get; private set; }
     public bool IsAlive { get; set; } = true;
-    private Raycast cast;
+    private SpriteFont font;
     public Player(int x, int y, int width, int height, float HP) : base(x, y, width, height, HP) 
     {
         dashCool = new(0.45f);
@@ -43,11 +43,12 @@ public class Player : Entity
         staminaRegen = new(1.55f);
         staminaRegen.AutoRestart = true;
     }
-    public void LoadContent(GraphicsDevice device) 
+    public void LoadContent(Game game) 
     {
-        PlayerSprite = new(new(device, 1, 1), Color.Red);
-        cast = new(Center, TopRight, 300);
+        PlayerSprite = new(new(game.GraphicsDevice, 1, 1), Color.Red);
         PlayerSprite.SetToData();
+
+        font = game.Content.Load<SpriteFont>("PixelatedElegance");
     }
     private void Idle() 
     {
@@ -59,6 +60,7 @@ public class Player : Entity
     private void Moving() 
     {
         IsDashing = false;
+        Velocity = Vector2.Clamp(Velocity, new Vector2(-maxSpeed, -maxSpeed), new Vector2(maxSpeed, maxSpeed));
         if (Input.IsKeyDown(Keys.W)) Velocity_Y += -moveSpeed;
         else if (Input.IsKeyDown(Keys.S)) Velocity_Y += moveSpeed;
         else Velocity_Y = MathHelper.Lerp(Velocity_Y, 0, 0.05f);
@@ -68,7 +70,13 @@ public class Player : Entity
     }
     private void Dashing() 
     {
-        
+        Velocity = Direction * DashForce;
+        if (dashDur.TimerIsZero()) 
+        {
+            IsDashing = false;
+            IsControllable = true;
+            SetMotion(Motions.Idle);
+        }
     }
     private void HandleMotionInput() 
     {
@@ -76,15 +84,26 @@ public class Player : Entity
         {
             SetMotion(Motions.Moving);
         }
-        else if (!IsDashing) SetMotion(Motions.Idle);
+        else if (Motion != Motions.Dashing) SetMotion(Motions.Idle);
+        if (Input.IsKeyPressed(Keys.LeftShift) && Stamina != 0 && IsControllable && !IsDashing) 
+        {
+            dashCool.RestartTimer();
+            dashDur.RestartTimer();
+            IsDashing = true;
+            IsControllable = false;
+            Stamina -= 1;
+            SetMotion(Motions.Dashing);
+        }
         
+    }
+    private void HandleStamina() 
+    {
+        if (staminaRegen.TimerIsZero()) Stamina += 1;
     }
     private void HandleMotionStates() 
     {
         HandleMotionInput();
-        Velocity = Vector2.Clamp(Velocity, new Vector2(-maxSpeed, -maxSpeed), new Vector2(maxSpeed, maxSpeed));
-        cast.LookAt(Input.ClientMousePosition);
-        cast.NewOrigin(Center);
+        HandleStamina();
         switch (Motion) 
         {
             case Motions.Idle: Idle(); break;
@@ -104,7 +123,7 @@ public class Player : Entity
     public void Draw(SpriteBatch batch) 
     {
         PlayerSprite.Draw(batch, Bounds);
-        cast.DebugLine(batch, PlayerSprite.Texture, Color.White);
+        batch.DrawString(font, "DashCooldown:" + dashCool.ElapsedTime, new Vector2(50, 50), Color.Green);
     }
     
 }

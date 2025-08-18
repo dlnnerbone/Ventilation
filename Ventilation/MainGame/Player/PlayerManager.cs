@@ -12,7 +12,7 @@ public class PlayerManager : GameManager
     public override void Initialize(Game game) {}
     public override void LoadContent(Game game) 
     {
-        player.LoadContent(game.GraphicsDevice);
+        player.LoadContent(game);
     }
     public override void UpdateLogic(GameTime gt) 
     {

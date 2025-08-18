@@ -125,3 +125,4 @@
 /home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilat.18F31FFE.Up2Date
 /home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.genruntimeconfig.cache
 /home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/ref/Ventilation.dll
+/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/PixelatedElegance.xnb

@@ -7,7 +7,7 @@ public class Timer
     private float timeMulti = 1;
     private float timeInterval;
     private readonly int[] timeArray;
-    private bool isActive = false;
+    private bool isActive = true;
     private bool autoRestart = false;
     // private fields
     public float ElapsedTime { get { return elapsedTime; } protected set { elapsedTime = MathHelper.Clamp(value, 0f, declaredTime); } }
