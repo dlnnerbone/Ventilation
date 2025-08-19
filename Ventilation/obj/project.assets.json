@@ -295,11 +295,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/Ventilation.csproj",
+      "projectUniqueName": "/home/dinnerbone/Games/Ventilation/Ventilation/Ventilation.csproj",
       "projectName": "Ventilation",
-      "projectPath": "/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/Ventilation.csproj",
+      "projectPath": "/home/dinnerbone/Games/Ventilation/Ventilation/Ventilation.csproj",
       "packagesPath": "/home/dinnerbone/.nuget/packages/",
-      "outputPath": "/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/",
+      "outputPath": "/home/dinnerbone/Games/Ventilation/Ventilation/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/dinnerbone/.nuget/NuGet/NuGet.Config"

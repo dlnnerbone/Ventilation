@@ -4,7 +4,7 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>/home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/Content/PixelatedElegance.spritefont</File>
+    <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/PixelatedElegance.spritefont</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

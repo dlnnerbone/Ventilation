@@ -44,6 +44,27 @@ public sealed class Raycast
             return false;
         }
     }
+    public bool IntersectsWithLineSegment(Vector2 start, Vector2 end) 
+    {
+        Vector2 SegDir = end - start;
+        Vector2 Perp = new Vector2(-SegDir.Y, SegDir.X);
+        float DotProduct = Vector2.Dot(Perp, Direction);
+        float calculatedT = Vector2.Dot(Perp, start - Origin) / DotProduct;
+        float U = Vector2.Dot(new Vector2(-Direction.Y, Direction.X), start - Origin) / DotProduct;
+        bool IsUValid = U >= 0 && U <= 1;
+        if (Math.Abs(DotProduct) < 0.0001f) 
+        {
+            return false;
+        }
+        if (IsUValid && calculatedT >= 0 && calculatedT <= maxDistance) 
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
     public bool IntersectsWithRectangle(Rectangle bounds, out float hitT) 
     {
         Vector2[] Vertices = new Vector2[4];
@@ -77,6 +98,38 @@ public sealed class Raycast
             }
         }
         hitT = maxDistance;
+        return false;
+    }
+    public bool IntersectsWithRectangle(Rectangle bounds) 
+    {
+        Vector2[] Vertices = new Vector2[4];
+        Vertices[0] = new(bounds.Left, bounds.Top);
+        Vertices[1] = new(bounds.Right, bounds.Top);
+        Vertices[2] = new(bounds.Right, bounds.Bottom);
+        Vertices[3] = new(bounds.Left, bounds.Bottom);
+        for(int i = 0; i < 4; i++) 
+        {
+            var p1 = Vertices[i];
+            var p2 = Vertices[(i + 1) % 4];
+            var segDir = p2 - p1;
+            var Perp = new Vector2(-segDir.Y, segDir.X);
+            float Dot = Vector2.Dot(Perp, Direction);
+            float calculatedT = Vector2.Dot(Perp, p1 - Origin) / Dot;
+            float U = Vector2.Dot(new Vector2(-Direction.Y, Direction.X), p1 - Origin) / Dot;
+            bool UValid = U >= 0 && U <= 1;
+            if (Math.Abs(Dot) <= 0.0001f) 
+            {
+                continue;
+            }
+            if (UValid && calculatedT >= 0 && calculatedT <= maxDistance) 
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
         return false;
     }
     
