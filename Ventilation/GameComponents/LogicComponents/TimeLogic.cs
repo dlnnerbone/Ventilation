@@ -9,6 +9,7 @@ public class Timer
     private readonly int[] timeArray;
     private bool isActive = true;
     private bool autoRestart = false;
+    private bool hitZero = false;
     // private fields
     public float ElapsedTime { get { return elapsedTime; } protected set { elapsedTime = MathHelper.Clamp(value, 0f, declaredTime); } }
     public float DeclaredTime => declaredTime;
@@ -19,7 +20,7 @@ public class Timer
     public bool IsActive => isActive;
     public void PauseTimer() => isActive = false;
     public void ContinueTimer() => isActive = true;
-    public bool TimerIsZero() => ElapsedTime <= 0;
+    public bool TimerIsZero() => elapsedTime <= 0;
     public void RestartTimer() => ElapsedTime = DeclaredTime;
     public Timer(float seconds) 
     {
@@ -31,7 +32,13 @@ public class Timer
     {
         timeInterval = (float)gt.ElapsedGameTime.TotalSeconds * timeMulti;
         if (isActive) elapsedTime -= timeInterval;
-        if (autoRestart && elapsedTime <= 0) elapsedTime = declaredTime;
-        else if (!autoRestart && elapsedTime <= 0) elapsedTime = 0;
+        if (autoRestart && elapsedTime <= 0) 
+        {
+            elapsedTime = declaredTime;
+        }
+        else if (!autoRestart && elapsedTime <= 0) 
+        {
+            elapsedTime = 0;
+        }
     }
 }

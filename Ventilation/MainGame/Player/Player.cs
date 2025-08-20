@@ -70,7 +70,7 @@ public class Player : Entity
     }
     private void Dashing() 
     {
-        if (Velocity != Vector2.Zero) Velocity = Direction * DashForce;
+        Velocity = Direction * DashForce;
         if (dashDur.TimerIsZero()) 
         {
             IsDashing = false;
@@ -84,8 +84,8 @@ public class Player : Entity
         {
             SetMotion(Motions.Moving);
         }
-        else if (Motion != Motions.Dashing) SetMotion(Motions.Idle);
-        if (Input.IsKeyPressed(Keys.LeftShift) && Stamina != 0 && IsControllable && !IsDashing) 
+        else if (!IsDashing) SetMotion(Motions.Idle);
+        if (Input.IsKeyPressed(Keys.LeftShift) && Stamina != 0 && IsControllable && !IsDashing && Velocity != Vector2.Zero) 
         {
             dashCool.RestartTimer();
             dashDur.RestartTimer();
@@ -98,7 +98,7 @@ public class Player : Entity
     }
     private void HandleStamina() 
     {
-        if (staminaRegen.TimerIsZero()) Stamina += 1;
+        if (staminaRegen.ElapsedTime <= 0.02f) Stamina += 1;
     }
     private void HandleMotionStates() 
     {

@@ -36,12 +36,18 @@ public sealed class PlayerMovement
         staminaRegen = new(1.65f);
         staminaRegen.AutoRestart = true;
     }
-    private void Idle(Player player) {}
+    private void Idle(Player player) 
+    {
+        player.Velocity = Vector2.Lerp(player.Velocity, Vector2.Zero, LerpSpeed);
+        IsDashing = false;
+        player.Velocity_X = player.Velocity_X >= -1 && player.Velocity_X <= 1 ? 0 : player.Velocity_X;
+        player.Velocity_Y = player.Velocity_Y >= -1 && player.Velocity_Y <= 1 ? 0 : player.Velocity_Y;
+    }
     private void Moving(Player player) {}
     private void Dashing(Player player) {}
     private void HandleStamina() 
     {
-        if (staminaRegen.TimerIsZero()) 
+        if (staminaRegen.ElapsedTime <= 0.02f) 
         {
             Stamina += 1;
         }
@@ -55,12 +61,16 @@ public sealed class PlayerMovement
     private void HandleInputs(Player player) 
     {
         Input.UpdateInputs();
+        
+        bool canDash = dashCool.TimerIsZero() && !IsDashing && Stamina <= 0 && player.Velocity != Vector2.Zero;
+        
         if (player.IsControllable && (Input.IsKeyDown(Keys.W) || Input.IsKeyDown(Keys.A) || Input.IsKeyDown(Keys.S) || Input.IsKeyDown(Keys.D)))
         {
             SetMotion(Motions.Moving);
         }
         else if (!IsDashing) SetMotion(Motions.Idle);
-        if (Input.IsKeyDown(Keys.LeftShift) && dashCool.TimerIsZero() && !IsDashing && player.IsControllable && Stamina <= 0) 
+        
+        if (Input.IsKeyDown(Keys.LeftShift) && canDash  && player.IsControllable) 
         {
             IsDashing = true;
             player.IsControllable = false;
