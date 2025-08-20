@@ -70,7 +70,7 @@ public class Player : Entity
     }
     private void Dashing() 
     {
-        Velocity = Direction * DashForce;
+        if (Velocity != Vector2.Zero) Velocity = Direction * DashForce;
         if (dashDur.TimerIsZero()) 
         {
             IsDashing = false;
