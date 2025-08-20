@@ -2,14 +2,13 @@ using Microsoft.Xna.Framework;
 namespace GameComponents.Logic;
 public class Timer 
 {
-    private float elapsedTime;
-    private readonly float declaredTime;
-    private float timeMulti = 1;
-    private float timeInterval;
-    private readonly int[] timeArray;
-    private bool isActive = true;
-    private bool autoRestart = false;
-    private bool hitZero = false;
+    private float elapsedTime; // the current time in runtime
+    private readonly float declaredTime; // the time that the Timer started with
+    private float timeMulti = 1; // the multiplier, whether to slow down the Timer or speed it up, multiplied by 1 as default
+    private float timeInterval; // the interval the Timer ticks down by
+    private readonly int[] timeArray; // the list of the amount of seconds to choose from
+    private bool isActive = true; // determines whether the Timer is active (running) or not (paused)
+    private bool autoRestart = false; // the value that determines whether or not the Timer instantly restarts the moment it hits zero.
     // private fields
     public float ElapsedTime { get { return elapsedTime; } protected set { elapsedTime = MathHelper.Clamp(value, 0f, declaredTime); } }
     public float DeclaredTime => declaredTime;
@@ -39,6 +38,6 @@ public class Timer
         else if (!autoRestart && elapsedTime <= 0) 
         {
             elapsedTime = 0;
-        }
+        } // back
     }
 }
