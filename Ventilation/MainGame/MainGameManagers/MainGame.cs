@@ -5,6 +5,7 @@ namespace Main;
 public class Ventilation : Game 
 {
     private SpriteBatch batch;
+    private PlayerManager PlayerManager;
     private GraphicsDeviceManager device;
     private GameLogicManager gameManager;
     private MainUI uiManager;
@@ -14,12 +15,15 @@ public class Ventilation : Game
         WindowManager.ChangeResolution(device, 1920, 1080);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        
         gameManager = new(this);
         uiManager = new(this);
+        PlayerManager = new();
     }
     protected override void Initialize()
     {
         base.Initialize();
+        PlayerManager.Initialize(this);
         gameManager.Initialize(this);
         uiManager.Initialize(this);
     }
@@ -28,11 +32,13 @@ public class Ventilation : Game
         batch = new(GraphicsDevice);
         gameManager.LoadContent(this);
         uiManager.LoadContent(this);
+        PlayerManager.LoadContent(this);
         base.LoadContent();
     }
     protected override void Update(GameTime gt) 
     {
         gameManager.UpdateLogic(gt);
+        PlayerManager.UpdateLogic(gt);
         uiManager.UpdateLogic(gt);
         base.Update(gt);
     }

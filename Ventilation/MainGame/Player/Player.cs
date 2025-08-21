@@ -27,7 +27,6 @@ public class Player : Entity
     {
         PlayerSprite = new(new(game.GraphicsDevice, 1, 1), Color.Red);
         PlayerSprite.SetToData();
-        playerMotion.LoadFont(game);
     }
     public void UpdateLogic(GameTime gt) 
     {
@@ -39,7 +38,6 @@ public class Player : Entity
     {
         if (!IsAlive) return;
         PlayerSprite.Draw(batch, Bounds);
-        playerMotion.DrawFontAndTestTimers(batch);
     }
     
 }

@@ -26,7 +26,6 @@ public sealed class PlayerMovement
     public int Stamina { get { return stamina; } set { stamina = MathHelper.Clamp(value, 0, maxStamina); } }
     public int MaxStamina { get { return maxStamina; } set { maxStamina = value < 0 ? stamina + 1 : value; } }
     public bool IsDashing { get; set; } = false;
-    private SpriteFont font;
     public PlayerMovement() 
     {
         dashCool = new(0.45f);
@@ -37,10 +36,6 @@ public sealed class PlayerMovement
 
         staminaRegen = new(1.65f);
         staminaRegen.AutoRestart = true;
-    }
-    public void LoadFont(Game game) 
-    {
-        font = game.Content.Load<SpriteFont>("PixelatedElegance");
     }
     private void Idle(Player player) 
     {
@@ -81,13 +76,14 @@ public sealed class PlayerMovement
     }
     private void HandleInputs(Player player) 
     {
+        bool canDash = dashCool.TimerIsZero() && !IsDashing && Stamina > 0 && player.Velocity != Vector2.Zero;
         if (player.IsControllable && (Input.IsKeyDown(Keys.W) || Input.IsKeyDown(Keys.A) || Input.IsKeyDown(Keys.S) || Input.IsKeyDown(Keys.D)))
         {
             SetMotion(Motions.Moving);
         }
         else if (!IsDashing) SetMotion(Motions.Idle);
         
-        if (Input.IsKeyDown(Keys.LeftShift) && dashCool.TimerIsZero() && !IsDashing && Stamina <= 0  && player.IsControllable) 
+        if (Input.IsKeyPressed(Keys.LeftShift) && canDash && player.IsControllable) 
         {
             IsDashing = true;
             player.IsControllable = false;
@@ -98,12 +94,16 @@ public sealed class PlayerMovement
             SetMotion(Motions.Dashing);
         }
     }
-    public void HandlePlayerMovement(GameTime gt, Player player) 
+    private void HandleTimers(GameTime gt) 
     {
-        Input.UpdateInputs();
         dashCool.UpdateTimer(gt);
         dashDur.UpdateTimer(gt);
         staminaRegen.UpdateTimer(gt);
+    }
+    public void HandlePlayerMovement(GameTime gt, Player player) 
+    {
+        Input.UpdateInputs();
+        HandleTimers(gt);
         HandleStamina();
         HandleInputs(player);
         switch (Motion) 
@@ -112,11 +112,5 @@ public sealed class PlayerMovement
             case Motions.Moving: Moving(player); break;
             case Motions.Dashing: Dashing(player); break;
         }
-    }
-    public void DrawFontAndTestTimers(SpriteBatch batch) 
-    {
-        batch.DrawString(font, "DashCooldown is:" + dashCool.ElapsedTime, new Vector2(50, 50), Color.Green);
-        batch.DrawString(font, "DashDuration is:" + dashDur.ElapsedTime, new Vector2(50, 100), Color.Purple);
-        
     }
 }

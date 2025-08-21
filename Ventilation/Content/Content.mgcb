@@ -13,10 +13,10 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin PixelatedElegance.spritefont
+#begin GameAssets/SpriteFonts/VCR_EAS.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:PixelatedElegance.spritefont
+/build:GameAssets/SpriteFonts/VCR_EAS.spritefont
 
