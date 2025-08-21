@@ -1,2 +1,3 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
 "/home/dinnerbone/Games/Ventilation/Ventilation/Content/GameAssets/SpriteFonts/VCR_EAS.spritefont","/home/dinnerbone/Games/Ventilation/Ventilation/Content/bin/DesktopGL/GameAssets/SpriteFonts/VCR_EAS.xnb","FontDescriptionProcessor","SpriteFontContent",2010,21529,0.305004
+"/home/dinnerbone/Games/Ventilation/Ventilation/Content/PlayerAssets/CreatureSpriteIdle.png","/home/dinnerbone/Games/Ventilation/Ventilation/Content/bin/DesktopGL/PlayerAssets/CreatureSpriteIdle.xnb","TextureProcessor","Texture2DContent",9396,262229,0.2086875

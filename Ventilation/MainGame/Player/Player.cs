@@ -14,7 +14,7 @@ public class Player : Entity
     public float MaxSpeed { get { return playerMotion.MaxSpeed; } set { playerMotion.MaxSpeed = value; } }
     public bool IsDashing { get { return playerMotion.IsDashing; } set { playerMotion.IsDashing = value; } }
     public bool IsControllable { get; set; } = true;
-    public int Stamina { get { return playerMotion.Stamina; } set { Stamina = value; } }
+    public int Stamina { get { return playerMotion.Stamina; } set { playerMotion.Stamina = value; } }
     public int MaxStamina { get { return playerMotion.MaxStamina; } set { playerMotion.MaxStamina = value; } }
     
     public Sprite PlayerSprite { get; private set; }
@@ -25,19 +25,19 @@ public class Player : Entity
     }
     public void LoadContent(Game game) 
     {
-        PlayerSprite = new(new(game.GraphicsDevice, 1, 1), Color.Red);
-        PlayerSprite.SetToData();
+        PlayerSprite = new(game.Content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), Color.White);
     }
     public void UpdateLogic(GameTime gt) 
     {
         if (!IsAlive) return;
         MoveAndSlide(gt);
         playerMotion.HandlePlayerMovement(gt, this);
+        
     }
     public void Draw(SpriteBatch batch) 
     {
         if (!IsAlive) return;
-        PlayerSprite.Draw(batch, Bounds);
+        PlayerSprite.Draw(batch, Bounds, new Rectangle(0, 0, 64, 64));
     }
     
 }
