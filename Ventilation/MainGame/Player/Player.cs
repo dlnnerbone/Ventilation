@@ -37,7 +37,7 @@ public class Player : Entity
     public void Draw(SpriteBatch batch) 
     {
         if (!IsAlive) return;
-        PlayerSprite.Draw(batch, Bounds, new Rectangle(0, 0, 64, 64));
+        PlayerSprite.Draw(batch, Bounds, new Rectangle(64, 0, 64, 64));
     }
     
 }
