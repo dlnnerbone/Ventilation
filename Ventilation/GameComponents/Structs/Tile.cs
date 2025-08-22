@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using GameComponents.Entity;
 namespace GameComponents;
-[Flags] public enum TileType 
+[Flags] public enum TileFlags 
 {
     None = 0,
     Collidable = 1,
@@ -10,47 +10,50 @@ namespace GameComponents;
     Dangerous = 4,
     Movable = 8
 }
-public struct Tile 
+public readonly struct Tile 
 {
-    private Rectangle sourceRegion;
-    private int tileID;
-    // private stuff;
-    public Rectangle SourceRegion { get { return sourceRegion; } private set { sourceRegion = value; } }
-    public Vector2 TopLeft => new Vector2(Left, Top);
-    public Vector2 TopRight => new Vector2(Right, Top);
-    public Vector2 BottomLeft => new Vector2(Left, Bottom);
-    public Vector2 BottomRight => new Vector2(Right, Bottom);
-    public int TileID { get { return tileID; } set { tileID = value < 0 ? 0 : value; } }
-    public int X { get { return sourceRegion.X; } set { sourceRegion.X = value; } }
-    public int Y { get { return sourceRegion.Y; } set { sourceRegion.Y = value; } }
-    public Vector2 Location 
+    // fields
+    public readonly Rectangle Region;
+    public readonly int TileID;
+    public readonly TileFlags Flags;
+    
+    // constructors
+    public Tile(int x, int y, int width, int height, int ID, TileFlags flag = TileFlags.None) 
     {
-        get => new Vector2(X, Y);
-        set => sourceRegion.Location = new((int)value.X, (int)value.Y);
+        Region = new(x, y, width, height);
+        TileID = ID < 0 ? 0 : ID;
+        Flags = flag;
     }
-    public int Width { get { return sourceRegion.Width; } set { sourceRegion.Width = value; } }
-    public int Height { get { return sourceRegion.Height; } set { sourceRegion.Height = value; } }
-    public Vector2 Size 
+    private Tile(Rectangle Bounds, int ID, TileFlags flag) 
     {
-        get => new Vector2(Width, Height);
-        set => sourceRegion.Size = new((int)value.X, (int)value.Y);
-    }
-    public float Left => sourceRegion.Left;
-    public float Right => sourceRegion.Right;
-    public float Bottom => sourceRegion.Bottom;
-    public float Top => sourceRegion.Top;
-
-    // bools
-    public TileType TileTypes { get; set; }
-    public bool IsCollidable => (TileTypes & TileType.Collidable) == TileType.Collidable;
-    public bool IsMovable => (TileTypes & TileType.Movable) == TileType.Movable;
-    public bool IsDangerous => (TileTypes & TileType.Dangerous) == TileType.Dangerous;
-    public bool IsWalkable => (TileTypes & TileType.Walkable) == TileType.Walkable;
-    public bool IntersectsWithTile(Rectangle other) => sourceRegion.Intersects(other);
-    public bool IntersectsWithTile(BodyComponent other) => sourceRegion.Intersects(other.Bounds);
-    public Tile(int x, int y, int width, int height, int ID) 
-    {
-        sourceRegion = new(x, y, width, height);
+        Region = Bounds;
         TileID = ID;
+        Flags = flag;
     }
+
+    // utility properties
+    public Vector2 TopLeft => new Vector2(Region.Left, Region.Top);
+    public Vector2 TopRight => new Vector2(Region.Right, Region.Top);
+    public Vector2 BottomLeft => new Vector2(Region.Left, Region.Bottom);
+    public Vector2 BottomRight => new Vector2(Region.Right, Region.Bottom);
+    public Vector2 Center => new Vector2(Region.X + Region.Width / 2, Region.Y + Region.Height / 2);
+    public Vector2 HalfSize => new Vector2(Region.Width / 2, Region.Height / 2);
+
+    // -- flag checks --
+    public bool IsMovable => (Flags & TileFlags.Movable) == TileFlags.Movable;
+    public bool IsCollidable => (Flags & TileFlags.Collidable) == TileFlags.Collidable;
+    public bool IsDangerous => (Flags & TileFlags.Dangerous) == TileFlags.Dangerous;
+    public bool IsWalkable => (Flags & TileFlags.Walkable) == TileFlags.Walkable;
+    public bool HasNoAttributes => Flags == TileFlags.None;
+
+    // safe modifiers
+    public Tile AddFlag(TileFlags newFlag) => new Tile(this.Region, this.TileID, this.Flags | newFlag);
+    public Tile RemoveFlag(TileFlags flag) => new Tile(this.Region, this.TileID, this.Flags & ~flag);
+    public Tile WithFlags(TileFlags FLAGS) => new Tile(this.Region, this.TileID, FLAGS);
+    public Tile PurgeFlags() => new Tile(this.Region, this.TileID, TileFlags.None);
+
+    // intersection methods
+    public bool IntersectsWithTile(Rectangle other) => Region.Intersects(other);
+    public bool IntersectsWithTile(BodyComponent other) => Region.Intersects(other.Bounds);
+    
 }
