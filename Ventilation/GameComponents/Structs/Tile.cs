@@ -49,7 +49,7 @@ public readonly struct Tile
     // safe modifiers
     public Tile AddFlag(TileFlags newFlag) => new Tile(this.Region, this.TileID, this.Flags | newFlag);
     public Tile RemoveFlag(TileFlags flag) => new Tile(this.Region, this.TileID, this.Flags & ~flag);
-    public Tile WithFlags(TileFlags FLAGS) => new Tile(this.Region, this.TileID, FLAGS);
+    public Tile OverrideFlags(TileFlags FlagGroup) => new Tile(this.Region, this.TileID, FlagGroup);
     public Tile PurgeFlags() => new Tile(this.Region, this.TileID, TileFlags.None);
 
     // intersection methods

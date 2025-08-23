@@ -31,8 +31,8 @@ public class Sprite : ITexture
         this.texture = texture;
         colors = new Color[] { selectedColor };
     }
-    public void FlipHorizontally() => effects = SpriteEffects.FlipHorizontally;
-    public void FlipVertically() => effects = SpriteEffects.FlipVertically;
+    public bool Flip_H { set { effects = value == true ? effects |= SpriteEffects.FlipHorizontally : effects &= ~SpriteEffects.FlipHorizontally; } }
+    public bool Flip_V { set { effects = value == true ? effects |= SpriteEffects.FlipVertically : effects &= ~SpriteEffects.FlipVertically; } }
     public void FlipBackToNormal() => effects = SpriteEffects.None;
     public void SetToData() => texture.SetData<Color>(Colors);
     public void Draw(SpriteBatch batch, Rectangle Destination, Rectangle Source) 
