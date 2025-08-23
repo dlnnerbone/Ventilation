@@ -9,6 +9,8 @@ public class Player : Entity
     private PlayerMovement playerMotion;
 
     // player related variables
+    public Motions SetMotion(Motions motion) => playerMotion.SetMotion(motion);
+    public Motions MotionState => playerMotion.MotionState;
     public float MoveSpeed { get { return playerMotion.MoveSpeed; } set { playerMotion.MoveSpeed = value; } }
     public float LerpSpeed => playerMotion.LerpSpeed;
     public float MaxSpeed { get { return playerMotion.MaxSpeed; } set { playerMotion.MaxSpeed = value; } }
@@ -16,6 +18,8 @@ public class Player : Entity
     public bool IsControllable { get; set; } = true;
     public int Stamina { get { return playerMotion.Stamina; } set { playerMotion.Stamina = value; } }
     public int MaxStamina { get { return playerMotion.MaxStamina; } set { playerMotion.MaxStamina = value; } }
+    public float DashForce { get { return playerMotion.DashForce; } set { playerMotion.DashForce = value; } }
+    
     
     public Sprite PlayerSprite { get; private set; }
     public bool IsAlive { get; set; } = true;
@@ -26,6 +30,7 @@ public class Player : Entity
     public void LoadContent(Game game) 
     {
         PlayerSprite = new(game.Content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), Color.White);
+        PlayerSprite.Flip_V = true;
     }
     public void UpdateLogic(GameTime gt) 
     {

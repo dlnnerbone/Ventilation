@@ -7,7 +7,7 @@ public class PlayerManager : GameManager
     public Player player { get; private set; }
     public PlayerManager() 
     {
-        player = new(250, 250, 64 * 2, 64 * 2, 100);
+        player = new(250, 250, 128, 128, 100);
     }
     public override void Initialize(Game game) {}
     public override void LoadContent(Game game) 

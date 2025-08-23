@@ -4,50 +4,43 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Main;
 public class Ventilation : Game 
 {
-    private SpriteBatch batch;
-    private PlayerManager PlayerManager;
-    private GraphicsDeviceManager device;
-    private GameLogicManager gameManager;
-    private MainUI uiManager;
+    private GraphicsDeviceManager Device;
+    private SpriteBatch SpriteBatch;
+    private SceneManager MainScene;
+    private RenderTarget2D Canvas;
     public Ventilation() 
     {
-        device = new(this);
-        WindowManager.ChangeResolution(device, 1920, 1080);
+        Device = new(this);
+        WindowManager.ChangeResolution(Device, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+        WindowManager.SetTitle(this, "breath in the dusty air!");
+
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-        
-        gameManager = new(this);
-        uiManager = new(this);
-        PlayerManager = new();
     }
-    protected override void Initialize()
+    protected override void Initialize() 
     {
         base.Initialize();
-        PlayerManager.Initialize(this);
-        gameManager.Initialize(this);
-        uiManager.Initialize(this);
     }
-    protected override void LoadContent()
+    protected override void LoadContent() 
     {
-        batch = new(GraphicsDevice);
-        gameManager.LoadContent(this);
-        uiManager.LoadContent(this);
-        PlayerManager.LoadContent(this);
         base.LoadContent();
+
+        SpriteBatch = new(GraphicsDevice);
+        Canvas = new(GraphicsDevice, GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
     }
-    protected override void Update(GameTime gt) 
+    protected override void Update(GameTime gameTime) 
     {
-        gameManager.UpdateLogic(gt);
-        PlayerManager.UpdateLogic(gt);
-        uiManager.UpdateLogic(gt);
-        base.Update(gt);
+        base.Update(gameTime);
     }
-    protected override void Draw(GameTime gt) 
+    protected override void Draw(GameTime gameTime) 
     {
-        GraphicsDevice.Clear(Color.Transparent);
-        gameManager.Draw(batch);
-        uiManager.Draw(batch);
-        base.Draw(gt);
+        GraphicsDevice.SetRenderTarget(Canvas);
+        GraphicsDevice.Clear(Color.Black);
+
+        
+
+        GraphicsDevice.SetRenderTarget(null);
+        base.Draw(gameTime);
     }
     
 }
