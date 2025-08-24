@@ -29,7 +29,7 @@ public sealed class Camera
     public float Speed { get { return speed; } set { speed = MathHelper.Clamp(value, 0, 1); } }
     public Camera(Vector2 Screen, float scale = 1, float radians = 0, float speed = 0.5f) 
     {
-        this.screenSize = Screen / 2;
+        this.screenSize = new Vector2(Screen.X / 2, Screen.Y / 2);
         this.scale = scale;
         this.radians = radians;
         this.speed = speed;
@@ -42,9 +42,9 @@ public sealed class Camera
         this.speed = speed;
     }
     public void SetTarget(Vector2 target) => this.target = -target;
-    public void SetTarget(Rectangle bounds) => this.target = new Vector2(bounds.X, bounds.Y);
+    public void SetTarget(Rectangle bounds) => this.target = new Vector2(-bounds.X, -bounds.Y);
     // constructor and camera target methods.
-    public void NewScreenSize(Vector2 Screen) => this.screenSize = Screen / 2;
+    public void NewScreenSize(Vector2 Screen) => this.screenSize = new Vector2(Screen.X / 2, Screen.Y / 2);
     public void NewScreenSize(Rectangle bounds) => this.screenSize = new Vector2(bounds.Width / 2, bounds.Height / 2);
     public void UpdateCamera() 
     {

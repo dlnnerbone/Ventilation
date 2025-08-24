@@ -6,9 +6,12 @@ namespace Main;
 
 public class GameLogicManager : GameManager
 {
+    private Rectangle TestBounds;
+    private Texture2D TestTexture;
+    private Color[] TestColor = new Color[] { Color.White };
     public GameLogicManager(Game game) 
     {
-        
+        TestBounds = new(500, 500, 64, 64);
     }
     public override void Initialize(Game game) 
     {
@@ -16,16 +19,15 @@ public class GameLogicManager : GameManager
     }
     public override void LoadContent(GraphicsDevice device, ContentManager manager) 
     {
-        
+        TestTexture = new(device, 1, 1);
+        TestTexture.SetData<Color>(TestColor);
     }
     public override void UpdateLogic(GameTime GT) 
     {
         
     }
-    public void Draw(SpriteBatch batch, Player Player, Matrix matrix) 
+    public override void Draw(SpriteBatch batch) 
     {
-        batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, matrix);
-        Player.Draw(batch);
-        batch.End();
+        batch.Draw(TestTexture, TestBounds, Color.White);
     }
 }

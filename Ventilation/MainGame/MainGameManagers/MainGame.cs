@@ -39,7 +39,7 @@ public class Ventilation : Game
     protected override void Draw(GameTime gameTime) 
     {
         GraphicsDevice.Clear(Color.Black);
-
+        
         MainScene.Draw(SpriteBatch);
 
         base.Draw(gameTime);
