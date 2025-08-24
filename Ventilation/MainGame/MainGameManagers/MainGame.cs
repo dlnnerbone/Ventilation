@@ -11,15 +11,17 @@ public class Ventilation : Game
     public Ventilation() 
     {
         Device = new(this);
-        WindowManager.ChangeResolution(Device, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+        WindowManager.ChangeResolution(Device, 1920, 1080);
         WindowManager.SetTitle(this, "breath in the dusty air!");
 
         Content.RootDirectory = "Content";
+        MainScene = new(this);
         IsMouseVisible = true;
     }
     protected override void Initialize() 
     {
         base.Initialize();
+        MainScene.Initialize(this);
     }
     protected override void LoadContent() 
     {
@@ -27,19 +29,19 @@ public class Ventilation : Game
 
         SpriteBatch = new(GraphicsDevice);
         Canvas = new(GraphicsDevice, GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
+        MainScene.LoadContent(GraphicsDevice, Content);
     }
     protected override void Update(GameTime gameTime) 
     {
         base.Update(gameTime);
+        MainScene.UpdateLogic(gameTime);
     }
     protected override void Draw(GameTime gameTime) 
     {
-        GraphicsDevice.SetRenderTarget(Canvas);
         GraphicsDevice.Clear(Color.Black);
 
-        
+        MainScene.Draw(SpriteBatch);
 
-        GraphicsDevice.SetRenderTarget(null);
         base.Draw(gameTime);
     }
     

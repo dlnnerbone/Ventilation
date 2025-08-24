@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using GameComponents;
 using GameComponents.Entity;
 using GameComponents.Rendering;
@@ -27,17 +28,15 @@ public class Player : Entity
     {
         playerMotion = new();
     }
-    public void LoadContent(Game game) 
+    public void LoadContent(ContentManager manager) 
     {
-        PlayerSprite = new(game.Content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), Color.White);
-        PlayerSprite.Flip_V = true;
+        PlayerSprite = new(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), Color.White);
     }
     public void UpdateLogic(GameTime gt) 
     {
         if (!IsAlive) return;
         MoveAndSlide(gt);
         playerMotion.HandlePlayerMovement(gt, this);
-        
     }
     public void Draw(SpriteBatch batch) 
     {
