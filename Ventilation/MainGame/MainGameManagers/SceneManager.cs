@@ -23,60 +23,51 @@ public class SceneManager : GameManager
     public GameStates SwitchGameState(GameStates newGameState) => GameState = newGameState;
     public GameLogicManager GameManager { get; set; }
     public MainUI InterfaceManager { get; set; }
-    public Camera Camera { get; private set; }
     public Player Player;
+    private Camera Camera;
     private Matrix TrueMatrix = new();
     public SceneManager(Game game) 
     {
         GameManager = new(game);
-        
         InterfaceManager = new(game);
-        
         Player = new(960, 540, 64, 64, 100);
+
+        
     }
     public override void Initialize(Game game) 
     {
         GameManager.Initialize(game);
-        
         InterfaceManager.Initialize(game);
     }
     public override void LoadContent(GraphicsDevice device, ContentManager manager) 
     {
         GameManager.LoadContent(device, manager);
-        
         Player.LoadContent(manager);
-        
         InterfaceManager.LoadContent(device, manager);
-
-        Camera = new(device.Viewport.Bounds);
         
-        Camera.SwitchStates(CameraStates.Fixed);
+        Camera = new Camera(new Vector2(device.Viewport.Width / 2, device.Viewport.Height / 2));
+        Camera.SwitchState(CameraStates.Lerped);
+        Camera.Scale = 1;
+        Camera.LerpSpeed = 0.1f;
     }
     public override void UpdateLogic(GameTime gt) 
     {
         GameManager.UpdateLogic(gt);
-        
         Player.UpdateLogic(gt);
-        
         InterfaceManager.UpdateLogic(gt);
 
-        Camera.SetTarget(Vector2.Zero);
-
-        TrueMatrix = Camera.RotationMatrix * Camera.ScaleMatrix * Camera.TransformMatrix;
+        Camera.UpdateLens();
+        Camera.SetTarget(-Player.Center);
+        TrueMatrix = Camera.ScaleMatrix * Camera.RotationMatrix * Camera.TransformMatrix;
     }
     public override void Draw(SpriteBatch batch) 
     {
         batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, TrueMatrix);
-        
         GameManager.Draw(batch);
-        
         Player.Draw(batch);
-        
         batch.End();
 
-
         batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Matrix.Identity);
-        
         batch.End();
         
     }
