@@ -31,8 +31,6 @@ public class SceneManager : GameManager
         GameManager = new(game);
         InterfaceManager = new(game);
         Player = new(960, 540, 64, 64, 100);
-
-        
     }
     public override void Initialize(Game game) 
     {
@@ -44,10 +42,10 @@ public class SceneManager : GameManager
         GameManager.LoadContent(device, manager);
         Player.LoadContent(manager);
         InterfaceManager.LoadContent(device, manager);
-        
-        Camera = new Camera(new Vector2(device.Viewport.Width / 2, device.Viewport.Height / 2));
+
+        Camera = new Camera(device.Viewport);
+        Camera.CenterOnTarget(true);
         Camera.SwitchState(CameraStates.Lerped);
-        Camera.Scale = 1;
         Camera.LerpSpeed = 0.1f;
     }
     public override void UpdateLogic(GameTime gt) 

@@ -18,15 +18,25 @@ public sealed class Camera
     private float lerpSpeed;
     // private fields
     public CameraStates SwitchState(CameraStates newState) => camState = newState;
+    
+    // matrices
     public Matrix TransformMatrix => Matrix.CreateTranslation(camPos.X - offset.X, camPos.Y - offset.Y, 0);
     public Matrix ScaleMatrix => Matrix.CreateScale(scale, scale, 1);
     public Matrix RotationMatrix => Matrix.CreateRotationZ(rotationDegree);
+    public Matrix ViewMatrix1 => ScaleMatrix * RotationMatrix * TransformMatrix;
+    public Matrix ViewMatrix2 => TransformMatrix * RotationMatrix * ScaleMatrix;
+    
+    
     public Vector2 CameraPosition { get { return camPos; } private set { camPos = value; } }
     public Vector2 CameraTarget { get { return camTarget; } private set { camTarget = value; } }
     public Vector2 Offset { get { return offset; } set { offset = value; } }
+    
+    
     public float RotationDegrees { get { return rotationDegree; } set { rotationDegree = value; } }
     public float Scale { get { return scale; } set { scale = value < 0 ? 0 : value; } }
-    public float LerpSpeed { get { return lerpSpeed; } set { lerpSpeed = MathHelper.Clamp(lerpSpeed, 0, 1); } }
+    public float LerpSpeed { get { return lerpSpeed; } set { lerpSpeed = MathHelper.Clamp(value, 0, 1); } }
+    // bools
+    private bool centerOnTarget = false;
     // methods for camera targets
     public void SetTarget(Vector2 location) => camTarget = location;
     public void SetTarget(Rectangle region) => camTarget = new Vector2(region.X, region.Y);
@@ -36,16 +46,23 @@ public sealed class Camera
     // methods for windows
     public void UpdateScreenVector(Vector2 newSize) => screenVector = newSize;
     public void UpdateScreenVector(Rectangle windowBounds) => screenVector = new Vector2(windowBounds.Width, windowBounds.Height);
+    // return methods
+    public bool CenterOnTarget(bool center) 
+    {
+        return centerOnTarget = center;
+    }
     // helper methods for updating
     private void Fixed() 
     {
-        CameraPosition = CameraTarget + screenVector;
+        Vector2 TargetPosition = centerOnTarget ? CameraTarget + (screenVector / 2) : CameraTarget + screenVector;
+        CameraPosition = TargetPosition;
     }
     private void Lerped() 
     {
-        CameraPosition = Vector2.Lerp(CameraPosition, CameraTarget + screenVector, lerpSpeed);
+        CameraPosition = centerOnTarget ? Vector2.Lerp(CameraPosition, CameraTarget + (screenVector / 2), lerpSpeed) :
+            Vector2.Lerp(CameraPosition, CameraTarget + screenVector, lerpSpeed);
     }
-    public void UpdateLens() 
+    public void UpdateLens()
     {
         switch (camState) 
         {

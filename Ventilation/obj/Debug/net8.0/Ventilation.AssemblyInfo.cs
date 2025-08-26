@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ventilation")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+77764e8d68a472236242926df839187890ecfbde")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+13a1975a829b5c7463105bebf4ab3ad024830465")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ventilation")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ventilation")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
