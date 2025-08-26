@@ -24,6 +24,18 @@ public readonly struct Tile
         TileID = ID < 0 ? 0 : ID;
         Flags = flag;
     }
+    public Tile(Point location, Point Size, int ID, TileFlags flag = TileFlags.None) 
+    {
+        Region = new(location, Size);
+        TileID = ID < 0 ? 0 : ID;
+        Flags = flag;
+    }
+    public Tile(Vector2 location, Vector2 Size, int ID, TileFlags flag = TileFlags.None) 
+    {
+        Region = new((int)location.X, (int)location.Y, (int)Size.X, (int)Size.Y);
+        TileID = ID < 0 ? 0 : ID;
+        Flags = flag;
+    }
     private Tile(Rectangle Bounds, int ID, TileFlags flag) 
     {
         Region = Bounds;
@@ -45,7 +57,11 @@ public readonly struct Tile
     public bool IsDangerous => (Flags & TileFlags.Dangerous) == TileFlags.Dangerous;
     public bool IsWalkable => (Flags & TileFlags.Walkable) == TileFlags.Walkable;
     public bool HasNoAttributes => Flags == TileFlags.None;
-
+    // extra bool utilities
+    public bool IsSolid => IsCollidable && !IsWalkable;
+    public bool IsPlatform => IsCollidable && IsWalkable;
+    public bool IsPosionous => IsWalkable && IsDangerous;
+    public bool IsPushable => IsMovable && IsCollidable && IsWalkable;
     // safe modifiers
     public Tile AddFlag(TileFlags newFlag) => new Tile(this.Region, this.TileID, this.Flags | newFlag);
     public Tile RemoveFlag(TileFlags flag) => new Tile(this.Region, this.TileID, this.Flags & ~flag);
