@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameComponents;
-using System;
 namespace GameComponents.Logic;
 public enum CameraStates 
 {

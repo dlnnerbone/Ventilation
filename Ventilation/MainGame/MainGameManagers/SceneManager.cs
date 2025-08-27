@@ -56,7 +56,7 @@ public class SceneManager : GameManager
 
         Camera.UpdateLens();
         Camera.SetTarget(-Player.Center);
-        TrueMatrix = Camera.ScaleMatrix * Camera.RotationMatrix * Camera.TransformMatrix;
+        TrueMatrix = Camera.ScaleMatrix * Camera.RotationMatrix * Camera.TransformM
     }
     public override void Draw(SpriteBatch batch) 
     {
@@ -66,6 +66,7 @@ public class SceneManager : GameManager
         batch.End();
 
         batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Matrix.Identity);
+        Player.PlayerStats.DrawStats(batch, Player);
         batch.End();
         
     }

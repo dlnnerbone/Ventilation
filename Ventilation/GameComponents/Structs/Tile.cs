@@ -70,6 +70,5 @@ public readonly struct Tile
 
     // intersection methods
     public bool IntersectsWithTile(Rectangle other) => Region.Intersects(other);
-    public bool IntersectsWithTile(BodyComponent other) => Region.Intersects(other.Bounds);
     
 }

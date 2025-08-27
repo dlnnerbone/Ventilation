@@ -8,6 +8,7 @@ namespace Main;
 public class Player : Entity 
 {
     private PlayerMovement playerMotion;
+    public PlayerStats PlayerStats { get; private set; }
 
     // player related variables
     public Motions SetMotion(Motions motion) => playerMotion.SetMotion(motion);
@@ -31,6 +32,7 @@ public class Player : Entity
     public void LoadContent(ContentManager manager) 
     {
         PlayerSprite = new(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), Color.White);
+        PlayerStats = new(manager);
     }
     public void UpdateLogic(GameTime gt) 
     {
