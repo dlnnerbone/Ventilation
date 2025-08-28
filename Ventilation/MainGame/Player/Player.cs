@@ -21,13 +21,14 @@ public class Player : Entity
     public int Stamina { get { return playerMotion.Stamina; } set { playerMotion.Stamina = value; } }
     public int MaxStamina { get { return playerMotion.MaxStamina; } set { playerMotion.MaxStamina = value; } }
     public float DashForce { get { return playerMotion.DashForce; } set { playerMotion.DashForce = value; } }
-    
+    public float SpeedMultiplier { get { return playerMotion.SpeedMultiplier; } set { playerMotion.SpeedMultiplier = value; } }
     
     public Sprite PlayerSprite { get; private set; }
     public bool IsAlive { get; set; } = true;
     public Player(int x, int y, int width, int height, float HP) : base(x, y, width, height, HP) 
     {
         playerMotion = new();
+        SpeedMultiplier = 1f;
     }
     public void LoadContent(ContentManager manager) 
     {

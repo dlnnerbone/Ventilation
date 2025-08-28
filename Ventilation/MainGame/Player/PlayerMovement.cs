@@ -12,6 +12,7 @@ public sealed class PlayerMovement
     private float moveSpeed = 50f;
     private float maxSpeed = 750f;
     private float lerpSpeed = 0.15f;
+    private float speedMulti = 1f;
     private float dashForce = 2000f;
     private Timer dashCool, dashDur, staminaRegen;
     private int stamina = 3;
@@ -25,6 +26,7 @@ public sealed class PlayerMovement
     public float DashForce { get { return dashForce; } set { dashForce = value <= MaxSpeed ? MaxSpeed * 2 : value; } }
     public int Stamina { get { return stamina; } set { stamina = MathHelper.Clamp(value, 0, maxStamina); } }
     public int MaxStamina { get { return maxStamina; } set { maxStamina = value < 0 ? stamina + 1 : value; } }
+    public float SpeedMultiplier { get { return speedMulti; } set { speedMulti = value < 0 ? 0 : value; } }
     public bool IsDashing { get; set; } = false;
     public PlayerMovement() 
     {
@@ -49,18 +51,18 @@ public sealed class PlayerMovement
         IsDashing = false;
         player.Velocity = Vector2.Clamp(player.Velocity, new Vector2(-MaxSpeed, -MaxSpeed), new Vector2(MaxSpeed, MaxSpeed));
         
-        if (Input.IsKeyDown(Keys.W)) player.Velocity_Y -= MoveSpeed;
-        else if (Input.IsKeyDown(Keys.S)) player.Velocity_Y += MoveSpeed;
+        if (Input.IsKeyDown(Keys.W)) player.Velocity_Y -= MoveSpeed * speedMulti;
+        else if (Input.IsKeyDown(Keys.S)) player.Velocity_Y += MoveSpeed * speedMulti;
         else player.Velocity_Y = MathHelper.Lerp(player.Velocity_Y, 0, LerpSpeed);
 
-        if (Input.IsKeyDown(Keys.A)) player.Velocity_X -= MoveSpeed;
-        else if (Input.IsKeyDown(Keys.D)) player.Velocity_X += MoveSpeed;
+        if (Input.IsKeyDown(Keys.A)) player.Velocity_X -= MoveSpeed * speedMulti;
+        else if (Input.IsKeyDown(Keys.D)) player.Velocity_X += MoveSpeed * speedMulti;
         else player.Velocity_X = MathHelper.Lerp(player.Velocity_X, 0, LerpSpeed);
     }
     private void Dashing(Player player) 
     {
-        player.Velocity = player.Direction * DashForce;
-        if (dashDur.TimerIsZero()) 
+        player.Velocity = player.Direction * DashForce * speedMulti;
+        if (dashDur.TimerIsZero) 
         {
             IsDashing = false;
             player.IsControllable = true;
@@ -69,14 +71,14 @@ public sealed class PlayerMovement
     }
     private void HandleStamina() 
     {
-        if (staminaRegen.ElapsedTime <= 0.02f) 
+        if (staminaRegen.TimeSpan <= 0.02f) 
         {
             Stamina += 1;
         }
     }
     private void HandleInputs(Player player) 
     {
-        bool canDash = dashCool.TimerIsZero() && !IsDashing && Stamina > 0 && player.Velocity != Vector2.Zero;
+        bool canDash = dashCool.TimerIsZero && !IsDashing && Stamina > 0 && player.Velocity != Vector2.Zero;
         if (player.IsControllable && (Input.IsKeyDown(Keys.W) || Input.IsKeyDown(Keys.A) || Input.IsKeyDown(Keys.S) || Input.IsKeyDown(Keys.D)))
         {
             SetMotion(Motions.Moving);
@@ -88,8 +90,8 @@ public sealed class PlayerMovement
             IsDashing = true;
             player.IsControllable = false;
             Stamina -= 1;
-            dashCool.RestartTimer();
-            dashDur.RestartTimer();
+            dashCool.Restart();
+            dashDur.Restart();
             
             SetMotion(Motions.Dashing);
         }

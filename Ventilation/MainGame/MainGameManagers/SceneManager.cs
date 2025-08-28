@@ -29,7 +29,7 @@ public class SceneManager : GameManager
     {
         GameManager = new(game);
         InterfaceManager = new(game);
-        Player = new(960, 540, 64, 64, 100);
+        Player = new(960, 540, 128, 128, 100);
     }
     public override void Initialize(Game game) 
     {
