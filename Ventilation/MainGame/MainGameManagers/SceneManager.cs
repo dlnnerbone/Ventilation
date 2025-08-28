@@ -25,7 +25,6 @@ public class SceneManager : GameManager
     public MainUI InterfaceManager { get; set; }
     public Player Player;
     private Camera Camera;
-    private Matrix TrueMatrix = new();
     public SceneManager(Game game) 
     {
         GameManager = new(game);
@@ -44,7 +43,7 @@ public class SceneManager : GameManager
         InterfaceManager.LoadContent(device, manager);
 
         Camera = new Camera(device.Viewport);
-        Camera.CenterOnTarget(true);
+        Camera.CenterOnTarget = true;
         Camera.SwitchState(CameraStates.Lerped);
         Camera.LerpSpeed = 0.1f;
     }
@@ -56,17 +55,18 @@ public class SceneManager : GameManager
 
         Camera.UpdateLens();
         Camera.SetTarget(-Player.Center);
-        TrueMatrix = Camera.ScaleMatrix * Camera.RotationMatrix * Camera.TransformM
+        
     }
     public override void Draw(SpriteBatch batch) 
     {
-        batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, TrueMatrix);
+        batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Camera.ViewMatrix1);
         GameManager.Draw(batch);
         Player.Draw(batch);
         batch.End();
 
         batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Matrix.Identity);
-        Player.PlayerStats.DrawStats(batch, Player);
+        InterfaceManager.Draw(batch);
+        Player.DrawStats(batch);
         batch.End();
         
     }

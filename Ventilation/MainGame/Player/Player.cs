@@ -45,5 +45,9 @@ public class Player : Entity
         if (!IsAlive) return;
         PlayerSprite.Draw(batch, Bounds, new Rectangle(64, 0, 64, 64));
     }
+    public void DrawStats(SpriteBatch batch) 
+    {
+        PlayerStats.DrawStats(batch, this);
+    }
     
 }

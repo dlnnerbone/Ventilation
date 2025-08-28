@@ -34,7 +34,7 @@ public sealed class Camera
     public float Scale { get { return scale; } set { scale = value < 0 ? 0 : value; } }
     public float LerpSpeed { get { return lerpSpeed; } set { lerpSpeed = MathHelper.Clamp(value, 0, 1); } }
     // bools
-    private bool centerOnTarget = false;
+    public bool CenterOnTarget { get; set; } = false;
     // methods for camera targets
     public void SetTarget(Vector2 location) => camTarget = location;
     public void SetTarget(Rectangle region) => camTarget = new Vector2(region.X, region.Y);
@@ -44,20 +44,16 @@ public sealed class Camera
     // methods for windows
     public void UpdateScreenVector(Vector2 newSize) => screenVector = newSize;
     public void UpdateScreenVector(Rectangle windowBounds) => screenVector = new Vector2(windowBounds.Width, windowBounds.Height);
-    // return methods
-    public bool CenterOnTarget(bool center) 
-    {
-        return centerOnTarget = center;
-    }
+    
     // helper methods for updating
     private void Fixed() 
     {
-        Vector2 TargetPosition = centerOnTarget ? CameraTarget + (screenVector / 2) : CameraTarget + screenVector;
+        Vector2 TargetPosition = CenterOnTarget ? CameraTarget + (screenVector / 2) : CameraTarget + screenVector;
         CameraPosition = TargetPosition;
     }
     private void Lerped() 
     {
-        CameraPosition = centerOnTarget ? Vector2.Lerp(CameraPosition, CameraTarget + (screenVector / 2), lerpSpeed) :
+        CameraPosition = CenterOnTarget ? Vector2.Lerp(CameraPosition, CameraTarget + (screenVector / 2), lerpSpeed) :
             Vector2.Lerp(CameraPosition, CameraTarget + screenVector, lerpSpeed);
     }
     public void UpdateLens()
