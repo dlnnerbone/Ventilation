@@ -25,9 +25,13 @@ public readonly struct TextureAtlas
         
         for(int i = 0; i < columns * rows; i++) 
         {
-            int x = i % TileWidth;
-            int y = i / TileHeight;
+            int r = i * ;
+            int c;
+            int x;
+            int y;
             Regions[i] = new Rectangle(x, y, TileWidth, TileHeight);
+
+            System.Diagnostics.Debug.WriteLine($"{x}, {y}");
         }
     }
 }
