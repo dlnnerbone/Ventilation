@@ -22,9 +22,8 @@ public class Player : Entity
     public int MaxStamina { get { return playerMotion.MaxStamina; } set { playerMotion.MaxStamina = value; } }
     public float DashForce { get { return playerMotion.DashForce; } set { playerMotion.DashForce = value; } }
     public float SpeedMultiplier { get { return playerMotion.SpeedMultiplier; } set { playerMotion.SpeedMultiplier = value; } }
-    
-    public Sprite PlayerSprite { get; private set; }
     public bool IsAlive { get; set; } = true;
+    public TextureAtlas Atlas { get; private set; }
     public Player(int x, int y, int width, int height, float HP) : base(x, y, width, height, HP) 
     {
         playerMotion = new();
@@ -32,7 +31,7 @@ public class Player : Entity
     }
     public void LoadContent(ContentManager manager) 
     {
-        PlayerSprite = new(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), Color.White);
+        Atlas = new(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), 4, 4);
         PlayerStats = new(manager);
     }
     public void UpdateLogic(GameTime gt) 
@@ -44,7 +43,7 @@ public class Player : Entity
     public void Draw(SpriteBatch batch) 
     {
         if (!IsAlive) return;
-        PlayerSprite.Draw(batch, Bounds, new Rectangle(64, 0, 64, 64));
+        
     }
     public void DrawStats(SpriteBatch batch) 
     {

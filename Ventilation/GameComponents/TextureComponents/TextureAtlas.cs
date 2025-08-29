@@ -29,8 +29,8 @@ public readonly struct TextureAtlas
             {
                 int x = c * TileWidth;
                 int y = r * TileHeight;
-                int areas = r * Columns + c;
-                Regions[areas] = new(x, y, TileWidth, TileHeight);
+                int index = r * Columns + c;
+                Regions[index] = new(x, y, TileWidth, TileHeight);
             }
         }
     }
