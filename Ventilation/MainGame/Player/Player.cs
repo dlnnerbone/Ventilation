@@ -31,7 +31,7 @@ public class Player : Entity
     }
     public void LoadContent(ContentManager manager) 
     {
-        Atlas = new(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), 4, 4);
+        Atlas = new(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), 4, 4); // e put in the atlas here
         PlayerStats = new(manager);
     }
     public void UpdateLogic(GameTime gt) 
@@ -43,7 +43,7 @@ public class Player : Entity
     public void Draw(SpriteBatch batch) 
     {
         if (!IsAlive) return;
-        
+        batch.Draw(Atlas.Atlas, Bounds, Atlas.Regions[0], Color.White);
     }
     public void DrawStats(SpriteBatch batch) 
     {
