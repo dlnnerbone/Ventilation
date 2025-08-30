@@ -43,7 +43,7 @@ public class Player : Entity
     public void Draw(SpriteBatch batch) 
     {
         if (!IsAlive) return;
-        batch.Draw(Atlas.Atlas, Bounds, Atlas.Regions[5], Color.White);
+        batch.Draw(Atlas.Atlas, Bounds, Atlas.Regions[0], Color.White);
     }
     public void DrawStats(SpriteBatch batch) 
     {
