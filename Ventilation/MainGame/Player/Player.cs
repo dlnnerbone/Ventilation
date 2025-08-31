@@ -23,7 +23,7 @@ public class Player : Entity
     public float DashForce { get { return playerMotion.DashForce; } set { playerMotion.DashForce = value; } }
     public float SpeedMultiplier { get { return playerMotion.SpeedMultiplier; } set { playerMotion.SpeedMultiplier = value; } }
     public bool IsAlive { get; set; } = true;
-    public TextureAtlas Atlas { get; private set; }
+    public Animation PlayerAnimation { get; private set; }
     public Player(int x, int y, int width, int height, float HP) : base(x, y, width, height, HP) 
     {
         playerMotion = new();
@@ -31,19 +31,21 @@ public class Player : Entity
     }
     public void LoadContent(ContentManager manager) 
     {
-        Atlas = new(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), 4, 4); // e put in the atlas here
+        PlayerAnimation = new(new TextureAtlas(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), 4, 4), 0, 15);
+        PlayerAnimation.FrameDelay = 0.1f;
         PlayerStats = new(manager);
     }
     public void UpdateLogic(GameTime gt) 
     {
         if (!IsAlive) return;
+        PlayerAnimation.Animate(gt);
         MoveAndSlide(gt);
         playerMotion.HandlePlayerMovement(gt, this);
     }
     public void Draw(SpriteBatch batch) 
     {
         if (!IsAlive) return;
-        batch.Draw(Atlas.Atlas, Bounds, Atlas.Regions[0], Color.White);
+        batch.Draw(PlayerAnimation.SpriteSheet.Atlas, Bounds, PlayerAnimation.Frame, Color.White);
     }
     public void DrawStats(SpriteBatch batch) 
     {
