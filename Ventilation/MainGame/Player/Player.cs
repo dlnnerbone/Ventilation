@@ -45,7 +45,7 @@ public class Player : Entity
     public void Draw(SpriteBatch batch) 
     {
         if (!IsAlive) return;
-        batch.Draw(PlayerAnimation.SpriteSheet.Atlas, Bounds, PlayerAnimation.Frame, Color.White);
+        PlayerAnimation.Draw(batch, Bounds);
     }
     public void DrawStats(SpriteBatch batch) 
     {

@@ -31,8 +31,6 @@ public readonly struct TextureAtlas
             int x = c * TileWidth;
             int y = r * TileHeight;
             Regions[i] = new Rectangle(x, y, TileWidth, TileHeight);
-
-            System.Diagnostics.Debug.WriteLine($"{x}, {y}");
         }
     }
 }

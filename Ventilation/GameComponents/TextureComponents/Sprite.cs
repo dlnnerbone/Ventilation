@@ -51,17 +51,4 @@ public class Sprite : ITexture
     {
         batch.Draw(Texture, Destination, null, Color, Radians, Origin, Scale, Effects, LayerDepth);
     }
-    // render target calls
-    public void Draw(SpriteBatch batch, RenderTarget2D renderTarget, Vector2 location) 
-    {
-        batch.Draw(renderTarget, location, null, Color, Radians, Origin, Scale, Effects, LayerDepth);
-    }
-    public void Draw(SpriteBatch batch, RenderTarget2D renderTarget, Vector2 location, Rectangle source) 
-    {
-        batch.Draw(renderTarget, location, source, Color, Radians, Origin, Scale, Effects, LayerDepth);
-    }
-    public void Draw(SpriteBatch batch, RenderTarget2D renderTarget, Rectangle Destination, Rectangle Source) 
-    {
-        batch.Draw(renderTarget, Destination, Source, Color, Radians, Origin, Effects, LayerDepth);
-    }
 }

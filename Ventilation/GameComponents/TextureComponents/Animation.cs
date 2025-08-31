@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 namespace GameComponents.Rendering;
 public sealed class Animation
@@ -61,5 +61,9 @@ public sealed class Animation
         {
             currentFrameIndex = End;
         }
+    }
+    public void Draw(SpriteBatch batch, Rectangle Bounds) 
+    {
+        batch.Draw(SpriteSheet.Atlas, Bounds, Frame, Color.White);
     }
 }
