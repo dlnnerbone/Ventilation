@@ -32,20 +32,20 @@ public class Player : Entity
     public void LoadContent(ContentManager manager) 
     {
         PlayerAnimation = new(new TextureAtlas(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), 4, 4), 0, 15);
-        PlayerAnimation.FrameDelay = 0.1f;
+        PlayerAnimation.FrameTime = 0.1f;
         PlayerStats = new(manager);
     }
     public void UpdateLogic(GameTime gt) 
     {
         if (!IsAlive) return;
-        PlayerAnimation.Animate(gt);
+        PlayerAnimation.Roll(gt);
         MoveAndSlide(gt);
         playerMotion.HandlePlayerMovement(gt, this);
     }
     public void Draw(SpriteBatch batch) 
     {
         if (!IsAlive) return;
-        PlayerAnimation.Draw(batch, Bounds);
+        PlayerAnimation.Scroll(batch, Bounds);
     }
     public void DrawStats(SpriteBatch batch) 
     {

@@ -4,66 +4,90 @@ using System.Collections.Generic;
 namespace GameComponents.Rendering;
 public sealed class Animation
 {
+    // private fields
+    private bool _isPlaying = true;
+    private int currentFrameIndex;
+    private float frameTime = 1;
+    private int startingIndex = 0;
+    private int endingIndex = 0;
+    private float deltaTime;
     // public properties
-    public readonly TextureAtlas SpriteSheet; // the spritesheet itself.
-    public Dictionary<int, Rectangle> Frames => SpriteSheet.Regions; // a getter to get the SpriteSHeet's regions/frames.
-    public bool IsLooping { get; set; } = true; // if the animation loops or not.
-    public float FrameDelay { get { return frameDelay; } set { frameDelay = MathHelper.Clamp(value, 0f, 1f); } } // how long each frame is displayed before moving on.
-    public float FPS => 1 / FrameDelay;
-    public float CurrentTime => currentTime;
-    public int Start { get { return start; } set { start = value > end ? end - 1 : value; } }
-    public int End { get { return end; } set { end = value < start ? start + 1 : value; } }
-    public Rectangle Frame => Frames[currentFrameIndex];
-    // internal properties
-    private bool isPlaying = true; // whether or not the animation is playing.
-    private float frameDelay = 1;
-    private int currentFrameIndex; // the current frame in ID being selected, bounded by start and end points.
-    private float currentTime; // the time since the last frame had been displayed.
-    private int start;
-    private int end;
-    // methods (Animation playing)
-    public void Play()
+    public readonly TextureAtlas SpriteSheet;
+    public Dictionary<int, Rectangle> FrameGallery => SpriteSheet.Regions;
+    public bool IsLooping { get; set; } = true;
+    public int CurrentFrameIndex 
     {
-        isPlaying = true;
+        get => currentFrameIndex;
+        private set => currentFrameIndex = MathHelper.Clamp(value, startingIndex, endingIndex);
     }
-    public void Stop()
+    public int StartingIndex 
     {
-        isPlaying = false;
+        get => startingIndex;
+        set => startingIndex = value >= endingIndex ? endingIndex - 1 : value;
     }
-
-    // constructor(s)
-    public Animation(TextureAtlas spriteSheet, int start, int end = 0, float frameDelay = 1) 
+    public int EndingIndex 
     {
-        SpriteSheet = spriteSheet;
-        
-        currentFrameIndex = this.start = start > end ? start - 1 : start;
-        
-        this.end = MathHelper.Clamp(end, start, spriteSheet.Regions.Count);
-        
-        this.frameDelay = frameDelay;
-        
-        currentTime = frameDelay;
+        get => endingIndex;
+        set => endingIndex = value <= startingIndex ? startingIndex + 1 : value;
     }
-    public void Animate(GameTime gt) 
+    public float FrameTime { get { return frameTime; } set { frameTime = MathHelper.Clamp(value, 0, 1); } }
+    public float DeltaTime => deltaTime;
+    public Rectangle CurrentFrame => FrameGallery[currentFrameIndex];
+    // helper stuff
+    public float FPS => 1 / frameTime;
+    // methods
+    public void Play() => _isPlaying = true;
+    public void Stop() => _isPlaying = false;
+    public void GoTo(int newFrame) => CurrentFrameIndex = newFrame;
+    public void SoftReset() => deltaTime = 0;
+    public void HardReset() 
     {
-        if (!isPlaying) return;
-        currentTime += (float)gt.ElapsedGameTime.TotalSeconds;
-        currentFrameIndex = MathHelper.Clamp(currentFrameIndex, Start, End);
-        if (currentTime >= frameDelay) 
+        CurrentFrameIndex = 0;
+        deltaTime = 0;
+    }
+    // constructors
+    /// <summary>
+    /// a constructor for the Animation class.
+    /// </summary>
+    /// <param name="sheet">the required parameter to get the TextureAtlas for the frames.</param>
+    /// <param name="start">the startingIndex of when the frame starts, set to 0 if you ant the very beginning of the spriteSheet to be the first frame.</param>
+    /// <param name="end">the ending Index of wher the animation ends, set to 0 to set the default max value as the very end of the sprite sheet.</param>
+    public Animation(ref TextureAtlas sheet, int start = 0, int end = 0) 
+    {
+        SpriteSheet = sheet;
+        StartingIndex = start;
+        if (end == 0) EndingIndex = sheet.Regions.Count;
+        else EndingIndex = end;
+    }
+    public Animation(TextureAtlas sheet, int start = 0, int end = 0) 
+    {
+        SpriteSheet = sheet;
+        StartingIndex = start;
+        if (end == 0) EndingIndex = sheet.Regions.Count;
+        else EndingIndex = end;
+    }
+    // the update method
+    public void Roll(GameTime gt) // heheh? get it? roll the TAPES BAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHAHAHAHAHA *wheezing noises*
+    {
+        if (!_isPlaying) return;
+        deltaTime += (float)gt.ElapsedGameTime.TotalSeconds;
+        
+        if (deltaTime >= frameTime) 
         {
-            currentTime = 0;
             currentFrameIndex++;
+            deltaTime = 0;
         }
-        if (currentFrameIndex >= End && IsLooping) 
+        
+        if (IsLooping && currentFrameIndex >= endingIndex) 
         {
-            currentFrameIndex = Start;
-        } else if (currentFrameIndex >= End && !IsLooping) 
+            CurrentFrameIndex = 0;
+        } else if (!IsLooping && currentFrameIndex >= endingIndex) 
         {
-            currentFrameIndex = End;
+            CurrentFrameIndex = endingIndex;
         }
     }
-    public void Draw(SpriteBatch batch, Rectangle Bounds) 
+    public void Scroll(SpriteBatch batch, Rectangle bounds) 
     {
-        batch.Draw(SpriteSheet.Atlas, Bounds, Frame, Color.White);
+        batch.Draw(SpriteSheet.Atlas, bounds, CurrentFrame, Color.White);
     }
 }
