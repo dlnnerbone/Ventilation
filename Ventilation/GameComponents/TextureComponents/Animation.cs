@@ -15,6 +15,7 @@ public sealed class Animation
     public readonly TextureAtlas SpriteSheet;
     public Dictionary<int, Rectangle> FrameGallery => SpriteSheet.Regions;
     public bool IsLooping { get; set; } = true;
+    public bool IsReversed { get; set; } = false;
     public int CurrentFrameIndex 
     {
         get => currentFrameIndex;
@@ -66,18 +67,31 @@ public sealed class Animation
         if (end == 0) EndingIndex = sheet.Regions.Count;
         else EndingIndex = end;
     }
-    // the update method
-    public void Roll(GameTime gt) // heheh? get it? roll the TAPES BAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHAHAHAHAHA *wheezing noises*
+    // the update method(s).
+    private void Reversed(GameTime gt) 
     {
-        if (!_isPlaying) return;
+        deltaTime -= (float)gt.ElapsedGameTime.TotalSeconds;
+        if (deltaTime <= 0) 
+        {
+            CurrentFrameIndex--;
+            deltaTime = frameTime;
+        }
+        if (IsLooping && currentFrameIndex <= startingIndex) 
+        {
+            CurrentFrameIndex = endingIndex;
+        } else if (!IsLooping && currentFrameIndex <= startingIndex) 
+        {
+            CurrentFrameIndex = startingIndex;
+        }
+    }
+    private void Normal(GameTime gt) 
+    {
         deltaTime += (float)gt.ElapsedGameTime.TotalSeconds;
-        
         if (deltaTime >= frameTime) 
         {
-            currentFrameIndex++;
+            CurrentFrameIndex++;
             deltaTime = 0;
         }
-        
         if (IsLooping && currentFrameIndex >= endingIndex) 
         {
             CurrentFrameIndex = 0;
@@ -86,8 +100,33 @@ public sealed class Animation
             CurrentFrameIndex = endingIndex;
         }
     }
-    public void Scroll(SpriteBatch batch, Rectangle bounds) 
+    public void Roll(GameTime gt) // heheh? get it? roll the TAPES BAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHAHAHAHAHA *wheezing noises*
     {
-        batch.Draw(SpriteSheet.Atlas, bounds, CurrentFrame, Color.White);
+        if (!_isPlaying) return;
+        if (IsReversed) Reversed(gt);
+        else Normal(gt);
+    }
+    public void Scroll(SpriteBatch batch, Rectangle bounds, Color color) 
+    {
+        batch.Draw(SpriteSheet.Atlas, bounds, CurrentFrame, color);
+    }
+    public void Scroll(SpriteBatch batch, Vector2 position, Color color) 
+    {
+        batch.Draw(SpriteSheet.Atlas, position, CurrentFrame, color);
+    }
+    /// <summary>
+    /// this is a special sprite use case method, where it uses an already instantatied sprite object for your animation!
+    /// this does not USE the Sprite itself, but uses it's properties for convienence.
+    /// </summary>
+    /// <param name="batch">the required parameter for batching</param>
+    /// <param name="sprite">the referenced sprite class</param>
+    /// <param name="bounds"></param>
+    public void Scroll(SpriteBatch batch, ref Sprite sprite, Rectangle bounds) 
+    {
+        batch.Draw(SpriteSheet.Atlas, bounds, CurrentFrame, sprite.Color, sprite.Radians, sprite.Origin, sprite.Effects, sprite.LayerDepth);
+    }
+    public void Scroll(SpriteBatch batch, ref Sprite sprite, Vector2 position) 
+    {
+        batch.Draw(SpriteSheet.Atlas, position, CurrentFrame, sprite.Color, sprite.Radians, sprite.Origin, sprite.Scale, sprite.Effects, sprite.LayerDepth);
     }
 }
