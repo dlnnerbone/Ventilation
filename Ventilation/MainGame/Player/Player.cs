@@ -32,7 +32,7 @@ public class Player : Entity
     public void LoadContent(ContentManager manager) 
     {
         PlayerAnimation = new(new TextureAtlas(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), 4, 4), 0, 14);
-        PlayerAnimation.FrameTime = 0.1f;
+        PlayerAnimation.FPS = 10; 
         PlayerStats = new(manager);
     }
     public void UpdateLogic(GameTime gt) 
@@ -45,7 +45,7 @@ public class Player : Entity
     public void Draw(SpriteBatch batch) 
     {
         if (!IsAlive) return;
-        PlayerAnimation.Scroll(batch, Bounds);
+        PlayerAnimation.Scroll(batch, Bounds, Color.White);
     }
     public void DrawStats(SpriteBatch batch) 
     {

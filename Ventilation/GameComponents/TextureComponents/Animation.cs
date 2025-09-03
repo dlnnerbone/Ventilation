@@ -35,16 +35,19 @@ public sealed class Animation
     public float DeltaTime => deltaTime;
     public Rectangle CurrentFrame => FrameGallery[currentFrameIndex];
     // helper stuff
-    public float FPS => 1 / frameTime;
+    public float FPS { get { return 1 / frameTime; } set { FrameTime = value < 0 ? 0 : 1 / value; } }
     // methods
     public void Play() => _isPlaying = true;
     public void Stop() => _isPlaying = false;
     public void GoTo(int newFrame) => CurrentFrameIndex = newFrame;
-    public void SoftReset() => deltaTime = 0;
-    public void HardReset() 
+    public void Reset(bool hardReset = false) 
     {
-        CurrentFrameIndex = 0;
-        deltaTime = 0;
+        if (hardReset)
+        {
+            CurrentFrameIndex = 0;
+            deltaTime = 0;
+        }
+        else deltaTime = 0;
     }
     // constructors
     /// <summary>
