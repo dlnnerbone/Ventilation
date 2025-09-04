@@ -13,7 +13,7 @@ public sealed class Animation
     private float deltaTime;
     // public properties
     public readonly TextureAtlas SpriteSheet;
-    public Dictionary<int, Rectangle> FrameGallery => SpriteSheet.Regions;
+    public Rectangle[] FrameGallery => SpriteSheet.Regions;
     public bool IsLooping { get; set; } = true;
     public bool IsReversed { get; set; } = false;
     public int CurrentFrameIndex 
@@ -60,14 +60,14 @@ public sealed class Animation
     {
         SpriteSheet = sheet;
         StartingIndex = start;
-        if (end == 0) EndingIndex = sheet.Regions.Count;
+        if (end == 0) EndingIndex = sheet.TileAmount;
         else EndingIndex = end;
     }
     public Animation(TextureAtlas sheet, int start = 0, int end = 0) 
     {
         SpriteSheet = sheet;
         StartingIndex = start;
-        if (end == 0) EndingIndex = sheet.Regions.Count;
+        if (end == 0) EndingIndex = sheet.TileAmount;
         else EndingIndex = end;
     }
     // the update method(s).
