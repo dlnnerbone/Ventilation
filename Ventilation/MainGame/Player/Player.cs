@@ -31,8 +31,8 @@ public class Player : Entity
     }
     public void LoadContent(ContentManager manager) 
     {
-        PlayerAnimation = new(new TextureAtlas(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), 4, 4), 0, 14);
-        PlayerAnimation.FPS = 10; 
+        PlayerAnimation = new(new TextureAtlas(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), 4, 4), 0, 15);
+        PlayerAnimation.FPS = 10;
         PlayerStats = new(manager);
     }
     public void UpdateLogic(GameTime gt) 

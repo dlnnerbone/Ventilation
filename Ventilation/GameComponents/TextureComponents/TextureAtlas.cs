@@ -1,5 +1,5 @@
+using System;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 namespace GameComponents.Rendering;
 public readonly struct TextureAtlas 
@@ -15,6 +15,7 @@ public readonly struct TextureAtlas
     public int TileAmount => Columns * Rows;
     public TextureAtlas(Sprite atlas, int columns, int rows) 
     {
+        if (columns <= 0 || rows <= 0) throw new ArgumentException("columns and/or rows can not be a value lower than one.");
         Atlas = atlas.Texture;
         Regions = new Rectangle[columns * rows];
         Columns = columns;
@@ -32,6 +33,7 @@ public readonly struct TextureAtlas
     }
     public TextureAtlas(Texture2D atlas, int columns, int rows) 
     {
+        if (columns <= 0 || rows <= 0) throw new ArgumentException("columns and/or rows can not be a value lower than one.");
         Atlas = atlas;
         Regions = new Rectangle[columns * rows];
         Columns = columns;
