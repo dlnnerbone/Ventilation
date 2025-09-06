@@ -20,7 +20,7 @@ public class Timer
     public bool TimerIsZero => timeSpan <= 0;
     // methods
     public void Restart() => TimeSpan = declaredT;
-    public void UpdateTimer(GameTime gt) 
+    public void TickTock(GameTime gt) 
     {
         timeInterval = (float)gt.ElapsedGameTime.TotalSeconds * TimeMultiplier;
         if (!Pause) TimeSpan -= timeInterval;

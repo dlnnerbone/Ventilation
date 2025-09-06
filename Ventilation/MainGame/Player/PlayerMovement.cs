@@ -98,9 +98,9 @@ public sealed class PlayerMovement
     }
     private void HandleTimers(GameTime gt) 
     {
-        dashCool.UpdateTimer(gt);
-        dashDur.UpdateTimer(gt);
-        staminaRegen.UpdateTimer(gt);
+        dashCool.TickTock(gt);
+        dashDur.TickTock(gt);
+        staminaRegen.TickTock(gt);
     }
     public void HandlePlayerMovement(GameTime gt, Player player) 
     {
