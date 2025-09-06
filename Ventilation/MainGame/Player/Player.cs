@@ -14,7 +14,7 @@ public class Player : Entity
     public Motions SetMotion(Motions motion) => playerMotion.SetMotion(motion);
     public Motions MotionState => playerMotion.MotionState;
     public float MoveSpeed { get { return playerMotion.MoveSpeed; } set { playerMotion.MoveSpeed = value; } }
-    public float LerpSpeed => playerMotion.LerpSpeed;
+    public float LerpSpeed { get { return playerMotion.LerpSpeed; } private set { playerMotion.LerpSpeed = value; } }
     public float MaxSpeed { get { return playerMotion.MaxSpeed; } set { playerMotion.MaxSpeed = value; } }
     public bool IsDashing { get { return playerMotion.IsDashing; } set { playerMotion.IsDashing = value; } }
     public bool IsControllable { get; set; } = true;

@@ -22,7 +22,7 @@ public sealed class PlayerMovement
     public Motions MotionState => Motion;
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
     public float MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
-    public float LerpSpeed { get { return lerpSpeed; } private set { lerpSpeed = MathHelper.Clamp(value, 0f, 1f); } }
+    public float LerpSpeed { get { return lerpSpeed; } internal set { lerpSpeed = MathHelper.Clamp(value, 0f, 1f); } }
     public float DashForce { get { return dashForce; } set { dashForce = value <= MaxSpeed ? MaxSpeed * 2 : value; } }
     public int Stamina { get { return stamina; } set { stamina = MathHelper.Clamp(value, 0, maxStamina); } }
     public int MaxStamina { get { return maxStamina; } set { maxStamina = value < 0 ? stamina + 1 : value; } }
