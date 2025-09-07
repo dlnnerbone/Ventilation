@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using GameComponents.Interfaces;
 namespace GameComponents.Managers;
-public class InputManager : IMouse, InterfaceInputs
+public sealed class InputManager : IMouse, InterfaceInputs
 {
     public KeyboardState CurrentKeyboardState { get; set; }
     public KeyboardState PreviousKeyboardState { get; set; }
