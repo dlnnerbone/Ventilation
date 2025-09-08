@@ -44,7 +44,6 @@ public abstract class Projectile : BodyComponent
     public void LookAt(Vector2 location) => Direction = location - Origin;
     public void SetPointSimilarity(Vector2 target) => Direction = target;
     // abstact methods
-    public abstract void Launch();
     public abstract void Update(GameTime gt);
     public abstract void Reset();
 }
