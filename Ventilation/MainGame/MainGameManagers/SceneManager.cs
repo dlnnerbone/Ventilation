@@ -39,7 +39,7 @@ public class SceneManager : GameManager
     public override void LoadContent(GraphicsDevice device, ContentManager manager) 
     {
         GameManager.LoadContent(device, manager);
-        Player.LoadContent(manager);
+        Player.LoadContent(manager, device);
         InterfaceManager.LoadContent(device, manager);
 
         Camera = new Camera(device.Viewport);
