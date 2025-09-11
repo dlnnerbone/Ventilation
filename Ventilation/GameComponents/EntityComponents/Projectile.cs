@@ -1,49 +1,48 @@
 using Microsoft.Xna.Framework;
 using GameComponents;
 using System;
+using GameComponents.Interfaces;
 namespace GameComponents.Entity;
-public abstract class Projectile : BodyComponent
+public abstract class Projectile : BodyComponent, IDirection
 {
-    protected Vector2 direction = Vector2.One;
+    protected Vector2 direction;
     private Actions actionState = Actions.Ready;
-    // private fields
-    public Vector2 Origin => Position;
+    // privaate fields
+    public Actions ActionState { get { return actionState; } protected set { actionState = value; } }
     public virtual Vector2 Direction 
     {
         get => direction;
-        set => direction = value != Vector2.Zero ? Vector2.Normalize(value) : Vector2.Normalize(Vector2.One);
+        set => direction = Vector2.Normalize(value);
     }
-    public Actions SetActionMode(Actions newState) => actionState = newState;
-    public Actions ActionState => actionState;
-    public bool IsActive => actionState == Actions.Fly;
+    public bool IsActive { get; set; } = true;
+    public Actions SetActionState(Actions newState) => actionState = newState;
     public virtual float Angle => (float)Math.Atan2(Direction.Y, Direction.X);
-    //  Constructors
+    // methods
+    public abstract void Shoot(GameTime gt);
+    // constructor(s)
     protected Projectile(int x, int y, int width, int height, Vector2 dir) : base(x, y, width, height) 
     {
-        Direction = dir;
+        if (dir == Vector2.Zero) throw new ArgumentException("dumb fuck, dont make direction zero stupid idiot");
+        direction = dir;
     }
     protected Projectile(Point location, Point size, Vector2 dir) : base(location, size) 
     {
-        Random r = new();
-        if (r.Next(0, 100) == 4 && dir == Vector2.Zero) throw new ArgumentException("stupid dumb idiot, don't make the Vector zero bro.");
-        Direction = dir;
+        if (dir == Vector2.Zero) throw new ArgumentException("Get a load of this guy! no like seriously! he tried.. *wheeze* HE TRIED TO MAKE DIRECTION A ZERO-");
+        direction = dir;
     }
-    protected Projectile(Vector2 position, Vector2 size, Vector2 dir) : base(position, size) 
+    protected Projectile(Vector2 location, Vector2 size, Vector2 dir) : base(location, size) 
     {
-        Direction = dir;
+        if (dir == Vector2.Zero) throw new ArgumentException("how tf did you pass middle school bro. how many times does the compiler have to tell you that you can'T MAKE UNIT FUCKING VECTORS ZERO");
+        direction = dir;
     }
     protected Projectile(Vector4 VectorModel, Vector2 dir) : base(VectorModel) 
     {
-        Direction = dir;
+        if (dir == Vector2.Zero) throw new ArgumentException("What if I told you Vectors with both values as a zero are really gay?");
+        direction = dir;
     }
     protected Projectile(Rectangle bounds, Vector2 dir) : base(bounds) 
     {
-        Direction = dir;
+        if (dir == Vector2.Zero) throw new ArgumentException("when the Vector gives you wieners!!!");
+        direction = dir;
     }
-    // methods
-    public void LookAt(Vector2 location) => Direction = location - Origin;
-    public void SetPointSimilarity(Vector2 target) => Direction = target;
-    // abstact methods
-    public abstract void Update(GameTime gt);
-    public abstract void Reset();
 }

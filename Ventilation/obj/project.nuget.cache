@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "AP6UWJ0oGPw=",
+  "dgSpecHash": "Qt/3nU9tc8o=",
   "success": true,
   "projectFilePath": "/home/dinnerbone/Games/Ventilation/Ventilation/Ventilation.csproj",
   "expectedPackageFiles": [
@@ -11,9 +11,9 @@
     "/home/dinnerbone/.nuget/packages/nvorbis/0.10.4/nvorbis.0.10.4.nupkg.sha512",
     "/home/dinnerbone/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
     "/home/dinnerbone/.nuget/packages/system.valuetuple/4.5.0/system.valuetuple.4.5.0.nupkg.sha512",
-    "/home/dinnerbone/.nuget/packages/microsoft.netcore.app.ref/8.0.19/microsoft.netcore.app.ref.8.0.19.nupkg.sha512",
-    "/home/dinnerbone/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.19/microsoft.aspnetcore.app.ref.8.0.19.nupkg.sha512",
-    "/home/dinnerbone/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.19/microsoft.netcore.app.host.linux-x64.8.0.19.nupkg.sha512"
+    "/home/dinnerbone/.nuget/packages/microsoft.netcore.app.ref/8.0.20/microsoft.netcore.app.ref.8.0.20.nupkg.sha512",
+    "/home/dinnerbone/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.20/microsoft.aspnetcore.app.ref.8.0.20.nupkg.sha512",
+    "/home/dinnerbone/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.20/microsoft.netcore.app.host.linux-x64.8.0.20.nupkg.sha512"
   ],
   "logs": []
 }

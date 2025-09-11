@@ -51,4 +51,21 @@ public class Sprite : ITexture
     {
         batch.Draw(Texture, Destination, null, Color, Radians, Origin, Scale, Effects, LayerDepth);
     }
+    // extra overloads for convienance
+    public void Draw(SpriteBatch batch, Rectangle Destination, Rectangle Source, float angle) 
+    {
+        batch.Draw(Texture, Destination, Source, Color, angle, Origin, Effects, LayerDepth);
+    }
+    public void Draw(SpriteBatch batch, Rectangle Destination, float angle) 
+    {
+        batch.Draw(Texture, Destination, null, Color, angle, Origin, Effects, LayerDepth);
+    }
+    public void Draw(SpriteBatch batch, Vector2 destination, Rectangle source, float angle) 
+    {
+        batch.Draw(Texture, destination, source, Color, angle, Origin, Scale, Effects, LayerDepth);
+    }
+    public void Draw(SpriteBatch batch, Vector2 destination, float angle) 
+    {
+        batch.Draw(Texture, destination, null, Color, angle, Origin, Scale, Effects, LayerDepth);
+    }
 }
