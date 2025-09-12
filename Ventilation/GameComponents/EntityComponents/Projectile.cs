@@ -18,7 +18,10 @@ public abstract class Projectile : BodyComponent, IDirection
     public Actions SetActionState(Actions newState) => actionState = newState;
     public virtual float Angle => (float)Math.Atan2(Direction.Y, Direction.X);
     // methods
-    public abstract void Shoot(GameTime gt);
+    public abstract void ShootingTime(GameTime gt);
+    // easy methods
+    public void LookAt(Vector2 location) => Direction = location - Position;
+    public void FaceLike(Vector2 direction) => Direction = direction;
     // constructor(s)
     protected Projectile(int x, int y, int width, int height, Vector2 dir) : base(x, y, width, height) 
     {
