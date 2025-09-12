@@ -14,6 +14,7 @@ public sealed class Bullet : Projectile
     private float dmgMulti = 1;
     // private fields
     public Sprite BulletTexture { get; private set; }
+    public Timer BulletTimer { get; private set; } = new(5);
     public float MoveSpeed { get { return moveSpd; } set { moveSpd = value * spdMulti; } }
     public float SpeedMultiplier { get { return spdMulti; } set { spdMulti = Math.Abs(value); } }
     public float Damage { get { return dmg; } private set { dmg = value * dmgMulti; } }
@@ -29,18 +30,28 @@ public sealed class Bullet : Projectile
         BulletTexture = new(new Texture2D(device, 1, 1), Color.White);
         BulletTexture.SetToData();
     }
+    private void UpdateTimer(GameTime gt) 
+    {
+        BulletTimer.TickTock(gt);
+    }
     private void PositionUpdating(GameTime gt) 
     {
         Position += Direction * MoveSpeed * (float)gt.ElapsedGameTime.TotalSeconds;
     }
     public override void ShootingTime(GameTime gt) 
     {
+        UpdateTimer(gt);
+        if (!IsActive || BulletTimer.TimerIsZero) return;
         switch (ActionState) 
         {
             case Actions.Ready: break;
-            case Actions.Fly: break;
+            case Actions.Fly: PositionUpdating(gt); break;
             case Actions.End: break;
         }
     }
-    
+    public void DrawBullet(SpriteBatch batch) 
+    {
+        if (!IsActive || BulletTimer.TimerIsZero) return;
+        BulletTexture.Draw(batch, Bounds, Angle);
+    }
 }

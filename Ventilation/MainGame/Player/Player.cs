@@ -24,28 +24,23 @@ public class Player : Entity
     public float SpeedMultiplier { get { return playerMotion.SpeedMultiplier; } set { playerMotion.SpeedMultiplier = value; } }
     public bool IsAlive { get; set; } = true;
     public Animation PlayerAnimation { get; private set; }
-    // player Action/Comabt stuff
-    private Bullet TestBullet; 
+    // player Action/Combat stuff
     public Player(int x, int y, int width, int height, float HP) : base(x, y, width, height, HP) 
     {
         playerMotion = new();
-        SpeedMultiplier = 1f;
     }
     public void LoadContent(ContentManager manager, GraphicsDevice device) 
     {
         PlayerAnimation = new(new TextureAtlas(manager.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), 4, 4), 0, 15);
         PlayerAnimation.FPS = 10;
+        
         PlayerStats = new(manager);
-
-        TestBullet = new(Center, new Vector2(32, 32), Vector2.One);
-        TestBullet.LoadContent(device);
-        TestBullet.LookAt(Vector2.Zero);
+        
+        
     }
     public void UpdateLogic(GameTime gt) 
     {
         if (!IsAlive) return;
-        TestBullet.Update(gt);
-        TestBullet.SetActionMode(Actions.Fly);
         PlayerAnimation.Roll(gt);
         MoveAndSlide(gt);
         playerMotion.HandlePlayerMovement(gt, this);
@@ -54,7 +49,6 @@ public class Player : Entity
     {
         if (!IsAlive) return;
         PlayerAnimation.Scroll(batch, Bounds, Color.White);
-        TestBullet.DrawBullet(batch);
     }
     public void DrawStats(SpriteBatch batch) 
     {
