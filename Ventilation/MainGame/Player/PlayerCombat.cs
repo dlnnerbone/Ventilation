@@ -8,5 +8,6 @@ public sealed class PlayerCombat
 {
     public InputManager Input { get; private set; }
     public Timer GeneralCooldown { get; private set; } = new(0.75f);
+    public Timer BulletCooldown { get; private set; } = new(0.5f);
     
 }
