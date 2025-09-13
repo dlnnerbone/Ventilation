@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using GameComponents;
 using System;
 using GameComponents.Interfaces;
 namespace GameComponents.Entity;
@@ -14,7 +13,15 @@ public abstract class Projectile : BodyComponent, IDirection
         get => direction;
         set => direction = Vector2.Normalize(value);
     }
-    public bool IsActive { get; set; } = true;
+    // helper bools
+    public bool IsActive => actionState == Actions.Active;
+    public bool HasEnded => actionState == Actions.Ended;
+    public bool HasCompleted => actionState == Actions.Completed;
+    public bool WasInteruppted => actionState == Actions.Interrupted;
+    public bool IsReady => actionState == Actions.Ready;
+    public bool InRecovery => actionState == Actions.Cooldown;
+    public bool IsExpired => actionState == Actions.Disabled;
+    //
     public Actions SetActionState(Actions newState) => actionState = newState;
     public virtual float Angle => (float)Math.Atan2(Direction.Y, Direction.X);
     // methods
@@ -25,27 +32,31 @@ public abstract class Projectile : BodyComponent, IDirection
     // constructor(s)
     protected Projectile(int x, int y, int width, int height, Vector2 dir) : base(x, y, width, height) 
     {
-        if (dir == Vector2.Zero) throw new ArgumentException("dumb fuck, dont make direction zero stupid idiot");
+        ValidateDirection(dir);
         direction = dir;
     }
     protected Projectile(Point location, Point size, Vector2 dir) : base(location, size) 
     {
-        if (dir == Vector2.Zero) throw new ArgumentException("Get a load of this guy! no like seriously! he tried.. *wheeze* HE TRIED TO MAKE DIRECTION A ZERO-");
+        ValidateDirection(dir);
         direction = dir;
     }
     protected Projectile(Vector2 location, Vector2 size, Vector2 dir) : base(location, size) 
     {
-        if (dir == Vector2.Zero) throw new ArgumentException("how tf did you pass middle school bro. how many times does the compiler have to tell you that you can'T MAKE UNIT FUCKING VECTORS ZERO");
+        ValidateDirection(dir);
         direction = dir;
     }
     protected Projectile(Vector4 VectorModel, Vector2 dir) : base(VectorModel) 
     {
-        if (dir == Vector2.Zero) throw new ArgumentException("What if I told you Vectors with both values as a zero are really gay?");
+        ValidateDirection(dir);
         direction = dir;
     }
     protected Projectile(Rectangle bounds, Vector2 dir) : base(bounds) 
     {
-        if (dir == Vector2.Zero) throw new ArgumentException("when the Vector gives you wieners!!!");
+        ValidateDirection(dir);
         direction = dir;
+    }
+    private void ValidateDirection(Vector2 vector) 
+    {
+        if (vector == Vector2.Zero) throw new ArgumentException("Directon Vector cannot have both values as Zero.");
     }
 }
