@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace GameComponents.Logic;
@@ -86,5 +87,14 @@ public sealed class Camera
         this.lerpSpeed = lerpSpeed;
         this.scale = scale;
         this.rotationDegree = angle;
+    }
+    // static methods
+    public static void Shake(Vector2 target, float Radius) 
+    {
+        Vector2 offset = Vector2.Zero;
+        Random rand = new();
+        float randAngle = rand.Next(360);
+        float radius = Radius;
+        
     }
 }

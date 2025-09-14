@@ -20,13 +20,14 @@ public abstract class Projectile : BodyComponent, IDirection
     public bool WasInteruppted => actionState == Actions.Interrupted;
     public bool IsReady => actionState == Actions.Ready;
     public bool InRecovery => actionState == Actions.Cooldown;
-    public bool IsExpired => actionState == Actions.Disabled;
+    public bool IsDisabled => actionState == Actions.Disabled;
     //
     public Actions SetActionState(Actions newState) => actionState = newState;
     public virtual float Angle => (float)Math.Atan2(Direction.Y, Direction.X);
     // methods
     public abstract void ShootingTime(GameTime gt);
     // easy methods
+    public void Anchor(Vector2 position) => Position = position;
     public void LookAt(Vector2 location) => Direction = location - Position;
     public void FaceLike(Vector2 direction) => Direction = direction;
     // constructor(s)
