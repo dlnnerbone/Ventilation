@@ -8,6 +8,7 @@ namespace Main;
 public class Player : Entity 
 {
     private PlayerMovement playerMotion;
+    private PlayerCombat combat = new();
     public PlayerStats PlayerStats { get; private set; }
 
     // player related variables
@@ -25,6 +26,7 @@ public class Player : Entity
     public bool IsAlive { get; set; } = true;
     public Animation PlayerAnimation { get; private set; }
     // player Action/Combat stuff
+    
     public Player(int x, int y, int width, int height, float HP) : base(x, y, width, height, HP) 
     {
         playerMotion = new();
@@ -35,12 +37,16 @@ public class Player : Entity
         PlayerAnimation.FPS = 10;
         
         PlayerStats = new(manager);
+        combat.Initialize(this);
+        combat.LoadContent(device);
         
         
     }
     public void UpdateLogic(GameTime gt) 
     {
+        
         if (!IsAlive) return;
+        combat.UpdateCombat(gt, this);
         PlayerAnimation.Roll(gt);
         MoveAndSlide(gt);
         playerMotion.HandlePlayerMovement(gt, this);
@@ -48,6 +54,7 @@ public class Player : Entity
     public void Draw(SpriteBatch batch) 
     {
         if (!IsAlive) return;
+        combat.Draw(batch);
         PlayerAnimation.Scroll(batch, Bounds, Color.White);
     }
     public void DrawStats(SpriteBatch batch) 

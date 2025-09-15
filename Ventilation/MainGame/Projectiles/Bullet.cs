@@ -1,11 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using GameComponents.Helpers;
 using GameComponents.Rendering;
 using GameComponents.Logic;
 using GameComponents.Entity;
 using System;
 using GameComponents;
+using GameComponents.helpers;
 namespace Main;
 public sealed class Bullet : Projectile 
 {
@@ -40,7 +42,7 @@ public sealed class Bullet : Projectile
             case Actions.Ready: break;
             case Actions.Charging: break;
             case Actions.Active: Active(gt); break;
-            case Actions.Interrupted: break;
+            case Actions.Interrupted: Interrupted(gt); break;
             case Actions.Cooldown: break;
             case Actions.Ended: break;
             case Actions.Completed: break;
@@ -52,10 +54,17 @@ public sealed class Bullet : Projectile
     {
         Position += Direction * MoveSpeed * (float)gt.ElapsedGameTime.TotalSeconds;
     }
+    private void Interrupted(GameTime gt) 
+    {
+        if (BulletDuration.TimerIsZero) BulletDuration.Restart();
+        Position += InterpolationHelper.LinearShake(5, 5, BulletDuration.TimeSpan);
+    }
     // drawing
     public void Draw(SpriteBatch batch) 
     {
         if (IsDisabled) return;
         BulletTexture.Draw(batch, Bounds, Angle);
     }
+    // constructors
+    public Bullet(Vector2 dir, int x, int y, int width = 32, int height = 32) : base(x, y, width, height, dir) {}
 }

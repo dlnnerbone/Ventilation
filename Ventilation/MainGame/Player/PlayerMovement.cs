@@ -62,6 +62,7 @@ public sealed class PlayerMovement
     private void Dashing(Player player) 
     {
         player.Velocity = player.Direction * DashForce * speedMulti;
+        
         if (dashDur.TimerIsZero) 
         {
             IsDashing = false;
@@ -74,6 +75,7 @@ public sealed class PlayerMovement
         if (staminaRegen.TimeSpan <= 0.02f) 
         {
             Stamina += 1;
+            
         }
     }
     private void HandleInputs(Player player) 
