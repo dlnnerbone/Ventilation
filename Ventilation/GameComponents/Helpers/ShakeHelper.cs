@@ -1,10 +1,11 @@
 using Microsoft.Xna.Framework;
 using System;
 namespace GameComponents.helpers;
-public static class InterpolationHelper 
+public static class ShakeUtility 
 {
     // this is a very minimal and specific static class that helps with General use of shaking objects and cameras.
     private static Random random = new();
+    // Linear Shaking
     public static Vector2 LinearShake(float intensity, float duration, float elapsedTime) 
     {
         if (elapsedTime >= duration) return Vector2.Zero;
@@ -15,6 +16,11 @@ public static class InterpolationHelper
         float angle = (float)(random.NextDouble() * Math.PI * 2);
         return new Vector2((float)Math.Cos(angle) * currentIntensity, (float)Math.Sin(angle) * currentIntensity);
     }
+    public static Vector2 LinearShake(float intensity, Timer timer) 
+    {
+        if (timer.)
+    }
+    // Expo shaking
     public static Vector2 ExponentialShake(float intensity, float duration, float elapsedTime) // I made this class for making shaky effects
     {
         if (elapsedTime >= duration) return Vector2.Zero;

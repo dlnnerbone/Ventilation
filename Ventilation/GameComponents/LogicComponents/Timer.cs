@@ -1,44 +1,95 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 namespace GameComponents.Logic;
+public enum TimeStates 
+{
+    Up, // counting Up
+    Down // countind Down
+}
 public class Timer 
 {
-    private float declaredT;
+    /// <summary>
+    /// A Timer class for instiating simple Timer mechanics, Cooldowns, Durations, Etc, can be easily implemeneted here.
+    /// </summary>
     private float timeSpan;
-    private float timeInterval;
-    private float timeMultiplier = 1;
-    private List<int> timeArray;
+    private float timeInterval = 0;
+    private float timeMulti = 1;
+    private float duration;
+    private TimeStates tState;
     // private fields
-    public float TimeSpan { get { return timeSpan; } private set { timeSpan = value; } }
-    public float ParsedTimeSpan => (float)Math.Ceiling(TimeSpan);
-    public float TimeInterval => timeInterval;
-    public float TimeMultiplier { get { return timeMultiplier; } set { timeMultiplier = value < 0 ? 0 : value; } }
-    public int TimeArray(int s) => timeArray[s == 0 ? 0 : (s - 1) % timeArray.Count];
-    public bool AutoRestart { get; set; } = false;
-    public bool Pause { get; set; } = false;
-    public bool TimerIsZero => timeSpan <= 0;
-    // methods
-    public void Restart() => TimeSpan = declaredT;
-    public void TickTock(GameTime gt) 
+    public float TimeSpan { get { return timeSpan; } set { timeSpan = MathHelper.Clamp(value, 0, duration); } }
+    public float TimeMultiplier { get { return timeMulti; } set { timeMulti = value < 0 ? 0 : value; } }
+    public float Duration { get { return duration; } set { duration = value < 0.0001f ? 0.0001f : value; } }
+    public bool AutoRestart { get; set; }
+    public bool IsPaused { get; set; }
+    // helper methods
+    public TimeStates SwitchTimeState(TimeStates newState) => tState = newState;
+    public bool IsCountingUp() => tState == TimeStates.Up;
+    public bool IsCountingDown() => tState == TimeStates.Down;
+    public float CeilingSpan => (float)Math.Ceiling(TimeSpan);
+    public float FloorSpan => (float)Math.Floor(timeSpan);
+    public bool TimerHitsTarget 
     {
-        timeInterval = (float)gt.ElapsedGameTime.TotalSeconds * TimeMultiplier;
-        if (!Pause) TimeSpan -= timeInterval;
-
-        if (AutoRestart && timeSpan <= 0)
+        get => IsCountingUp() && timeSpan >= duration ? true : IsCountingDown() && timeSpan <= 0 ? true : false;
+    }
+    
+    public void Restart() 
+    {
+        if (IsCountingDown()) TimeSpan = duration;
+        else if (IsCountingUp()) TimeSpan = 0;
+    }
+    // constructors
+    public Timer(float seconds, float duration, TimeStates tState = TimeStates.Down, bool autoRestart = false, bool isPaused = false) 
+    {
+        if (seconds < 0 || duration < 0.0001f) throw new ArgumentException("duration and/or seconds can not have values below zero.");
+        this.tState = tState;
+        this.duration = duration;
+        timeSpan = seconds;
+        AutoRestart = autoRestart;
+        IsPaused = isPaused;
+    }
+    public Timer(float seconds, TimeStates tState = TimeStates.Down, bool autoRestart = false, bool isPaused = false) 
+    {
+        if (seconds < 0) throw new ArgumentException("seconds can not have a value below zero.");
+        this.tState = tState;
+        duration = seconds;
+        timeSpan = seconds;
+        AutoRestart = autoRestart;
+        IsPaused = isPaused;
+    }
+    // main update methods
+    private void Down(GameTime gt) 
+    {
+        timeSpan -= timeInterval;
+        if (AutoRestart && timeSpan <= 0) 
         {
-            timeSpan = declaredT;
+            timeSpan = duration;
         }
-        else if (!AutoRestart && timeSpan <= 0)
+        else if (!AutoRestart && timeSpan <= 0) 
         {
             timeSpan = 0;
         }
     }
-    public Timer(float Seconds) 
+    private void Up(GameTime gt) 
     {
-        timeSpan = Seconds;
-        declaredT = Seconds;
-        timeArray = new List<int>();
-        for (int s = 0; s <= Seconds; s++) timeArray.Add(s);
+        timeSpan += timeInterval;
+        if (AutoRestart && timeSpan >= duration) 
+        {
+            timeSpan = 0;
+        }
+        else if (!AutoRestart && timeSpan >= duration) 
+        {
+            timeSpan = duration;
+        }
+    }
+    public void TickTock(GameTime gt) 
+    {
+        timeInterval = (float)gt.ElapsedGameTime.TotalSeconds * timeMulti;
+        if (IsPaused) return;
+        switch (tState) 
+        {
+            case TimeStates.Up: Up(gt); break;
+            case TimeStates.Down: Down(gt); break;
+        }
     }
 } 
