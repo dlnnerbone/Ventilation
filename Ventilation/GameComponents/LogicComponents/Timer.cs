@@ -32,7 +32,6 @@ public class Timer
     {
         get => IsCountingUp() && timeSpan >= duration ? true : IsCountingDown() && timeSpan <= 0 ? true : false;
     }
-    
     public void Restart() 
     {
         if (IsCountingDown()) TimeSpan = duration;
