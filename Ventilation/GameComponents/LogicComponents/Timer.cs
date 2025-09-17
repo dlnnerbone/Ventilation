@@ -22,12 +22,15 @@ public class Timer
     public float Duration { get { return duration; } set { duration = value < 0.0001f ? 0.0001f : value; } }
     public bool AutoRestart { get; set; }
     public bool IsPaused { get; set; }
+    
     // helper methods
     public TimeStates SwitchTimeState(TimeStates newState) => tState = newState;
     public bool IsCountingUp() => tState == TimeStates.Up;
     public bool IsCountingDown() => tState == TimeStates.Down;
     public float CeilingSpan => (float)Math.Ceiling(TimeSpan);
     public float FloorSpan => (float)Math.Floor(timeSpan);
+    public float NormalizedProgress => MathHelper.Clamp(timeSpan / duration, 0f, 1f);
+    
     public bool TimerHitsTarget 
     {
         get => IsCountingUp() && timeSpan >= duration ? true : IsCountingDown() && timeSpan <= 0 ? true : false;
