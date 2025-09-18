@@ -1,9 +1,14 @@
-using Microsoft.Xna.Framework;
-using GameComponents.Logic;
 using System;
 namespace GameComponents.Helpers;
 public static class Easing 
 {
+    private const float c4 = (float)(2 * Math.PI) / 3;
+    private const float c5 = (float)(2 * Math.PI) / 4.5f;
+    private const float c1 = 1.70158f;
+    private const float n1 = 7.5625f;
+    private const float d1 = 2.75f;
+    
+    
     public static float EaseInSine(float v) 
     {
         return (float)(1 - Math.Cos((v * Math.PI) / 2));
@@ -50,25 +55,19 @@ public static class Easing
     }
     public static float EaseInOutCirc(float v) 
     {
-        return v < 0.5 ? (1 - (float)Math.Sqrt(1 - Math.Pow(2 * v, 2))) / 2 :
+        return v < 0.5f ? (1 - (float)Math.Sqrt(1 - Math.Pow(2 * v, 2))) / 2 :
             (float)(Math.Sqrt(1 - Math.Pow(-2 * v + 2, 2)) + 1) / 2;
     }
     public static float EaseInElastic(float v) 
     {
-        float c4 = (float)(2 * Math.PI) / 3;
-
         return v == 0 ? 0 : v == 1 ? 1 : (float)-Math.Pow(2, 10 * v - 10) * (float)Math.Sin((v * 10 - 10.75) * c4);
     }
     public static float EaseOutElastic(float v) 
     {
-        float c4 = (float)(2 * Math.PI) / 3;
-
         return v == 0 ? 0 : v == 1 ? 1 : (float)Math.Pow(2, -10 * v) * (float)Math.Sin((v * 10 - 0.75) * c4) + 1;
     }
     public static float EaseInOutElastic(float v) 
     {
-        float c5 = (float)(2 * Math.PI) / 4.5f;
-
         return v == 0 ? 0 : v == 1 ? 1 : v < 0.5f ? (float)-Math.Pow(2, 10 * v - 10) * (float)Math.Sin((20 * v - 11.125f) * c5) / 2 :
             (float)(Math.Pow(2, -20 * v + 10) * (float)Math.Sin((20 * v - 11.125f) * c5)) / 2 + 1;
     }
@@ -78,11 +77,11 @@ public static class Easing
     }
     public static float EaseOutQuad(float v) 
     {
-        return 1 - (1 - v) * (1 * v);
+        return 1 - (1 - v) * (1 - v);
     }
     public static float EaseInOutQuad(float v) 
     {
-        return v < 0.5 ? 2 * v * v : 1 - (float)Math.Pow(-2 * v + 2, 2) / 2;
+        return v < 0.5f ? 2 * v * v : 1 - (float)Math.Pow(-2 * v + 2, 2) / 2;
     }
     public static float EaseInQuart(float v) 
     {
@@ -94,7 +93,7 @@ public static class Easing
     }
     public static float EaseInOutQuart(float v) 
     {
-        return v < 0.5 ? 8 * v * v * v * v : 1 - (float)Math.Pow(-2 * v + 2, 4) / 2;
+        return v < 0.5f ? 8 * v * v * v * v : 1 - (float)Math.Pow(-2 * v + 2, 4) / 2;
     }
     public static float EaseInExpo(float v) 
     {
@@ -111,21 +110,18 @@ public static class Easing
     }
     public static float EaseInBack(float v) 
     {
-        const float c1 = 1.70158f;
         const float c3 = c1 + 1;
         return c3 * v * v * v - c1 * v * v;
     }
     public static float EaseOutBack(float v) 
     {
-        const float c1 = 1.70158f;
         const float c3 = c1 + 1;
         return 1 + c3 * (float)Math.Pow(v - 1, 3) + c1 * (float)Math.Pow(v - 1, 2);
     }
     public static float EaseInOutBack(float v) 
     {
-        const float c1 = 1.70158f;
         const float c2 = c1 * 1.525f;
-        return v < 0.5 ? (float)(Math.Pow(2 * v, 2) * ((c2 + 1) * 2 * v - c2)) / 2
+        return v < 0.5f ? ((float)Math.Pow(2 * v, 2) * ((c2 + 1) * 2 * v - c2)) / 2
         : ((float)Math.Pow(2 * v - 2, 2) * ((c2 + 1) * (v * 2 - 2) + c2) + 2) / 2;
     }
     public static float EaseInBounce(float v) 
@@ -139,11 +135,9 @@ public static class Easing
     }
     public static float EaseOutBounce(float v) 
     {
-        const float n1 = 7.5625f;
-        const float d1 = 2.75f;
         return v < 1 / d1 ? n1 * v * v
-        : v < 2 / d1 ? n1 * (v -= 1.5f / d1) * v + 0.75f
-        : v < 2.5f / d1 ? n1 * (v -= 2.25f / d1) * v + 0.9375f
-        : n1 * (v -= 2.625f / d1) * v + 0.984375f; 
+        : v < 2 / d1 ? n1 * (v - 1.5f / d1) * v + 0.75f
+        : v < 2.5f / d1 ? n1 * (v - 2.25f / d1) * v + 0.9375f
+        : n1 * (v - 2.625f / d1) * v + 0.984375f; 
     }
 }
