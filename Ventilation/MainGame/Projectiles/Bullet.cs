@@ -1,13 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 using GameComponents.Helpers;
 using GameComponents.Rendering;
 using GameComponents.Logic;
 using GameComponents.Entity;
 using System;
 using GameComponents;
-using GameComponents.helpers;
 namespace Main;
 public sealed class Bullet : Projectile 
 {
@@ -56,8 +54,8 @@ public sealed class Bullet : Projectile
     }
     private void Interrupted(GameTime gt) 
     {
-        if (BulletDuration.TimerIsZero) BulletDuration.Restart();
-        Position += InterpolationHelper.LinearShake(5, 5, BulletDuration.TimeSpan);
+        if (BulletDuration.TimerHitsTarget) BulletDuration.Restart();
+        Position += ShakeHelper.LinearShake(5, 5, BulletDuration.TimeSpan);
     }
     // drawing
     public void Draw(SpriteBatch batch) 
