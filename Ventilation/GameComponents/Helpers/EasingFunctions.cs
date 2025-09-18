@@ -40,7 +40,43 @@ public static class Easing
     {
         return v < 0.5f ? 16 * v * v * v * v * v : 1 - (float)Math.Pow(-2 * v + 2, 5) / 2;
     }
-    public static float EaseIn
+    public static float EaseInCirc(float v) 
+    {
+        return 1 - (float)Math.Sqrt(1 - Math.Pow(v, 2));
+    }
+    public static float EaseOutCirc(float v) 
+    {
+        return 1 - (float)Math.Sqrt(1 - Math.Pow(v - 1, 2));
+    }
+    public static float EaseInOutCirc(float v) 
+    {
+        return v < 0.5 ? (1 - (float)Math.Sqrt(1 - Math.Pow(2 * v, 2))) / 2 :
+            (float)(Math.Sqrt(1 - Math.Pow(-2 * v + 2, 2)) + 1) / 2;
+    }
+    public static float EaseInElastic(float v) 
+    {
+        float c4 = (float)(2 * Math.PI) / 3;
+
+        return v == 0 ? 0 : v == 1 ? 1 : (float)-Math.Pow(2, 10 * v - 10) * (float)Math.Sin((v * 10 - 10.75) * c4);
+    }
+    public static float EaseOutElastic(float v) 
+    {
+        float c4 = (float)(2 * Math.PI) / 3;
+
+        return v == 0 ? 0 : v == 1 ? 1 : (float)Math.Pow(2, -10 * v) * (float)Math.Sin((v * 10 - 0.75) * c4) + 1;
+    }
+    public static float EaseInOutElastic(float v) 
+    {
+        float c5 = (float)(2 * Math.PI) / 4.5f;
+
+        return v == 0 ? 0 : v == 1 ? 1 : v < 0.5f ? (float)-Math.Pow(2, 10 * v - 10) * (float)Math.Sin((20 * v - 11.125f) * c5) / 2 :
+            (float)(Math.Pow(2, -20 * v + 10) * (float)Math.Sin((20 * v - 11.125f) * c5)) / 2 + 1;
+    }
+    public static float EaseInQuad(float v) 
+    {
+        return v * v;
+    }
+    public static 
     // this is a very minimal and specific side of the class that helps with General use of shaking objects and cameras.
     private static Random random = new();
     // Linear Shaking
