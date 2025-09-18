@@ -76,49 +76,74 @@ public static class Easing
     {
         return v * v;
     }
-    public static 
-    // this is a very minimal and specific side of the class that helps with General use of shaking objects and cameras.
-    private static Random random = new();
-    // Linear Shaking
-    public static Vector2 LinearShake(float intensity, float duration, float elapsedTime) 
+    public static float EaseOutQuad(float v) 
     {
-        if (elapsedTime >= duration) return Vector2.Zero;
-        // dampen values over time.
-        var t = 1.0f - (elapsedTime / duration);
-        var currentIntensity = intensity * t;
-        // random direction
-        float angle = (float)(random.NextDouble() * Math.PI * 2);
-        return new Vector2((float)Math.Cos(angle) * currentIntensity, (float)Math.Sin(angle) * currentIntensity);
+        return 1 - (1 - v) * (1 * v);
     }
-    public static Vector2 LinearShake(float intensity, Timer timer) 
+    public static float EaseInOutQuad(float v) 
     {
-        if (timer.TimeSpan >= timer.Duration) return Vector2.Zero;
-        // dampen values
-        var t = 1.0f - (timer.TimeSpan / timer.Duration);
-        var currentIntensity = intensity * t;
-        // random direction
-        float Angle = (float)(random.NextDouble() * Math.PI * 2);
-        return new Vector2((float)Math.Cos(Angle) * currentIntensity, (float)Math.Sin(Angle) * currentIntensity);
+        return v < 0.5 ? 2 * v * v : 1 - (float)Math.Pow(-2 * v + 2, 2) / 2;
     }
-    // Expo shaking
-    public static Vector2 ExponentialShake(float intensity, float duration, float elapsedTime) // I made this class for making shaky effects
+    public static float EaseInQuart(float v) 
     {
-        if (elapsedTime >= duration) return Vector2.Zero;
-        // dampen
-        var t = (float)Math.Exp(-elapsedTime * intensity / duration);
-        var currentIntensity = intensity * t;
-        // returnable
-        var angle = (float)(random.NextDouble() * Math.PI * 2);
-        return new Vector2((float)Math.Cos(angle) * currentIntensity, (float)Math.Sin(angle) * currentIntensity);
+        return v * v * v * v;
     }
-    public static Vector2 ExponentialShake(float intensity, Timer time) 
+    public static float EaseOutQuart(float v) 
     {
-        if (time.TimeSpan >= time.Duration) return Vector2.Zero;
-        // dampen overtime
-        var t = (float)Math.Exp(-time.TimeSpan * intensity / time.Duration);
-        var currentIntensity = intensity * t;
-        // angle
-        float Angle = (float)(random.NextDouble() * Math.PI * 2);
-        return new Vector2((float)Math.Cos(Angle) * currentIntensity, (float)Math.Sin(Angle) * currentIntensity);
+        return 1 - (float)Math.Pow(1 - v, 4);
+    }
+    public static float EaseInOutQuart(float v) 
+    {
+        return v < 0.5 ? 8 * v * v * v * v : 1 - (float)Math.Pow(-2 * v + 2, 4) / 2;
+    }
+    public static float EaseInExpo(float v) 
+    {
+        return v == 0 ? 0 : (float)Math.Pow(2, 10 * v - 10);
+    }
+    public static float EaseOutExpo(float v) 
+    {
+        return v == 1 ? 1 : 1 - (float)Math.Pow(2, -10 * v);
+    }
+    public static float EaseInOutExpo(float v) 
+    {
+        return v == 0 ? 0 : v == 1 ? 1 : v < 0.5 ? (float)Math.Pow(2, 20 * v - 10) / 2 :
+            (2 - (float)Math.Pow(2, -20 * v + 10)) / 2;
+    }
+    public static float EaseInBack(float v) 
+    {
+        const float c1 = 1.70158f;
+        const float c3 = c1 + 1;
+        return c3 * v * v * v - c1 * v * v;
+    }
+    public static float EaseOutBack(float v) 
+    {
+        const float c1 = 1.70158f;
+        const float c3 = c1 + 1;
+        return 1 + c3 * (float)Math.Pow(v - 1, 3) + c1 * (float)Math.Pow(v - 1, 2);
+    }
+    public static float EaseInOutBack(float v) 
+    {
+        const float c1 = 1.70158f;
+        const float c2 = c1 * 1.525f;
+        return v < 0.5 ? (float)(Math.Pow(2 * v, 2) * ((c2 + 1) * 2 * v - c2)) / 2
+        : ((float)Math.Pow(2 * v - 2, 2) * ((c2 + 1) * (v * 2 - 2) + c2) + 2) / 2;
+    }
+    public static float EaseInBounce(float v) 
+    {
+        return 1 - EaseOutBounce(1 - v);
+    }
+    public static float EaseInOutBounce(float v) 
+    {
+        return v < 0.5f ? (1 - EaseOutBounce(1 - 2 * v)) / 2
+        : (1 + EaseOutBounce(2 * v - 1)) / 2;
+    }
+    public static float EaseOutBounce(float v) 
+    {
+        const float n1 = 7.5625f;
+        const float d1 = 2.75f;
+        return v < 1 / d1 ? n1 * v * v
+        : v < 2 / d1 ? n1 * (v -= 1.5f / d1) * v + 0.75f
+        : v < 2.5f / d1 ? n1 * (v -= 2.25f / d1) * v + 0.9375f
+        : n1 * (v -= 2.625f / d1) * v + 0.984375f; 
     }
 }
