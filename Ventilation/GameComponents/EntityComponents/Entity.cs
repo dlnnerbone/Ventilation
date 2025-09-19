@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 namespace GameComponents.Entity;
 public abstract class Entity : BodyComponent 
 {
+    // Entity class is a combination of Health, Boddy, and Velocity-based components to make a character body.
     protected MovementComponent movement;
     protected HealthComponent healthCom;
     // protected fields.
@@ -18,7 +19,13 @@ public abstract class Entity : BodyComponent
     public float Health { get { return healthCom.Health; } set { healthCom.Health = value; } }
     public float MinHealth { get { return healthCom.MinHealth; } set { healthCom.MinHealth = value; } }
     public float MaxHealth { get { return healthCom.MaxHealth; } set { healthCom.MaxHealth = value; } }
+    public float NormalizedHealth => healthCom.NormalizedHealth;
+    public bool IsFullHealth() => healthCom.IsFullHealth();
+    public bool IsWithinCriticalThreshold(float value) => healthCom.IsWithinCriticalThreshold(value);
     // methods.
+    /// <summary>
+    /// destroys or kills something, must be manually configured.
+    /// </summary>
     public void Destroy() => healthCom.Destroy();
     /// <summary>
     /// the default method for derived classes to use to make the Entity have smoother, more controlled motion.
@@ -30,8 +37,23 @@ public abstract class Entity : BodyComponent
     {
         return Position += Velocity * (float)gt.ElapsedGameTime.TotalSeconds;
     }
+    /// <summary>
+    /// A method to check whether or not collison has occured.
+    /// </summary>
+    /// <param name="other">the body the class detects</param>
+    /// <returns></returns>
     public bool Intersects(Entity other) => this.Intersects(other.Bounds);
     // constructors
+    /// <summary>
+    /// the Entity constructor.
+    /// </summary>
+    /// <param name="x">x location of entity</param>
+    /// <param name="y">y location of entity.</param>
+    /// <param name="width">the widdth of the entity.</param>
+    /// <param name="height">the height in pixels of the entity.</param>
+    /// <param name="Health">the health of the entity.</param>
+    /// <param name="minHealth">the the minimum, in health of the entity.</param>
+    /// <param name="maxHealth">the maximum health of the entity.</param>
     public Entity(int x, int y, int width, int height, float Health, float minHealth = 0, float maxHealth = 100) : base(x, y, width, height)
     {
         healthCom = new(Health, minHealth, maxHealth);

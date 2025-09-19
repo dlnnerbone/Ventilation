@@ -3,6 +3,9 @@ using GameComponents.Interfaces;
 namespace GameComponents.Entity;
 public class BodyComponent : IBodyComponent 
 {
+    /// <summary>
+    /// The BodyComponent class, an extension of extra roperties for the Rectangle class.
+    /// </summary>
     private Rectangle bounds;
     // private fields.
     public Rectangle Bounds => bounds;
