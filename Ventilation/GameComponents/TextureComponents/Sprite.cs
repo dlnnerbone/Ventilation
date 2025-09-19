@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameComponents.Interfaces;
+using System;
 namespace GameComponents.Rendering;
 public class Sprite : ITexture 
 {
@@ -8,8 +9,8 @@ public class Sprite : ITexture
     private Color[] colors;
     private Vector2 scale = Vector2.One;
     private Vector2 origin = Vector2.Zero;
-    private float radians = 0;
     private float depth = 0;
+    private Vector2 direction = Vector2.UnitX;
     private SpriteEffects effects = SpriteEffects.None;
     
     // private fields.
@@ -17,6 +18,7 @@ public class Sprite : ITexture
     public Rectangle Bounds => texture.Bounds;
     public Vector2 Scale { get { return scale; } set { scale = value; } }
     public Vector2 Origin { get { return origin; } set { origin = value; } }
+    public Vector2 Direction { get { return direction; } set { direction = Vector2.Normalize(value); } }
     public SpriteEffects Effects => effects;
     public Color[] Colors => colors;
     public Color Color { get { return colors[0]; } set { colors[0] = value; } }
@@ -25,7 +27,11 @@ public class Sprite : ITexture
     public float B { get { return Color.B; } set { Color = new(Color.R, Color.B, value, Color.A); } }
     public float Opacity { get { return Color.A; } set { Color = new(Color.R, Color.G, Color.B, value); } }
     public float LayerDepth { get { return depth; } set { depth = MathHelper.Clamp(value, 0f, 1f); } }
-    public float Radians { get { return radians; } set { radians = MathHelper.ToRadians(value); } }
+    public float Radians 
+    {
+        get => (float)Math.Atan2(Direction.Y, Direction.X);
+        set => Direction = new Vector2((float)Math.Cos(value), (float)Math.Sin(value));
+    }
     public Sprite(Texture2D texture, Color selectedColor) 
     {
         this.texture = texture;
@@ -52,20 +58,4 @@ public class Sprite : ITexture
         batch.Draw(Texture, Destination, null, Color, Radians, Origin, Scale, Effects, LayerDepth);
     }
     // extra overloads for convienance
-    public void Draw(SpriteBatch batch, Rectangle Destination, Rectangle Source, float angle) 
-    {
-        batch.Draw(Texture, Destination, Source, Color, angle, Origin, Effects, LayerDepth);
-    }
-    public void Draw(SpriteBatch batch, Rectangle Destination, float angle) 
-    {
-        batch.Draw(Texture, Destination, null, Color, angle, Origin, Effects, LayerDepth);
-    }
-    public void Draw(SpriteBatch batch, Vector2 destination, Rectangle source, float angle) 
-    {
-        batch.Draw(Texture, destination, source, Color, angle, Origin, Scale, Effects, LayerDepth);
-    }
-    public void Draw(SpriteBatch batch, Vector2 destination, float angle) 
-    {
-        batch.Draw(Texture, destination, null, Color, angle, Origin, Scale, Effects, LayerDepth);
-    }
 }

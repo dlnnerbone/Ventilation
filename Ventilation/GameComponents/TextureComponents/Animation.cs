@@ -36,6 +36,7 @@ public sealed class Animation
     public Rectangle CurrentFrame => FrameGallery[currentFrameIndex];
     // helper stuff
     public float FPS { get { return 1 / frameTime; } set { FrameTime = value < 0 ? 0 : 1 / value; } }
+    public float NormalizedProgress => MathHelper.Clamp(DeltaTime / FrameTime, 0f, 1f);
     // methods
     public void Play() => _isPlaying = true;
     public void Stop() => _isPlaying = false;
@@ -117,18 +118,11 @@ public sealed class Animation
     {
         batch.Draw(SpriteSheet.Atlas, position, CurrentFrame, color);
     }
-    /// <summary>
-    /// this is a special sprite use case method, where it uses an already instantatied sprite object for your animation!
-    /// this does not USE the Sprite itself, but uses it's properties for convienence.
-    /// </summary>
-    /// <param name="batch">the required parameter for batching</param>
-    /// <param name="sprite">the referenced sprite class</param>
-    /// <param name="bounds"></param>
-    public void Scroll(SpriteBatch batch, ref Sprite sprite, Rectangle bounds) 
+    public void Scroll(SpriteBatch batch, Sprite sprite, Rectangle bounds) 
     {
         batch.Draw(SpriteSheet.Atlas, bounds, CurrentFrame, sprite.Color, sprite.Radians, sprite.Origin, sprite.Effects, sprite.LayerDepth);
     }
-    public void Scroll(SpriteBatch batch, ref Sprite sprite, Vector2 position) 
+    public void Scroll(SpriteBatch batch, Sprite sprite, Vector2 position) 
     {
         batch.Draw(SpriteSheet.Atlas, position, CurrentFrame, sprite.Color, sprite.Radians, sprite.Origin, sprite.Scale, sprite.Effects, sprite.LayerDepth);
     }

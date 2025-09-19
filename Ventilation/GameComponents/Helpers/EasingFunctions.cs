@@ -2,13 +2,13 @@ using System;
 namespace GameComponents.Helpers;
 public static class Easing 
 {
+    // compiled values for performance reasons
     private const float c4 = (float)(2 * Math.PI) / 3;
     private const float c5 = (float)(2 * Math.PI) / 4.5f;
     private const float c1 = 1.70158f;
     private const float n1 = 7.5625f;
     private const float d1 = 2.75f;
-    
-    
+    // every... SINGLE.... FUNCTION....
     public static float EaseInSine(float v) 
     {
         return (float)(1 - Math.Cos((v * Math.PI) / 2));
