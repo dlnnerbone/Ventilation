@@ -9,12 +9,12 @@ public sealed class Camera
     private Vector2 direction = Vector2.UnitX;
     private float scale = 1f;
     private float easeFactor = 1f;
-    private Vector2 _halfScreenSize = Vector2.Zero;
+    private Vector2 screenSize = Vector2.Zero;
     // private stuff
     // Matrices
-    public Matrix TransformMatrix => Matrix.CreateTranslation(CameraPosition.X - _halfScreenSize.X, CameraPosition.Y - _halfScreenSize.Y, 0);
+    public Matrix TransformMatrix => Matrix.CreateTranslation(CameraPosition.X - screenSize.X, CameraPosition.Y - screenSize.Y, 0);
     public Matrix RotationMatrix => Matrix.CreateRotationZ(Radians);
-    public Matrix ScaleMatrix => Matrix.CreateScale(Scale);
+    public Matrix ScaleMatrix => Matrix.CreateScale(Scale, Scale, 0);
     public Matrix WorldMatrix1 => RotationMatrix * ScaleMatrix * TransformMatrix;
     public Matrix WorldMatrix2 => TransformMatrix * ScaleMatrix * RotationMatrix;
     // Vector Properties
@@ -31,7 +31,22 @@ public sealed class Camera
     public float Scale { get { return scale; } set { scale = Math.Abs(value); } }
     public float EaseLevel { get { return easeFactor; } set { easeFactor = MathHelper.Clamp(value, 0f, 1f); } }
     // booleans
-    public bool IsActive { get; set; } = true;
-    public bool CenterOnTarget { get; set; } = true; 
+    public bool IsActive { get; set; }
+    public bool CenterOnTarget { get; set; }
+    // methods
+    public void Anchor(Vector2 location) => CameraPosition = location;
+    public void Anchor(Point location) => CameraPosition = new Vector2(location.X, location.Y);
+
+    public void SetTarget(Vector2 target) => CameraTarget = target;
+    public void SetTarget(Point target) => CameraTarget = new Vector2(target.X, target.Y);
+
+    public void ResizeViewport(Rectangle size) => screenSize = new Vector2(size.X, size.Y);
+    public void ResizeViewport(Viewport size) => screenSize = new Vector2(size.X, size.Y);
+    // Rotation methods
+    public void FaceAt(Vector2 location) => Direction = location - CameraPosition;
+    public void FaceAt(Point location) => Direction = new Vector2(location.X, location.Y) - CameraPosition;
+
+    public void FaceLike(Vector2 direction) => Direction = direction;
+    public void FaceLike(Point direction) => Direction = new Vector2(direction.X, direction.Y);
     
 }

@@ -20,7 +20,7 @@ public class Timer
     public float TimeSpan { get { return timeSpan; } set { timeSpan = MathHelper.Clamp(value, 0, duration); } }
     public float TimeMultiplier { get { return timeMulti; } set { timeMulti = value < 0 ? 0 : value; } }
     public float Duration { get { return duration; } set { duration = value < 0.0001f ? 0.0001f : value; } }
-    public bool AutoRestart { get; set; }
+    public bool IsLooping { get; set; }
     public bool IsPaused { get; set; }
     
     // helper methods
@@ -41,33 +41,33 @@ public class Timer
         else if (IsCountingUp()) TimeSpan = 0;
     }
     // constructors
-    public Timer(float seconds, float duration, TimeStates tState = TimeStates.Down, bool autoRestart = false, bool isPaused = false) 
+    public Timer(float seconds, float duration, TimeStates tState = TimeStates.Down, bool isLooping = false, bool isPaused = false) 
     {
         if (seconds < 0 || duration < 0.0001f) throw new ArgumentException("duration and/or seconds can not have values below zero.");
         this.tState = tState;
         this.duration = duration;
         timeSpan = seconds;
-        AutoRestart = autoRestart;
+        IsLooping = isLooping;
         IsPaused = isPaused;
     }
-    public Timer(float seconds, TimeStates tState = TimeStates.Down, bool autoRestart = false, bool isPaused = false) 
+    public Timer(float seconds, TimeStates tState = TimeStates.Down, bool isLooping = false, bool isPaused = false) 
     {
         if (seconds < 0) throw new ArgumentException("seconds can not have a value below zero.");
         this.tState = tState;
         duration = seconds;
         timeSpan = seconds;
-        AutoRestart = autoRestart;
+        IsLooping = isLooping;
         IsPaused = isPaused;
     }
     // main update methods
     private void Down(GameTime gt) 
     {
         timeSpan -= timeInterval;
-        if (AutoRestart && timeSpan <= 0) 
+        if (IsLooping && timeSpan <= 0) 
         {
             timeSpan = duration;
         }
-        else if (!AutoRestart && timeSpan <= 0) 
+        else if (!IsLooping && timeSpan <= 0) 
         {
             timeSpan = 0;
         }
@@ -75,11 +75,11 @@ public class Timer
     private void Up(GameTime gt) 
     {
         timeSpan += timeInterval;
-        if (AutoRestart && timeSpan >= duration) 
+        if (IsLooping && timeSpan >= duration) 
         {
             timeSpan = 0;
         }
-        else if (!AutoRestart && timeSpan >= duration) 
+        else if (!IsLooping && timeSpan >= duration) 
         {
             timeSpan = duration;
         }
