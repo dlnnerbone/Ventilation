@@ -6,23 +6,18 @@ using GameComponents.Managers;
 namespace Main;
 public class SceneManager : GameManager 
 {
-    public enum UI_States 
-    {
-        MainMenu,
-        Settings
-    }
-    public enum GameStates 
-    {
-        Alive,
-        GameOver
-    }
+    public enum UI_States  { MainMenu, Settings }
+    public enum GameStates { Alive, GameOver }
+    
     protected UI_States InterfaceState;
     protected GameStates GameState;
     
     public UI_States SwitchInterface(UI_States newUI) => InterfaceState = newUI;
     public GameStates SwitchGameState(GameStates newGameState) => GameState = newGameState;
-    public GameLogicManager GameManager { get; set; }
-    public MainUI InterfaceManager { get; set; }
+    
+    public GameLogicManager GameManager { get; private set; }
+    public MainUI InterfaceManager { get; private set; }
+    
     public SceneManager(Game game) 
     {
         GameManager = new(game);

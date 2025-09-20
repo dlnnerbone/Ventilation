@@ -34,12 +34,17 @@ public class Sprite : ITexture
     }
     public Sprite(Texture2D texture, Color selectedColor) 
     {
+        if (texture == null) throw new ArgumentException("texture can not be null.");
         this.texture = texture;
-        colors = new Color[] { selectedColor };
+        colors = new Color[texture.Width * texture.Height];
+        Array.Fill(colors, selectedColor);
     }
     public bool Flip_H { set { effects = value == true ? effects |= SpriteEffects.FlipHorizontally : effects &= ~SpriteEffects.FlipHorizontally; } }
     public bool Flip_V { set { effects = value == true ? effects |= SpriteEffects.FlipVertically : effects &= ~SpriteEffects.FlipVertically; } }
     public void FlipBackToNormal() => effects = SpriteEffects.None;
+    /// <summary>
+    /// please be aware that this method should only be used if the Color Array is the length of 1! Color Arrays in this class are typically for debugging.
+    /// </summary>
     public void SetToData() => texture.SetData<Color>(Colors);
     public void Draw(SpriteBatch batch, Rectangle Destination, Rectangle Source) 
     {
