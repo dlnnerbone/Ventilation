@@ -1,140 +1,83 @@
 using System;
 using Microsoft.Xna.Framework;
-using GameComponents.Entity;
+using GameComponents.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 namespace GameComponents.Logic;
-public sealed class Raycast 
+public sealed class Raycast : IDirection
 {
-    private Vector2 origin;
-    private Vector2 direction = Vector2.Zero;
-    private float maxDistance = 1000;
+    private Vector2 direction = Vector2.UnitX;
+    private Vector2 origin = Vector2.Zero;
+    private float maxDistance = 0;
+    private float t = 0;
     // private fields
-    public Vector2 Origin { get { return origin; } private set { origin = value; } }
-    public Vector2 Direction { get { return direction; } private set { direction = Vector2.Normalize(value); } }
-    public float MaxDistance { get { return maxDistance; } set { maxDistance = value; } }
-    public float Angle => (float)Math.Atan2(Direction.Y, Direction.X);
-    public Vector2 GetEndPoints() => maxDistance < 0 ? Origin + (Direction * 1000) : Origin + (Direction * MaxDistance);
-    public void LookAt(Vector2 target) => Direction = target - Origin;
-    public void NewOrigin(Vector2 location) => Origin = location;
-    public Raycast(Vector2 position, Vector2 direction, float maxDistance) 
+    public Vector2 Direction { get => direction; set => direction = Vector2.Normalize(value); }
+    public Vector2 Perpendicular => new Vector2(-Direction.Y, Direction.X);
+    public Vector2 Origin { get => origin; set => origin = value; }
+    public float HitDistance => t;
+    public float MaxDistance { get => maxDistance; set => maxDistance = Math.Abs(value); }
+    public float Radians 
     {
-        origin = position;
-        Direction = direction;
-        this.maxDistance = maxDistance;
+        get => (float)Math.Atan2(Direction.Y, Direction.X);
+        set => Direction = new Vector2((float)Math.Cos(value), (float)Math.Sin(value));
     }
-    public bool IntersectsWithLineSegment(Vector2 start, Vector2 end, out float HitT) 
-    {
-        Vector2 SegDir = end - start;
-        Vector2 Perp = new Vector2(-SegDir.Y, SegDir.X);
-        float DotProduct = Vector2.Dot(Perp, Direction);
-        float calculatedT = Vector2.Dot(Perp, start - Origin) / DotProduct;
-        float U = Vector2.Dot(new Vector2(-Direction.Y, Direction.X), start - Origin) / DotProduct;
-        bool IsUValid = U >= 0 && U <= 1;
-        HitT = calculatedT;
-        if (Math.Abs(DotProduct) < 0.0001f) 
-        {
-            return false;
-        }
-        if (IsUValid && calculatedT >= 0 && calculatedT <= maxDistance) 
-        {
-            return true;
-        }
-        else 
-        {
-            return false;
-        }
-    }
-    public bool IntersectsWithLineSegment(Vector2 start, Vector2 end) 
-    {
-        Vector2 SegDir = end - start;
-        Vector2 Perp = new Vector2(-SegDir.Y, SegDir.X);
-        float DotProduct = Vector2.Dot(Perp, Direction);
-        float calculatedT = Vector2.Dot(Perp, start - Origin) / DotProduct;
-        float U = Vector2.Dot(new Vector2(-Direction.Y, Direction.X), start - Origin) / DotProduct;
-        bool IsUValid = U >= 0 && U <= 1;
-        if (Math.Abs(DotProduct) < 0.0001f) 
-        {
-            return false;
-        }
-        if (IsUValid && calculatedT >= 0 && calculatedT <= maxDistance) 
-        {
-            return true;
-        }
-        else 
-        {
-            return false;
-        }
-    }
-    public bool IntersectsWithRectangle(Rectangle bounds, out float hitT) 
-    {
-        Vector2[] Vertices = new Vector2[4];
-        Vertices[0] = new(bounds.Left, bounds.Top);
-        Vertices[1] = new(bounds.Right, bounds.Top);
-        Vertices[2] = new(bounds.Right, bounds.Bottom);
-        Vertices[3] = new(bounds.Left, bounds.Bottom);
-        for(int i = 0; i < 4; i++) 
-        {
-            var p1 = Vertices[i];
-            var p2 = Vertices[(i + 1) % 4];
-            var segDir = p2 - p1;
-            var Perp = new Vector2(-segDir.Y, segDir.X);
-            float Dot = Vector2.Dot(Perp, Direction);
-            float calculatedT = Vector2.Dot(Perp, p1 - Origin) / Dot;
-            float U = Vector2.Dot(new Vector2(-Direction.Y, Direction.X), p1 - Origin) / Dot;
-            bool UValid = U >= 0 && U <= 1;
-            if (Math.Abs(Dot) <= 0.0001f) 
-            {
-                continue;
-            }
-            if (UValid && calculatedT >= 0 && calculatedT <= maxDistance) 
-            {
-                hitT = calculatedT;
-                return true;
-            }
-            else 
-            {
-                hitT = calculatedT;
-                return false;
-            }
-        }
-        hitT = maxDistance;
-        return false;
-    }
-    public bool IntersectsWithRectangle(Rectangle bounds) 
-    {
-        Vector2[] Vertices = new Vector2[4];
-        Vertices[0] = new(bounds.Left, bounds.Top);
-        Vertices[1] = new(bounds.Right, bounds.Top);
-        Vertices[2] = new(bounds.Right, bounds.Bottom);
-        Vertices[3] = new(bounds.Left, bounds.Bottom);
-        for(int i = 0; i < 4; i++) 
-        {
-            var p1 = Vertices[i];
-            var p2 = Vertices[(i + 1) % 4];
-            var segDir = p2 - p1;
-            var Perp = new Vector2(-segDir.Y, segDir.X);
-            float Dot = Vector2.Dot(Perp, Direction);
-            float calculatedT = Vector2.Dot(Perp, p1 - Origin) / Dot;
-            float U = Vector2.Dot(new Vector2(-Direction.Y, Direction.X), p1 - Origin) / Dot;
-            bool UValid = U >= 0 && U <= 1;
-            if (Math.Abs(Dot) <= 0.0001f) 
-            {
-                continue;
-            }
-            if (UValid && calculatedT >= 0 && calculatedT <= maxDistance) 
-            {
-                return true;
-            }
-            else 
-            {
-                return false;
-            }
-        }
-        return false;
-    }
+    public Vector2 GetEndPoints() => origin + (direction * maxDistance);
+    // methods
+    public void LookAt(Vector2 location) => Direction = location - origin;
+    public void LookAt(Point location) => Direction = new Vector2(location.X, location.Y) - origin;
+
+    public void LookLike(Vector2 direction) => Direction = direction;
+    public void LookLike(Point direction) => Direction = new Vector2(direction.X, direction.Y);
     
-    public void DebugLine(SpriteBatch batch, Texture2D pixel, Color pixelColor) 
+    public float Dot(Vector2 direction) 
     {
-        batch.Draw(pixel, Origin, null, pixelColor, Angle, new Vector2(0f, 0.5f), new Vector2(MaxDistance, 1), SpriteEffects.None, 1f);
+        return Vector2.Dot(direction, Direction);
+    }
+    // collision
+    public bool RayToSegment(Vector2 start, Vector2 end) 
+    {
+        Vector2 segDir = end - start;
+        Vector2 perp = new Vector2(-segDir.Y, segDir.X);
+        float DotProduct = Dot(perp);
+        float u = Vector2.Dot(Perpendicular, start - Origin) / DotProduct;
+        float calculatedT = Vector2.Dot(perp, start - Origin) / DotProduct;
+        bool IsValid = u >= 0 && u <= 1;
+        if (Math.Abs(DotProduct) < 0.0001f) return false;
+        if (IsValid && calculatedT >= 0 && calculatedT <= maxDistance)
+        {
+            t = calculatedT;
+            return true;
+        }
+        else { t = maxDistance; return false; }
+    }
+    public bool RayToRectangle(Rectangle bounds) 
+    {
+        Vector2[] Vertices = new Vector2[4];
+        Vertices[0] = new Vector2(bounds.Left, bounds.Top);
+        Vertices[1] = new Vector2(bounds.Right, bounds.Top);
+        Vertices[2] = new Vector2(bounds.Right, bounds.Bottom);
+        Vertices[3] = new Vector2(bounds.Left, bounds.Bottom);
+        for(int i = 0; i < 4; i++) 
+        {
+            Vector2 start = Vertices[i];
+            Vector2 end = Vertices[(i + 1) % 4];
+            Vector2 segDir = end - start;
+            Vector2 perp = new Vector2(-segDir.Y, segDir.X);
+            float dot = Dot(perp);
+            float calculatedT = Vector2.Dot(perp, start - Origin) / dot;
+            float U = Vector2.Dot(Perpendicular, start - Origin) / dot;
+            bool IsValid = U >= 0 && U <= 1;
+            if (Math.Abs(dot) < 0.0001f) continue;
+            if (IsValid && calculatedT >= 0 && calculatedT <= maxDistance) 
+            {
+                t = calculatedT;
+                return true;
+            } else { t = maxDistance;  return false; }
+        }
+        t = maxDistance;
+        return false;
+    }
+    public void DrawLine(SpriteBatch batch, Texture2D texture, Color color, float thickness = 1) 
+    {
+        batch.Draw(texture, Origin, null, color, Radians, new Vector2(0.5f, 0.5f), new Vector2(thickness, maxDistance), SpriteEffects.None, 1);
     }
 }
