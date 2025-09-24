@@ -35,6 +35,7 @@ public class SceneManager : GameManager
     }
     public override void UpdateLogic(GameTime gt) 
     {
+        MouseManager.UpdateInputs();
         GameManager.UpdateLogic(gt);
         InterfaceManager.UpdateLogic(gt);
     }

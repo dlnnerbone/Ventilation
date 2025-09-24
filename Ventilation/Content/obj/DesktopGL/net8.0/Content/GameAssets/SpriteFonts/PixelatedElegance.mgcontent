@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>/home/dinnerbone/Games/Ventilation/Ventilation/Content/GameAssets/SpriteFonts/VCR_EAS.spritefont</SourceFile>
-  <SourceTime>2025-08-27T19:47:24.5960484-04:00</SourceTime>
-  <DestFile>/home/dinnerbone/Games/Ventilation/Ventilation/Content/bin/DesktopGL/GameAssets/SpriteFonts/VCR_EAS.xnb</DestFile>
-  <DestTime>2025-09-24T18:12:54.449464-04:00</DestTime>
+  <SourceFile>/home/dinnerbone/Games/Ventilation/Ventilation/Content/GameAssets/SpriteFonts/PixelatedElegance.spritefont</SourceFile>
+  <SourceTime>2025-09-24T18:24:03.1590276-04:00</SourceTime>
+  <DestFile>/home/dinnerbone/Games/Ventilation/Ventilation/Content/bin/DesktopGL/Content/GameAssets/SpriteFonts/PixelatedElegance.xnb</DestFile>
+  <DestTime>2025-09-24T18:24:28.70791-04:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2025-06-02T06:31:02-04:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>
