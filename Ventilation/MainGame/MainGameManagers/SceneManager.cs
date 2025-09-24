@@ -48,7 +48,6 @@ public class SceneManager : GameManager
         batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Matrix.Identity);
         InterfaceManager.Draw(batch);
         batch.End();
-        
     }
     
 }
