@@ -14,6 +14,7 @@ public class GameLogicManager : GameManager
     public GameLogicManager(Game game) 
     {
         TestBounds = new(500, 500, 64, 64);
+        Player = new(500, 500);
     }
     public override void Initialize(Game game) 
     {
@@ -23,13 +24,15 @@ public class GameLogicManager : GameManager
     {
         TestTexture = new(device, 1, 1);
         TestTexture.SetData<Color>(TestColor);
+        Player.LoadPlayerContent(manager, device);
     }
     public override void UpdateLogic(GameTime GT) 
     {
-        
+        Player.RollThePlayer(GT);
     }
     public override void Draw(SpriteBatch batch) 
     {
         batch.Draw(TestTexture, TestBounds, Color.White);
+        Player.DrawPlayer(batch);
     }
 }
