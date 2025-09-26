@@ -9,6 +9,8 @@ public class GameLogicManager : GameManager
     private Rectangle TestBounds;
     private Texture2D TestTexture;
     private Color[] TestColor = new Color[] { Color.White };
+
+    public Player Player;
     public GameLogicManager(Game game) 
     {
         TestBounds = new(500, 500, 64, 64);

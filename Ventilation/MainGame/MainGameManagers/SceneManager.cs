@@ -17,6 +17,7 @@ public class SceneManager : GameManager
     
     public GameLogicManager GameManager { get; private set; }
     public MainUI InterfaceManager { get; private set; }
+    public Player Player { get => GameManager.Player; private set => GameManager.Player = value; }
     
     public SceneManager(Game game) 
     {

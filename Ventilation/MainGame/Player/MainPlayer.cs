@@ -5,5 +5,7 @@ using GameComponents.Entity;
 using GameComponents;
 public sealed class Player : Entity 
 {
+    private PlayerMovement pMovement;
+    // public properties
     
 }

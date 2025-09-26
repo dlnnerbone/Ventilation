@@ -30,11 +30,9 @@ public class Timer
     public float CeilingSpan => (float)Math.Ceiling(TimeSpan);
     public float FloorSpan => (float)Math.Floor(timeSpan);
     public float NormalizedProgress => MathHelper.Clamp(timeSpan / duration, 0f, 1f);
-    
-    public bool TimerHitsTarget 
-    {
-        get => IsCountingUp() && timeSpan >= duration ? true : IsCountingDown() && timeSpan <= 0 ? true : false;
-    }
+
+    public bool TimeHitsFloor() => timeSpan <= 0;
+    public bool TimeHitsCeiling() => timeSpan >= duration;
     public void Restart() 
     {
         if (IsCountingDown()) TimeSpan = duration;

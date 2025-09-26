@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 namespace GameComponents.Entity;
-public abstract class Entity : BodyComponent 
+public abstract class Entity : BodyComponent
 {
     // Entity class is a combination of Health, Boddy, and Velocity-based components to make a character body.
     protected MovementComponent movement;
