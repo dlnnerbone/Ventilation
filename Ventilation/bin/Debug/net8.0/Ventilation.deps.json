@@ -118,6 +118,9 @@
       "System.Memory/4.5.3": {},
       "System.ValueTuple/4.5.0": {},
       "GameComponents/1.0.0": {
+        "dependencies": {
+          "MonoGame.Framework.DesktopGL": "3.8.4"
+        },
         "runtime": {
           "GameComponents.dll": {
             "assemblyVersion": "1.0.0",
