@@ -161,3 +161,5 @@
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/GameAssets/SpriteFonts/VCR_EAS.xnb
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/PlayerAssets/CreatureSpriteIdle.xnb
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/GameAssets/SpriteFonts/PixelatedElegance.xnb
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/GameComponents.dll
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/GameComponents.pdb
