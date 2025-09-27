@@ -12,7 +12,7 @@ public class PlayerMovement
     private InputManager input = new();
     private Vector2 velocity = Vector2.Zero;
     private Motions motionState = Motions.Idle;
-    private float moveSpeed = 200f;
+    private float moveSpeed = 400f;
     private float dashForce = 2000f;
     private float speedMultiplier = 1f;
     private float stamina = 100f;
