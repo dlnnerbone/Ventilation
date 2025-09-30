@@ -19,6 +19,7 @@ public sealed class Player : Entity
     public bool IsControllable { get => pMovement.IsControllable; set => pMovement.IsControllable = value; }
     public void StaminaIntake(float intakeAmount) => pMovement.StaminaIntake(intakeAmount);
     public Motions MotionState { get => pMovement.MotionState; set => pMovement.MotionState = value; }
+    public Vector2 MovementInterfacePosition { get => pMovement.MovementFontPosition; }
     // the rest of the stuff specific to player
     public Sprite Sprite { get; private set; }
     public Player(int x, int y, int width = 64, int height = 64, float HP = 100) : base(x, y, width, height, HP) 

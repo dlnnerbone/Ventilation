@@ -5,6 +5,7 @@ using GameComponents.Helpers;
 using GameComponents.Logic;
 using GameComponents.Managers;
 using System;
+using Microsoft.Xna.Framework.Graphics;
 namespace Main;
 public class PlayerMovement 
 {
@@ -17,9 +18,9 @@ public class PlayerMovement
     private float speedMultiplier = 1f;
     private float stamina = 100f;
     private float maxStamina = 100f;
-    
     // public properties
     public Motions MotionState { get => motionState; set => motionState = value; }
+    public Vector2 MovementFontPosition { get; set; } = new Vector2(50, 150);
     public float MoveSpeed { get => moveSpeed; set => moveSpeed = value * speedMultiplier; }
     public float DashForce { get => dashForce; set => dashForce = value < moveSpeed ? moveSpeed + 100 : value; }
     public float Stamina { get => stamina; set => stamina = MathHelper.Clamp(value, 0f, maxStamina); }
@@ -93,5 +94,9 @@ public class PlayerMovement
         dashCool.TickTock(gt);
         dashDur.TickTock(gt);
         staminaCool.TickTock(gt);
+    }
+    public void DrawMovementStats(SpriteBatch batch, SpriteFont font) 
+    {
+        batch.DrawString(font, $"{Stamina}", MovementFontPosition, Color.CornflowerBlue);
     }
 }
