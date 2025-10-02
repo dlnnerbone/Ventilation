@@ -1,2 +1,2 @@
-﻿using var game = new Main.Ventilation();
+﻿using var game = new Main.Core("Test");
 game.Run();
