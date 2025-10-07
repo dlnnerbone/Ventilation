@@ -12,7 +12,7 @@ public sealed class SceneManager : Scene
     public override void Initialize(Game game) 
     {
         base.Initialize(game);
-        MainCamera = new(game.GraphicsDevice.Viewport, true);
+        MainCamera = new(game.GraphicsDevice.Viewport, true, 1, 0.1f, 2, 0.4f);
     }
     public override void LoadSceneContent(Game game, string dir = "Content/GameAssets") 
     {
@@ -24,13 +24,13 @@ public sealed class SceneManager : Scene
         base.UpdateScene(gt);
         MainPlayer.RollThePlayer(gt);
         MainCamera.Recording();
-        MainCamera.SetTarget(new Vector2(910, 540));
+        MainCamera.SetTarget(-MainPlayer.Center);
     }
     public void DrawScene(SpriteBatch batch) 
     {
         DrawScene();
 
-        batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, MainCamera.WorldMatrix);
+        batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, MainCamera.TransformMatrix);
         MainPlayer.DrawPlayer(batch);
         batch.End();
         

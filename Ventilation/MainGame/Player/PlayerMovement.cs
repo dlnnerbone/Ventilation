@@ -10,7 +10,9 @@ namespace Main;
 public class PlayerMovement 
 {
     private Timer dashCool, dashDur, staminaRegen;
-    private float moveSpd = 200f, maxSpd = 1000f, speedMulti = 1, dashForce = 2000f, stamina = 100f, maxStamina = 100f;
+    private Motions motionState = Motions.Idle;
+    private float moveSpd = 200f, maxSpd = 1000f, speedMulti = 1, dashForce = 2000f, stamina = 100f, maxStamina = 100f, easeLvl = 0.4f;
+    
     // public properties
     
     public float MoveSpeed { get => moveSpd; set => moveSpd = value * speedMulti; }
@@ -24,9 +26,28 @@ public class PlayerMovement
     public float Stamina { get => stamina; set => stamina = MathHelper.Clamp(value, 0, MaxStamina); }
     
     public float MaxStamina { get => maxStamina; set => Math.Abs(value); }
+    
+    public float EaseLevel { get => easeLvl; set => easeLvl = MathHelper.Clamp(value, 0f, 1f); }
 
-    public InputManager Input { get; set; } = new();
-    // ultilities
+    public bool IsControllable { get; set; } = true;
+
+    public bool IsActive { get; set; } = true;
+
+    public bool IsDashing { get; private set; } = false;
+
+    public bool CanDash { get; set; } = true;
+
+    public InputManager Input { get; private set; } = new();
+
+    public void SwitchStates(Motions newState) => motionState = newState;
+    // switch methods
+    private void Idle(Player player) 
+    {
+        player.Velocity = Vector2.LerpPrecise(player.Velocity, Vector2.Zero, EaseLevel);
+        IsControllable = true;
+        IsDashing = false;
+    }
+    // debug returnables for helping see issues and stuf
     
     
     // main constructor
@@ -38,8 +59,7 @@ public class PlayerMovement
     }
     public void UpdateMovement(GameTime gt, Player player) 
     {
+        if (!IsActive) return;
         Input.UpdateInputs();
-        player.Velocity = Vector2.Clamp(player.Velocity, new Vector2(-MaxSpeed, -MaxSpeed), new Vector2(MaxSpeed, MaxSpeed));
-        if (Input.IsKeyDown(Keys.W)) player.Velocity_Y -= MoveSpeed;
     }
 }
