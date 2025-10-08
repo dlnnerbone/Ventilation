@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using GameComponents;
-using GameComponents.Helpers;
 using GameComponents.Logic;
 using GameComponents.Managers;
 using System;
@@ -11,7 +10,7 @@ public class PlayerMovement
 {
     private Timer dashCool, dashDur, staminaRegen;
     private Motions motionState = Motions.Idle;
-    private float moveSpd = 200f, maxSpd = 1000f, speedMulti = 1, dashForce = 2000f, stamina = 100f, maxStamina = 100f, easeLvl = 0.4f;
+    private float moveSpd = 100f, maxSpd = 1000f, speedMulti = 1, dashForce = 2000f, stamina = 100f, maxStamina = 100f, easeLvl = 0.2f;
     
     // public properties
     
@@ -47,8 +46,47 @@ public class PlayerMovement
         IsControllable = true;
         IsDashing = false;
     }
-    // debug returnables for helping see issues and stuf
-    
+    private void Moving(Player player) 
+    {
+        IsDashing = false;
+        IsControllable = true;
+        player.Velocity = Vector2.Clamp(player.Velocity, new Vector2(-MaxSpeed, -MaxSpeed), new Vector2(MaxSpeed, MaxSpeed));
+        // controls for moving up
+        if (Input.IsKeyDown(Keys.W)) player.Velocity_Y -= MoveSpeed;
+        else if (Input.IsKeyDown(Keys.S)) player.Velocity_Y += MoveSpeed;
+        else player.Velocity_Y = MathHelper.LerpPrecise(player.Velocity_Y, 0, EaseLevel);
+
+        if (Input.IsKeyDown(Keys.A)) player.Velocity_X -= MoveSpeed;
+        else if (Input.IsKeyDown(Keys.D)) player.Velocity_X += MoveSpeed;
+        else player.Velocity_X = MathHelper.LerpPrecise(player.Velocity_X, 0, EaseLevel);
+    }
+    private void Dashing(Player player) 
+    {
+        player.Velocity = player.Direction * DashForce;
+        if (dashDur.TimeHitsFloor()) 
+        {
+            SwitchStates(Motions.Idle);
+        }
+    }
+    // the main updater for movement
+    private void movementManager() 
+    {
+        Input.UpdateInputs();
+
+        var canDash = CanDash && !IsDashing && Stamina > 0 && IsControllable && dashCool.TimeHitsFloor();
+        
+        if (Input.WASD && IsControllable) SwitchStates(Motions.Moving);
+        else if (!IsDashing) SwitchStates(Motions.Idle);
+        if (canDash && Input.IsKeyPressed(Keys.LeftShift)) 
+        {
+            IsDashing = true;
+            IsControllable = false;
+            dashCool.Restart();
+            dashDur.Restart();
+            SwitchStates(Motions.Dashing);
+            Diagnostics.Write("Dashed");
+        }
+    }
     
     // main constructor
     public PlayerMovement() 
@@ -60,6 +98,23 @@ public class PlayerMovement
     public void UpdateMovement(GameTime gt, Player player) 
     {
         if (!IsActive) return;
-        Input.UpdateInputs();
+        timerManager(gt);
+        movementManager();
+        switch(motionState) 
+        {
+            case Motions.Idle: Idle(player); break;
+            case Motions.Moving: Moving(player); break;
+            case Motions.Dashing: Dashing(player); break;
+        }
+    }
+    private void timerManager(GameTime gt) 
+    {
+        dashCool.TickTock(gt);
+        dashDur.TickTock(gt);
+        staminaRegen.TickTock(gt);
+    }
+    public void DisplayPlayerMovementStats(SpriteBatch batch) 
+    {
+        
     }
 }

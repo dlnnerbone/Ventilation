@@ -32,6 +32,7 @@ public sealed class SceneManager : Scene
 
         batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, MainCamera.TransformMatrix);
         MainPlayer.DrawPlayer(batch);
+        batch.Draw(MainPlayer.Sprite.Texture, new Rectangle(500, 500, 100, 100), Color.White);
         batch.End();
         
         batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Matrix.Identity);
