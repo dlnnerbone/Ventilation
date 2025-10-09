@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework.Input;
 using GameComponents;
 using GameComponents.Logic;
 using GameComponents.Managers;
+using GameComponents.Rendering;
 using System;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 namespace Main;
 public class PlayerMovement 
@@ -38,7 +40,19 @@ public class PlayerMovement
 
     public InputManager Input { get; private set; } = new();
 
+    public SpriteText MotionDisplay { get; private set; }
+
     public void SwitchStates(Motions newState) => motionState = newState;
+    // main constructor
+    public PlayerMovement(ContentManager content) 
+    {
+        dashCool = new(0.55f, TimeStates.Down, false, false);
+        dashDur = new(0.2f, TimeStates.Down, false, false);
+        staminaRegen = new(1.5f, TimeStates.Down, true, false);
+
+        MotionDisplay = new(content, "GameAssets/SpriteFonts/PixelatedElegance");
+        MotionDisplay.Position = new(50, 50);
+    }
     // switch methods
     private void Idle(Player player) 
     {
@@ -87,14 +101,6 @@ public class PlayerMovement
             Diagnostics.Write("Dashed");
         }
     }
-    
-    // main constructor
-    public PlayerMovement() 
-    {
-        dashCool = new(0.55f, TimeStates.Down, false, false);
-        dashDur = new(0.2f, TimeStates.Down, false, false);
-        staminaRegen = new(1.5f, TimeStates.Down, true, false);
-    }
     public void UpdateMovement(GameTime gt, Player player) 
     {
         if (!IsActive) return;
@@ -115,6 +121,6 @@ public class PlayerMovement
     }
     public void DisplayPlayerMovementStats(SpriteBatch batch) 
     {
-        
+        MotionDisplay.DrawString(batch, $"{Stamina}");
     }
 }

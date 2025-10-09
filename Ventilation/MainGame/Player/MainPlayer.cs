@@ -12,14 +12,16 @@ public sealed class Player : Entity
     
     // the rest of the stuff specific to player
     public Sprite Sprite { get; private set; }
-    public Player(int x, int y, int width = 64, int height = 64, float HP = 100) : base(x, y, width, height, HP) 
+    public Player(int x, int y, int width = 64, int height = 64, float HP = 100) : base(x, y, width, height, HP)
     {
-        pMovement = new();
+        
     }
     public void LoadPlayerContent(ContentManager content, GraphicsDevice device) 
     {
         Sprite = new(new Texture2D(device, 1, 1), Color.White);
         Sprite.SetToData();
+        
+        pMovement = new(content);
     }
     public void RollThePlayer(GameTime gt) 
     {
@@ -29,5 +31,6 @@ public sealed class Player : Entity
     public void DrawPlayer(SpriteBatch batch) 
     {
         Sprite.Draw(batch, Bounds);
+        pMovement.DisplayPlayerMovementStats(batch);
     }
 }
