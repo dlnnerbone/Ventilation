@@ -5,11 +5,9 @@
   <Config />
   <SourceFiles>
     <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/GameAssets/SpriteFonts/PixelatedElegance.spritefont</File>
-    <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/GameAssets/SpriteFonts/VCR_EAS.spritefont</File>
     <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/PlayerAssets/CreatureSpriteIdle.png</File>
   </SourceFiles>
   <DestFiles>
-    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>

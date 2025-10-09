@@ -14,7 +14,7 @@ public sealed class SceneManager : Scene
         base.Initialize(game);
         MainCamera = new(game.GraphicsDevice.Viewport, true, 1, 0.1f, 2, 0.4f);
     }
-    public override void LoadSceneContent(Game game, string dir = "Content/GameAssets") 
+    public override void LoadSceneContent(Game game, string dir = "Content") 
     {
         base.LoadSceneContent(game, dir);
         MainPlayer.LoadPlayerContent(SceneContent, game.GraphicsDevice);
@@ -30,12 +30,13 @@ public sealed class SceneManager : Scene
     {
         DrawScene();
 
-        batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, MainCamera.TransformMatrix);
+        batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, MainCamera.WorldMatrix);
         MainPlayer.DrawPlayer(batch);
         batch.Draw(MainPlayer.Sprite.Texture, new Rectangle(500, 500, 100, 100), Color.White);
         batch.End();
         
         batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Matrix.Identity);
+        MainPlayer.DrawPlayerStats(batch);
         batch.End();
     }
 }

@@ -20,18 +20,6 @@
 /processorParam:TextureFormat=Compressed
 /build:GameAssets/SpriteFonts/PixelatedElegance.spritefont
 
-#begin GameAssets/SpriteFonts/VCR_EAS.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:GameAssets/SpriteFonts/VCR_EAS.spritefont
-
-#begin GameAssets/SpriteFonts/VcrEas-rX3K.ttf
-/importer:
-/processor:
-/build:GameAssets/SpriteFonts/VcrEas-rX3K.ttf
-
 #begin PlayerAssets/CreatureSpriteIdle.png
 /importer:TextureImporter
 /processor:TextureProcessor

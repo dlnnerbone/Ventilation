@@ -31,6 +31,9 @@ public sealed class Player : Entity
     public void DrawPlayer(SpriteBatch batch) 
     {
         Sprite.Draw(batch, Bounds);
+    }
+    public void DrawPlayerStats(SpriteBatch batch) 
+    {
         pMovement.DisplayPlayerMovementStats(batch);
     }
 }
