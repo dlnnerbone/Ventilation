@@ -6,7 +6,7 @@ namespace Main;
 public sealed class SceneManager : Scene 
 {
     public Camera MainCamera { get; private set; }
-    public Player MainPlayer { get; set; } = new(50, 500, 64, 64);
+    public Player MainPlayer { get; set; } = new(50, 500, 128, 128);
     // base methods
     public SceneManager(string name) : base(name) {}
     public override void Initialize(Game game) 
@@ -32,7 +32,6 @@ public sealed class SceneManager : Scene
 
         batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, MainCamera.WorldMatrix);
         MainPlayer.DrawPlayer(batch);
-        batch.Draw(MainPlayer.Sprite.Texture, new Rectangle(500, 500, 100, 100), Color.White);
         batch.End();
         
         batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Matrix.Identity);

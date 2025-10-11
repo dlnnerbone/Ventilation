@@ -50,8 +50,9 @@ public class PlayerMovement
         dashDur = new(0.2f, TimeStates.Down, false, false);
         staminaRegen = new(1.5f, TimeStates.Down, true, false);
 
-        MotionDisplay = new(content, "GameAssets/SpriteFonts/PixelatedElegance");
-        MotionDisplay.Position = new(50, 50);
+        MotionDisplay = new(content.Load<SpriteFont>("GameAssets/SpriteFonts/PixelatedElegance"));
+        MotionDisplay.Position = new(50, 100);
+        MotionDisplay.Scale = new(4, 4);
     }
     // switch methods
     private void Idle(Player player) 

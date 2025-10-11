@@ -11,26 +11,30 @@ public sealed class Player : Entity
     // public properties (movement)
     
     // the rest of the stuff specific to player
-    public Sprite Sprite { get; private set; }
+    public Animation PlayerIdleAnimation { get; private set; }
+    public TextureAtlas IdleAtlas { get; private set; }
     public Player(int x, int y, int width = 64, int height = 64, float HP = 100) : base(x, y, width, height, HP)
     {
         
     }
     public void LoadPlayerContent(ContentManager content, GraphicsDevice device) 
     {
-        Sprite = new(new Texture2D(device, 1, 1), Color.White);
-        Sprite.SetToData();
+        IdleAtlas = new(content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), 4, 4);
+        
+        PlayerIdleAnimation = new(IdleAtlas, 0, 15);
+        PlayerIdleAnimation.FPS = 10;
         
         pMovement = new(content);
     }
     public void RollThePlayer(GameTime gt) 
     {
         MoveAndSlide(gt);
+        PlayerIdleAnimation.Roll(gt);
         pMovement.UpdateMovement(gt, this);
     }
     public void DrawPlayer(SpriteBatch batch) 
     {
-        Sprite.Draw(batch, Bounds);
+        PlayerIdleAnimation.Scroll(batch, Bounds, Color.White);
     }
     public void DrawPlayerStats(SpriteBatch batch) 
     {
