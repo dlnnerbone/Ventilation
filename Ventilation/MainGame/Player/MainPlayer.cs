@@ -9,7 +9,10 @@ public sealed class Player : Entity
 {
     private PlayerMovement pMovement;
     // public properties (movement)
-    
+    public float MoveSpeed { get => pMovement.MoveSpeed; set => pMovement.MoveSpeed = value; }
+    public float MaxSpeed { get => pMovement.MaxSpeed; set => pMovement.MaxSpeed = value; }
+    public float SpeedMulti { get => pMovement.SpeedMulti; set => pMovement.SpeedMulti = value; }
+    public float DashForce { get => pMovement.DashForce; set => pMovement.DashForce = value; }
     // the rest of the stuff specific to player
     public Animation PlayerIdleAnimation { get; private set; }
     public TextureAtlas IdleAtlas { get; private set; }
