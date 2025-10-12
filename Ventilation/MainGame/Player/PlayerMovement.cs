@@ -7,6 +7,7 @@ using GameComponents.Rendering;
 using System;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GameComponents.Helpers;
 namespace Main;
 public class PlayerMovement 
 {
@@ -52,7 +53,8 @@ public class PlayerMovement
 
         MotionDisplay = new(content.Load<SpriteFont>("GameAssets/SpriteFonts/PixelatedElegance"));
         MotionDisplay.Position = new(50, 100);
-        MotionDisplay.Scale = new(4, 4);
+        MotionDisplay.Scale = new(2, 2);
+        MotionDisplay.Color = Color.White;
     }
     // switch methods
     private void Idle(Player player) 
@@ -78,6 +80,7 @@ public class PlayerMovement
     private void Dashing(Player player) 
     {
         player.Velocity = player.Direction * DashForce;
+        Stamina -= 2f;
         if (dashDur.TimeHitsFloor()) 
         {
             SwitchStates(Motions.Idle);
@@ -99,14 +102,15 @@ public class PlayerMovement
             dashCool.Restart();
             dashDur.Restart();
             SwitchStates(Motions.Dashing);
-            Diagnostics.Write("Dashed");
         }
     }
     public void UpdateMovement(GameTime gt, Player player) 
     {
         if (!IsActive) return;
         timerManager(gt);
+        if (staminaRegen.TimeSpan <= 0.02f) Stamina += 25f;
         movementManager();
+        MotionDisplay.B = Stamina / MaxStamina;
         switch(motionState) 
         {
             case Motions.Idle: Idle(player); break;
@@ -122,6 +126,6 @@ public class PlayerMovement
     }
     public void DisplayPlayerMovementStats(SpriteBatch batch) 
     {
-        MotionDisplay.DrawString(batch, $"{Stamina}");
+        MotionDisplay.DrawString(batch, $"{Stamina}%");
     }
 }
