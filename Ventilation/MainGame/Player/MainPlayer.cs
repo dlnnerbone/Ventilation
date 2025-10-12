@@ -13,6 +13,13 @@ public sealed class Player : Entity
     public float MaxSpeed { get => pMovement.MaxSpeed; set => pMovement.MaxSpeed = value; }
     public float SpeedMulti { get => pMovement.SpeedMulti; set => pMovement.SpeedMulti = value; }
     public float DashForce { get => pMovement.DashForce; set => pMovement.DashForce = value; }
+    public float Stamina { get => pMovement.Stamina; set => pMovement.Stamina = value; }
+    public float MaxStamina { get => pMovement.MaxStamina; set => pMovement.MaxStamina = value; }
+    public float EaseLevel { get => pMovement.EaseLevel; set => pMovement.EaseLevel = value; }
+    public bool CanDash { get => pMovement.CanDash; set => pMovement.CanDash = value; }
+    public bool IsDashing => pMovement.IsDashing;
+    public bool IsControllable { get => pMovement.IsControllable; set => pMovement.IsControllable = value; }
+    public bool IsMotionActive { get => pMovement.IsActive; set => pMovement.IsActive = value; }
     // the rest of the stuff specific to player
     public Animation PlayerIdleAnimation { get; private set; }
     public TextureAtlas IdleAtlas { get; private set; }
@@ -34,6 +41,8 @@ public sealed class Player : Entity
         MoveAndSlide(gt);
         PlayerIdleAnimation.Roll(gt);
         pMovement.UpdateMovement(gt, this);
+        
+        
     }
     public void DrawPlayer(SpriteBatch batch) 
     {

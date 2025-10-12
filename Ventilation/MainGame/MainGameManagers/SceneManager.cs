@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameComponents.Logic;
+using GameComponents;
 using GameComponents.Managers;
 namespace Main;
 public sealed class SceneManager : Scene 
 {
     public readonly GameManager GameManager = new();
+    public Player MainPlayer => GameManager.Player;
     // base methods
     public SceneManager(string name) : base(name) {}
     public override void Initialize(Game game) 
@@ -21,6 +22,9 @@ public sealed class SceneManager : Scene
     public override void UpdateScene(GameTime gt) 
     {
         base.UpdateScene(gt);
+        MouseManager.UpdateInputs();
+        MouseManager.TransformWorldPosition(GameManager.MainCamera.WorldMatrix);
+        Diagnostics.Write($"Pos: {MouseManager.WorldMousePosition.X}, {MouseManager.WorldMousePosition.Y}");
         GameManager.UpdateScene(gt);
     }
     public void DrawScene(SpriteBatch batch) 
