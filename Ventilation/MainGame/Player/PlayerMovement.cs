@@ -11,7 +11,7 @@ using GameComponents.Helpers;
 namespace Main;
 public class PlayerMovement 
 {
-    private Timer dashCool, dashDur, staminaRegen;
+    private Timer dashCool, dashDur, staminaRegen, staminaDur;
     private Motions motionState = Motions.Idle;
     private float moveSpd = 100f, maxSpd = 1000f, speedMulti = 1, dashForce = 2000f, stamina = 100f, maxStamina = 100f, easeLvl = 0.2f;
     
@@ -50,6 +50,7 @@ public class PlayerMovement
         dashCool = new(0.55f, TimeStates.Down, false, false);
         dashDur = new(0.2f, TimeStates.Down, false, false);
         staminaRegen = new(1.5f, TimeStates.Down, true, false);
+        staminaDur = new(0.25f, TimeStates.Down, false, false);
 
         MotionDisplay = new(content.Load<SpriteFont>("GameAssets/SpriteFonts/PixelatedElegance"));
         MotionDisplay.Position = new(50, 100);
@@ -80,10 +81,12 @@ public class PlayerMovement
     private void Dashing(Player player) 
     {
         player.Velocity = player.Direction * DashForce;
-        Stamina -= 2f;
+        Stamina -= 3f * dashCool.NormalizedProgress;
         if (dashDur.TimeHitsFloor()) 
         {
             SwitchStates(Motions.Idle);
+            dashCool.IsPaused = false;
+            staminaRegen.IsPaused = false;
         }
     }
     // the main updater for movement
@@ -99,6 +102,8 @@ public class PlayerMovement
         {
             IsDashing = true;
             IsControllable = false;
+            dashCool.IsPaused = true;
+            staminaRegen.IsPaused = true;
             dashCool.Restart();
             dashDur.Restart();
             SwitchStates(Motions.Dashing);
@@ -108,9 +113,9 @@ public class PlayerMovement
     {
         if (!IsActive) return;
         timerManager(gt);
-        if (staminaRegen.TimeSpan <= 0.02f) Stamina += 25f;
         movementManager();
-        MotionDisplay.B = Stamina / MaxStamina;
+        _staminaRegen();
+        _colorChanger();
         switch(motionState) 
         {
             case Motions.Idle: Idle(player); break;
@@ -123,9 +128,20 @@ public class PlayerMovement
         dashCool.TickTock(gt);
         dashDur.TickTock(gt);
         staminaRegen.TickTock(gt);
+        staminaDur.TickTock(gt);
     }
+    private void _staminaRegen() 
+    {
+        if (staminaRegen.TimeSpan <= 0.02f) 
+        {
+            staminaDur.Restart();
+        }
+        if (staminaDur.TimeSpan > 0.02f) Stamina += 2.5f * staminaDur.NormalizedProgress;
+    }
+    private void _colorChanger() => MotionDisplay.B = Stamina / MaxStamina;
+    // draw method for stats
     public void DisplayPlayerMovementStats(SpriteBatch batch) 
     {
-        MotionDisplay.DrawString(batch, $"{Stamina}%");
+        MotionDisplay.DrawString(batch, $"{Math.Floor(Stamina)}%");
     }
 }

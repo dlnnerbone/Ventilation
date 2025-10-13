@@ -8,6 +8,7 @@ public sealed class GameManager : Scene
 {
     public Camera MainCamera { get; set; }
     public Player Player { get; set; }
+    
     public GameManager(string name = "GameLogicManager") : base(name) 
     {
         Player = new(50, 500, 128, 128);
