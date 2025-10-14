@@ -47,9 +47,9 @@ public class PlayerMovement
     // main constructor
     public PlayerMovement(ContentManager content) 
     {
-        dashCool = new(0.55f, TimeStates.Down, false, false);
+        dashCool = new(0.4f, TimeStates.Down, false, false);
         dashDur = new(0.2f, TimeStates.Down, false, false);
-        staminaRegen = new(1.5f, TimeStates.Down, true, false);
+        staminaRegen = new(1.2f, TimeStates.Down, true, false);
         staminaDur = new(0.25f, TimeStates.Down, false, false);
 
         MotionDisplay = new(content.Load<SpriteFont>("GameAssets/SpriteFonts/PixelatedElegance"));
@@ -94,7 +94,7 @@ public class PlayerMovement
     {
         Input.UpdateInputs();
 
-        var canDash = CanDash && !IsDashing && Stamina > 0 && IsControllable && dashCool.TimeHitsFloor();
+        var canDash = CanDash && !IsDashing && Stamina > 10 && IsControllable && dashCool.TimeHitsFloor();
         
         if (Input.WASD && IsControllable) SwitchStates(Motions.Moving);
         else if (!IsDashing) SwitchStates(Motions.Idle);
@@ -104,6 +104,7 @@ public class PlayerMovement
             IsControllable = false;
             dashCool.IsPaused = true;
             staminaRegen.IsPaused = true;
+            staminaRegen.Restart();
             dashCool.Restart();
             dashDur.Restart();
             SwitchStates(Motions.Dashing);
