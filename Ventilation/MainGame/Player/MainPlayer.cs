@@ -31,8 +31,6 @@ public sealed class Player : Entity
         IdleAtlas = new(_playerSprite, 4, 4);
         PlayerIdleAnimation = new(IdleAtlas, 0, 15);
         PlayerIdleAnimation.FPS = 10;
-        _playerSprite.Origin = PlayerIdleAnimation.GetFrameOrigin();
-        _playerSprite.Direction = Vector2.One;
         _playerSprite.Color = Color.White;
         
         pMovement = new(content);
