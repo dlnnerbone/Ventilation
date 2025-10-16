@@ -4,14 +4,14 @@
     "/home/dinnerbone/Games/Ventilation/Ventilation/Ventilation.csproj": {}
   },
   "projects": {
-    "/home/dinnerbone/Games/Libraries/GameComponents/GameComponents.csproj": {
+    "/home/dinnerbone/Games/Ventilation/GameComponents/GameComponents.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/dinnerbone/Games/Libraries/GameComponents/GameComponents.csproj",
+        "projectUniqueName": "/home/dinnerbone/Games/Ventilation/GameComponents/GameComponents.csproj",
         "projectName": "GameComponents",
-        "projectPath": "/home/dinnerbone/Games/Libraries/GameComponents/GameComponents.csproj",
+        "projectPath": "/home/dinnerbone/Games/Ventilation/GameComponents/GameComponents.csproj",
         "packagesPath": "/home/dinnerbone/.nuget/packages/",
-        "outputPath": "/home/dinnerbone/Games/Libraries/GameComponents/obj/",
+        "outputPath": "/home/dinnerbone/Games/Ventilation/GameComponents/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/dinnerbone/.nuget/NuGet/NuGet.Config"
@@ -103,8 +103,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/dinnerbone/Games/Libraries/GameComponents/GameComponents.csproj": {
-                "projectPath": "/home/dinnerbone/Games/Libraries/GameComponents/GameComponents.csproj"
+              "/home/dinnerbone/Games/Ventilation/GameComponents/GameComponents.csproj": {
+                "projectPath": "/home/dinnerbone/Games/Ventilation/GameComponents/GameComponents.csproj"
               }
             }
           }

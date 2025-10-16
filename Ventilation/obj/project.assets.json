@@ -297,8 +297,8 @@
     },
     "GameComponents/1.0.0": {
       "type": "project",
-      "path": "../../Libraries/GameComponents/GameComponents.csproj",
-      "msbuildProject": "../../Libraries/GameComponents/GameComponents.csproj"
+      "path": "../GameComponents/GameComponents.csproj",
+      "msbuildProject": "../GameComponents/GameComponents.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -334,8 +334,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/dinnerbone/Games/Libraries/GameComponents/GameComponents.csproj": {
-              "projectPath": "/home/dinnerbone/Games/Libraries/GameComponents/GameComponents.csproj"
+            "/home/dinnerbone/Games/Ventilation/GameComponents/GameComponents.csproj": {
+              "projectPath": "/home/dinnerbone/Games/Ventilation/GameComponents/GameComponents.csproj"
             }
           }
         }
