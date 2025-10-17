@@ -7,7 +7,7 @@ using GameComponents.Rendering;
 using System;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameComponents.Helpers;
+using GameComponents.Entity;
 namespace Main;
 public class PlayerMovement 
 {
@@ -18,32 +18,21 @@ public class PlayerMovement
     // public properties
     
     public float MoveSpeed { get => moveSpd; set => moveSpd = value * speedMulti; }
-    
     public float MaxSpeed { get => maxSpd; set => maxSpd = value * speedMulti; }
-    
     public float SpeedMulti { get => speedMulti; set => speedMulti = Math.Abs(value); }
-    
     public float DashForce { get => dashForce; set => dashForce = MathHelper.Clamp(value, MaxSpeed, float.PositiveInfinity) * speedMulti; }
-    
     public float Stamina { get => stamina; set => stamina = MathHelper.Clamp(value, 0, MaxStamina); }
-    
     public float MaxStamina { get => maxStamina; set => Math.Abs(value); }
-    
     public float EaseLevel { get => easeLvl; set => easeLvl = MathHelper.Clamp(value, 0f, 1f); }
-
     public bool IsControllable { get; set; } = true;
-
     public bool IsActive { get; set; } = true;
-
     public bool IsDashing { get; private set; } = false;
-
     public bool CanDash { get; set; } = true;
-
     public InputManager Input { get; private set; } = new();
-
     public SpriteText MotionDisplay { get; private set; }
-
+    
     public void SwitchStates(Motions newState) => motionState = newState;
+    
     // main constructor
     public PlayerMovement(ContentManager content) 
     {
@@ -58,13 +47,13 @@ public class PlayerMovement
         MotionDisplay.Color = Color.White;
     }
     // switch methods
-    private void Idle(Player player) 
+    private void Idle(Entity player) 
     {
         player.Velocity = Vector2.LerpPrecise(player.Velocity, Vector2.Zero, EaseLevel);
         IsControllable = true;
         IsDashing = false;
     }
-    private void Moving(Player player) 
+    private void Moving(Entity player) 
     {
         IsDashing = false;
         IsControllable = true;
@@ -78,9 +67,9 @@ public class PlayerMovement
         else if (Input.IsKeyDown(Keys.D)) player.Velocity_X += MoveSpeed;
         else player.Velocity_X = MathHelper.LerpPrecise(player.Velocity_X, 0, EaseLevel);
     }
-    private void Dashing(Player player) 
+    private void Dashing(Entity entity) 
     {
-        player.Velocity = player.Direction * DashForce;
+        entity.Velocity = entity.Direction * DashForce;
         Stamina -= 3f * dashCool.NormalizedProgress;
         if (dashDur.TimeHitsFloor()) 
         {
@@ -110,7 +99,7 @@ public class PlayerMovement
             SwitchStates(Motions.Dashing);
         }
     }
-    public void UpdateMovement(GameTime gt, Player player) 
+    public void UpdateMovement(GameTime gt, Entity entity) 
     {
         if (!IsActive) return;
         timerManager(gt);
@@ -119,9 +108,9 @@ public class PlayerMovement
         _colorChanger();
         switch(motionState) 
         {
-            case Motions.Idle: Idle(player); break;
-            case Motions.Moving: Moving(player); break;
-            case Motions.Dashing: Dashing(player); break;
+            case Motions.Idle: Idle(entity); break;
+            case Motions.Moving: Moving(entity); break;
+            case Motions.Dashing: Dashing(entity); break;
         }
     }
     private void timerManager(GameTime gt) 

@@ -7,19 +7,7 @@ using GameComponents;
 namespace Main;
 public sealed class Player : Entity
 {
-    private PlayerMovement pMovement;
-    // public properties (movement)
-    public float MoveSpeed { get => pMovement.MoveSpeed; set => pMovement.MoveSpeed = value; }
-    public float MaxSpeed { get => pMovement.MaxSpeed; set => pMovement.MaxSpeed = value; }
-    public float SpeedMulti { get => pMovement.SpeedMulti; set => pMovement.SpeedMulti = value; }
-    public float DashForce { get => pMovement.DashForce; set => pMovement.DashForce = value; }
-    public float Stamina { get => pMovement.Stamina; set => pMovement.Stamina = value; }
-    public float MaxStamina { get => pMovement.MaxStamina; set => pMovement.MaxStamina = value; }
-    public float EaseLevel { get => pMovement.EaseLevel; set => pMovement.EaseLevel = value; }
-    public bool CanDash { get => pMovement.CanDash; set => pMovement.CanDash = value; }
-    public bool IsDashing => pMovement.IsDashing;
-    public bool IsControllable { get => pMovement.IsControllable; set => pMovement.IsControllable = value; }
-    public bool IsMotionActive { get => pMovement.IsActive; set => pMovement.IsActive = value; }
+    public PlayerMovement Movement { get; set; }
     // the rest of the stuff specific to player
     public Animation PlayerIdleAnimation { get; private set; }
     private Sprite _playerSprite;
@@ -33,13 +21,13 @@ public sealed class Player : Entity
         PlayerIdleAnimation.FPS = 10;
         _playerSprite.Color = Color.White;
         
-        pMovement = new(content);
+        Movement = new(content);
     }
     public void RollThePlayer(GameTime gt) 
     {
         MoveAndSlide(gt);
         PlayerIdleAnimation.Roll(gt);
-        pMovement.UpdateMovement(gt, this);
+        Movement.UpdateMovement(gt, this);
     }
     public void DrawPlayer(SpriteBatch batch) 
     {
@@ -48,6 +36,6 @@ public sealed class Player : Entity
     }
     public void DrawPlayerStats(SpriteBatch batch) 
     {
-        pMovement.DisplayPlayerMovementStats(batch);
+        Movement.DisplayPlayerMovementStats(batch);
     }
 }
