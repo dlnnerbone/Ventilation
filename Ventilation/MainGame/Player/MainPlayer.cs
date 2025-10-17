@@ -40,8 +40,6 @@ public sealed class Player : Entity
         MoveAndSlide(gt);
         PlayerIdleAnimation.Roll(gt);
         pMovement.UpdateMovement(gt, this);
-
-        _playerSprite.Direction = Vector2.Zero - Position;
     }
     public void DrawPlayer(SpriteBatch batch) 
     {
