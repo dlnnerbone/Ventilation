@@ -13,13 +13,16 @@ public sealed class Player : Entity
     private Sprite _playerSprite;
     public TextureAtlas IdleAtlas { get; private set; }
     public Player(int x, int y, int width = 64, int height = 64, float HP = 100) : base(x, y, width, height, HP) {}
+
+    private WebClump webClump = new();
     public void LoadPlayerContent(ContentManager content, GraphicsDevice device) 
     {
         _playerSprite = new(content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"));
         IdleAtlas = new(_playerSprite, 4, 4);
         PlayerIdleAnimation = new(IdleAtlas, 0, 15);
         PlayerIdleAnimation.FPS = 10;
-        _playerSprite.Color = Color.White;
+
+        webClump.LoadContent(device, content);
         
         Movement = new(content);
     }
@@ -27,12 +30,14 @@ public sealed class Player : Entity
     {
         MoveAndSlide(gt);
         PlayerIdleAnimation.Roll(gt);
+        webClump.ShootingTime(gt, this);
         Movement.UpdateMovement(gt, this);
     }
     public void DrawPlayer(SpriteBatch batch) 
     {
         PlayerIdleAnimation.Scroll(batch, Bounds, _playerSprite);
         batch.Draw(_playerSprite.Texture, new Rectangle(0, 0, 100, 100), Color.White);
+        webClump.DrawProjectile(batch);
     }
     public void DrawPlayerStats(SpriteBatch batch) 
     {
