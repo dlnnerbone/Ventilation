@@ -27,4 +27,5 @@ public sealed class WebClump : Projectile
         _lifeSpan = new(5f, TimeStates.Down, false, true);
     }
     
+    
 }
