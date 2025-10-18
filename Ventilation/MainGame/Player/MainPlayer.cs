@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using GameComponents.Entity;
 using GameComponents.Rendering;
-using GameComponents;
+using GameComponents.Logic;
 namespace Main;
 public sealed class Player : Entity
 {
@@ -15,6 +15,7 @@ public sealed class Player : Entity
     public Player(int x, int y, int width = 64, int height = 64, float HP = 100) : base(x, y, width, height, HP) {}
 
     private WebClump webClump = new();
+    private Raycast ray;
     public void LoadPlayerContent(ContentManager content, GraphicsDevice device) 
     {
         _playerSprite = new(content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"));
@@ -25,6 +26,8 @@ public sealed class Player : Entity
         webClump.LoadContent(device, content);
         
         Movement = new(content);
+
+        ray = new Raycast();
     }
     public void RollThePlayer(GameTime gt) 
     {
