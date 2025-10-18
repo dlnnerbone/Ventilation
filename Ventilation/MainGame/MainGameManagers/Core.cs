@@ -28,6 +28,7 @@ public sealed class Core : Game
         Content.RootDirectory = rootDir;
 
         sceneManager = new("MainGame");
+        
     }
     protected override void Initialize() 
     {
