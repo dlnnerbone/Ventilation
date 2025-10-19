@@ -40,7 +40,7 @@ public sealed class WebClump : Projectile
     private void readyState(Entity owner) 
     {
         Direction = MouseManager.WorldMousePosition - Position;
-        Position = owner.Center - HalfSize + (Direction * _distance) + ShakeHelper.LinearShake(2.5f, 1);
+        Position = owner.Center - HalfSize + (Direction * _distance) + ShakeHelper.LinearShake(25f, 1);
     }
     private void stateManager(Entity owner)
     {
@@ -49,7 +49,9 @@ public sealed class WebClump : Projectile
     // main Update Method
     public void ShootingTime(GameTime gt, Entity owner) 
     {
-        ShootingTime(gt);
+        _lifeSpan.TickTock(gt);
+        if (_lifeSpan.TimeHitsFloor()) return;
+        ShootingTime();
         stateManager(owner);
     }
     public void DrawProjectile(SpriteBatch batch) 
