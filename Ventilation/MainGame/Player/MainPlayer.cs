@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using GameComponents.Managers;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using GameComponents.Entity;
@@ -12,10 +13,8 @@ public sealed class Player : Entity
     public Animation PlayerIdleAnimation { get; private set; }
     private Sprite _playerSprite;
     public TextureAtlas IdleAtlas { get; private set; }
-    public Player(int x, int y, int width = 64, int height = 64, float HP = 100) : base(x, y, width, height, HP) {}
-
     private WebClump webClump = new();
-    private Raycast ray;
+    public Player(int x, int y, int width = 64, int height = 64, float HP = 100) : base(x, y, width, height, HP) {}
     public void LoadPlayerContent(ContentManager content, GraphicsDevice device) 
     {
         _playerSprite = new(content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"));
@@ -26,8 +25,6 @@ public sealed class Player : Entity
         webClump.LoadContent(device, content);
         
         Movement = new(content);
-
-        ray = new Raycast();
     }
     public void RollThePlayer(GameTime gt) 
     {

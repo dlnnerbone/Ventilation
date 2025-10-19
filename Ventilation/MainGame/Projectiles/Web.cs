@@ -17,7 +17,7 @@ public sealed class WebClump : Projectile
     private float _speedMulti = 1f;
     private float _damage = 25f;
     private float _damageMulti = 1f;
-    private float _distance = 100; 
+    private float _distance = 32f; 
     // public properties
     public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value * _speedMulti; }
     public float MaxSpeed { get => _maxSpeed; set => _maxSpeed = MathHelper.Clamp(value, _moveSpeed, float.PositiveInfinity) * _speedMulti; }
@@ -39,8 +39,8 @@ public sealed class WebClump : Projectile
     // state methods
     private void readyState(Entity owner) 
     {
-        Direction = MouseManager.ScreenMousePosition;
-        Position = owner.Center + ShakeHelper.LinearShake(2.5f, 1) + Direction * 100f;
+        Direction = MouseManager.WorldMousePosition - Position;
+        Position = owner.Center - HalfSize + (Direction * _distance) + ShakeHelper.LinearShake(2.5f, 1);
     }
     private void stateManager(Entity owner)
     {
