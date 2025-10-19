@@ -17,13 +17,16 @@ public sealed class WebClump : Projectile
     private float _speedMulti = 1f;
     private float _damage = 25f;
     private float _damageMulti = 1f;
-    private float _distance = 32f; 
+    private float radius = 48f;
     // public properties
+    public Vector2 Target { get; set; } = Vector2.Zero;
     public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value * _speedMulti; }
     public float MaxSpeed { get => _maxSpeed; set => _maxSpeed = MathHelper.Clamp(value, _moveSpeed, float.PositiveInfinity) * _speedMulti; }
     public float SpeedMulti { get => _speedMulti; set => _speedMulti = Math.Abs(value); }
     public float Damage { get => _damage; set => _damage = value * _damageMulti; }
     public float DamageMulti { get => _damageMulti; set => _damageMulti = Math.Abs(value); }
+    public float Radius { get => radius; set => radius = Math.Abs(value); }
+    public float Distance { get; private set; } = 0;
     public Sprite WebTexture { get; private set; }
     
     public WebClump(int x = 0, int y = 0, int width = 32, int height = 32) : base(x, y, width, height, Vector2.UnitX) 
@@ -37,14 +40,18 @@ public sealed class WebClump : Projectile
         WebTexture.Texture.SetData(_colors);
     }
     // state methods
-    private void readyState(Entity owner) 
+    private void readyState(Entity owner)
     {
-        Direction = MouseManager.WorldMousePosition - Position;
-        Position = owner.Center - HalfSize + (Direction * _distance) + ShakeHelper.LinearShake(25f, 1);
+        AimAt(Target);
+        Position = owner.Center - HalfSize + Direction * Radius + ShakeHelper.LinearShake(2.5f, 1);
+    }
+    private void activeState(Entity owner) 
+    {
+        
     }
     private void stateManager(Entity owner)
     {
-        readyState(owner);
+        Distance = Vector2.Distance(Center, owner.Center);
     }
     // main Update Method
     public void ShootingTime(GameTime gt, Entity owner) 
