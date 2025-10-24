@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using GameComponents.Entity;
 using GameComponents.Rendering;
-using GameComponents.Logic;
+using GameComponents;
 namespace Main;
 public sealed class Player : Entity
 {
@@ -31,6 +31,7 @@ public sealed class Player : Entity
         MoveAndSlide(gt);
         PlayerIdleAnimation.Roll(gt);
         webClump.ShootingTime(gt, this);
+        webClump.SetTarget(MouseManager.WorldMousePosition);
         Movement.UpdateMovement(gt, this);
     }
     public void DrawPlayer(SpriteBatch batch) 
