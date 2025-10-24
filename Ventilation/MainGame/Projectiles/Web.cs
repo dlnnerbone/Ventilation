@@ -42,8 +42,6 @@ public sealed class WebClump : Projectile
         WebTexture = new Sprite(new Texture2D(device, 1, 1));
         var _colors = new Color[] { WebTexture.Color };
         WebTexture.Texture.SetData(_colors);
-
-        OverrideFlags(Actions.Ready);
     }
     // state methods
     private void ready(GameTime gt, Entity owner) 
@@ -75,7 +73,7 @@ public sealed class WebClump : Projectile
     // main Update Method
     public void ShootingTime(GameTime gt, Entity owner) 
     {
-        ShootingTime();
+        if (IsDead) return;
         _lifeSpan.TickTock(gt);
         if (_lifeSpan.TimeHitsFloor()) return;
         _stateManager(gt, owner);
