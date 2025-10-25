@@ -31,28 +31,32 @@ public sealed class WebClump : Projectile
     public float Radius { get => radius; set => radius = MathHelper.Clamp(value, 0f, MaxRadius); }
     public float MaxRadius { get => maxRadius; set => maxRadius = Math.Abs(value); }
     public Sprite WebTexture { get; private set; }
+    public TextureAtlas Atlas { get; private set; }
+    public Animation WebAnimation { get; set; }
     public float Distance => distance > 0 ? Vector2.Distance(Center, Target) : 1f;
     
-    public WebClump(int x = 0, int y = 0, int width = 32, int height = 32) : base(x, y, width, height, Vector2.UnitX) 
+    public WebClump(int x = 0, int y = 0, int width = 64, int height = 64) : base(x, y, width, height, Vector2.UnitX) 
     {
         _lifeSpan = new(5f, TimeStates.Down, false, false);
     }
-    public void LoadContent(GraphicsDevice device, ContentManager content) 
+    public void LoadContent(ContentManager content) 
     {
-        WebTexture = new Sprite(new Texture2D(device, 1, 1));
-        var _colors = new Color[] { WebTexture.Color };
-        WebTexture.Texture.SetData(_colors);
+        WebTexture = new(content.Load<Texture2D>("GameAssets/ProjectileTexture/WebClump_Active-Sheet"));
+        Atlas = new(WebTexture, 3, 2);
+        WebAnimation = new(Atlas, 0, 5);
+
+        WebAnimation.FPS = 5f;
     }
     // state methods
-    private void ready(GameTime gt, Entity owner) 
+    private void ready(Entity owner) 
     {
-        Position = owner.Center - HalfSize + Direction * Radius + ShakeHelper.InExpoShake(3f, 1);
+        Position = owner.Center - HalfSize + Direction * Radius;
     }
-    private void active(GameTime gt, Entity owner) 
+    private void active(GameTime gt) 
     {
         Position += Direction * MoveSpeed * (float)gt.ElapsedGameTime.TotalSeconds;
     }
-    private void cooldown(Entity owner, GameTime gt) 
+    private void cooldown(Entity owner) 
     {
         Position = Vector2.LerpPrecise(Position, owner.Center, 0.35f);
     }
@@ -61,9 +65,9 @@ public sealed class WebClump : Projectile
     {
         switch(ActionStates) 
         {
-            case Actions.Ready: ready(gt, owner); break;
-            case Actions.Active: active(gt, owner); break;
-            case Actions.Cooldown: cooldown(owner, gt); break;
+            case Actions.Ready: ready(owner); break;
+            case Actions.Active: active(gt); break;
+            case Actions.Cooldown: cooldown(owner); break;
             case Actions.Interrupted: break;
             case Actions.Charging: break;
             case Actions.Completed: break;
@@ -73,14 +77,14 @@ public sealed class WebClump : Projectile
     // main Update Method
     public void ShootingTime(GameTime gt, Entity owner) 
     {
-        if (IsDead) return;
         _lifeSpan.TickTock(gt);
-        if (_lifeSpan.TimeHitsFloor()) return;
+        if (IsDead || _lifeSpan.TimeHitsFloor()) return;
+        WebAnimation.Roll(gt);
         _stateManager(gt, owner);
     }
     public void DrawProjectile(SpriteBatch batch) 
     {
-        WebTexture.Draw(batch, Bounds);
+        WebAnimation.Scroll(batch, Bounds, WebTexture);
     }
     // Helper Methods-(ish)
     public void SetTarget(Vector2 location) => Target = location;

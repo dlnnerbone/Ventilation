@@ -14,7 +14,10 @@ public sealed class Player : Entity
     private Sprite _playerSprite;
     public TextureAtlas IdleAtlas { get; private set; }
     private WebClump webClump = new();
-    public Player(int x, int y, int width = 64, int height = 64, float HP = 100) : base(x, y, width, height, HP) {}
+    public Player(int x, int y, int width = 64, int height = 64, float HP = 100) : base(x, y, width, height, HP) 
+    {
+        webClump.OverrideFlags(Actions.Ready);
+    }
     public void LoadPlayerContent(ContentManager content, GraphicsDevice device) 
     {
         _playerSprite = new(content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"));
@@ -22,8 +25,7 @@ public sealed class Player : Entity
         PlayerIdleAnimation = new(IdleAtlas, 0, 15);
         PlayerIdleAnimation.FPS = 10;
 
-        webClump.LoadContent(device, content);
-        
+        webClump.LoadContent(content);
         Movement = new(content);
     }
     public void RollThePlayer(GameTime gt) 
