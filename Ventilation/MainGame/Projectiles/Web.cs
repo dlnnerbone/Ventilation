@@ -35,7 +35,7 @@ public sealed class WebClump : Projectile
     
     public WebClump(int x = 0, int y = 0, int width = 32, int height = 32) : base(x, y, width, height, Vector2.UnitX) 
     {
-        _lifeSpan = new(5f, TimeStates.Down, false, true);
+        _lifeSpan = new(5f, TimeStates.Down, false, false);
     }
     public void LoadContent(GraphicsDevice device, ContentManager content) 
     {
@@ -52,7 +52,7 @@ public sealed class WebClump : Projectile
     {
         Position += Direction * MoveSpeed * (float)gt.ElapsedGameTime.TotalSeconds;
     }
-    private void Cooldown(Entity owner, GameTime gt) 
+    private void cooldown(Entity owner, GameTime gt) 
     {
         Position = Vector2.LerpPrecise(Position, owner.Center, 0.35f);
     }
@@ -63,7 +63,7 @@ public sealed class WebClump : Projectile
         {
             case Actions.Ready: ready(gt, owner); break;
             case Actions.Active: active(gt, owner); break;
-            case Actions.Cooldown: Cooldown(owner, gt); break;
+            case Actions.Cooldown: cooldown(owner, gt); break;
             case Actions.Interrupted: break;
             case Actions.Charging: break;
             case Actions.Completed: break;
