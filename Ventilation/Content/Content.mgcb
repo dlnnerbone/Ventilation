@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin GameAssets/ProjectileTexture/WebClump_Active-Sheet.png
+#begin GameAssets/ProjectileTextures/WebClump_Active.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,7 +23,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GameAssets/ProjectileTexture/WebClump_Active-Sheet.png
+/build:GameAssets/ProjectileTextures/WebClump_Active.png
 
 #begin GameAssets/SpriteFonts/PixelatedElegance.spritefont
 /importer:FontDescriptionImporter

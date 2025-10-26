@@ -162,4 +162,5 @@
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/GameAssets/SpriteFonts/PixelatedElegance.xnb
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/GameComponents.dll
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/GameComponents.pdb
-/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/GameAssets/ProjectileTexture/WebClump_Active-Sheet.xnb
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/WebClump_Active.xnb
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/GameAssets/ProjectileTextures/WebClump_Active.xnb

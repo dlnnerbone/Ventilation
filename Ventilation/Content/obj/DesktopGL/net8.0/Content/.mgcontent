@@ -4,7 +4,7 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/GameAssets/ProjectileTexture/WebClump_Active-Sheet.png</File>
+    <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/GameAssets/ProjectileTextures/WebClump_Active.png</File>
     <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/GameAssets/SpriteFonts/PixelatedElegance.spritefont</File>
     <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/PlayerAssets/CreatureSpriteIdle.png</File>
   </SourceFiles>

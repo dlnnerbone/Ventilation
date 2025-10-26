@@ -35,13 +35,13 @@ public sealed class WebClump : Projectile
     public Animation WebAnimation { get; set; }
     public float Distance => distance > 0 ? Vector2.Distance(Center, Target) : 1f;
     
-    public WebClump(int x = 0, int y = 0, int width = 64, int height = 64) : base(x, y, width, height, Vector2.UnitX) 
+    public WebClump(int x = 0, int y = 0, int width = 32, int height = 32) : base(x, y, width, height, Vector2.UnitX) 
     {
         _lifeSpan = new(5f, TimeStates.Down, false, false);
     }
     public void LoadContent(ContentManager content) 
     {
-        WebTexture = new(content.Load<Texture2D>("GameAssets/ProjectileTexture/WebClump_Active-Sheet"));
+        WebTexture = new(content.Load<Texture2D>("GameAssets/ProjectileTextures/WebClump_Active"));
         Atlas = new(WebTexture, 3, 2);
         WebAnimation = new(Atlas, 0, 5);
 
