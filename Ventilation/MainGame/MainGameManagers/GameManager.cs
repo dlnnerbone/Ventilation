@@ -22,7 +22,7 @@ public sealed class GameManager : Scene
     public override void LoadSceneContent(Game game, string contentDir = "Content")
     {
         base.LoadSceneContent(game, contentDir);
-        Player.LoadPlayerContent(SceneContent, game.GraphicsDevice);
+        Player.LoadPlayerContent(SceneContent);
     }
     public override void UpdateScene(GameTime gt) 
     {
