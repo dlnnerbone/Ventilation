@@ -30,9 +30,10 @@ public sealed class WebClump : Projectile
     public float DamageMulti { get => _damageMulti; set => _damageMulti = Math.Abs(value); }
     public float Radius { get => radius; set => radius = MathHelper.Clamp(value, 0f, MaxRadius); }
     public float MaxRadius { get => maxRadius; set => maxRadius = Math.Abs(value); }
-    public Sprite WebTexture { get; private set; }
+    
     public TextureAtlas Atlas { get; private set; }
     public Animation WebAnimation { get; set; }
+    
     public float Distance => distance > 0 ? Vector2.Distance(Center, Target) : 1f;
     
     public WebClump(int x = 0, int y = 0, int width = 32, int height = 32) : base(x, y, width, height, Vector2.UnitX) 
@@ -41,10 +42,10 @@ public sealed class WebClump : Projectile
     }
     public void LoadContent(ContentManager content) 
     {
-        WebTexture = new(content.Load<Texture2D>("GameAssets/ProjectileTextures/WebClump_Active"));
-        Atlas = new(WebTexture, 3, 2);
-        WebAnimation = new(Atlas, 0, 5);
-
+        Atlas = new TextureAtlas(3, 2, 48, 32);
+        WebAnimation = new(content.Load<Texture2D>("GameAssets/ProjectileTextures/WebClump_Active"), Atlas, 0, 5);
+        WebAnimation.FPS = 5;
+        
         WebAnimation.FPS = 5f;
     }
     // state methods
@@ -84,7 +85,7 @@ public sealed class WebClump : Projectile
     }
     public void DrawProjectile(SpriteBatch batch) 
     {
-        WebAnimation.Scroll(batch, Bounds, WebTexture);
+        WebAnimation.Scroll(batch, Bounds);
     }
     // Helper Methods-(ish)
     public void SetTarget(Vector2 location) => Target = location;
