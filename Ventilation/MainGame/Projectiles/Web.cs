@@ -13,7 +13,7 @@ public sealed class WebClump : Projectile
 {
     // private fields
     private Timer _lifeSpan;
-    private float _moveSpeed = 200f;
+    private float _moveSpeed = 500f;
     private float _maxSpeed = 500f;
     private float _speedMulti = 1f;
     private float _damage = 25f;
@@ -36,9 +36,9 @@ public sealed class WebClump : Projectile
     
     public float Distance => distance > 0 ? Vector2.Distance(Center, Target) : 1f;
     
-    public WebClump(int x = 0, int y = 0, int width = 32, int height = 32) : base(x, y, width, height, Vector2.UnitX) 
+    public WebClump(int x = 0, int y = 0, int width = 16 * 3, int height = 16 * 3) : base(x, y, width, height, Vector2.UnitX) 
     {
-        _lifeSpan = new(5f, TimeStates.Down, false, false);
+        _lifeSpan = new(5f, TimeStates.Down, false, true);
     }
     public void LoadContent(ContentManager content) 
     {
@@ -51,6 +51,7 @@ public sealed class WebClump : Projectile
     // state methods
     private void ready(Entity owner) 
     {
+        AimAt(MouseManager.WorldMousePosition);
         Position = owner.Center - HalfSize + Direction * Radius;
     }
     private void active(GameTime gt) 
@@ -59,7 +60,7 @@ public sealed class WebClump : Projectile
     }
     private void cooldown(Entity owner) 
     {
-        Position = Vector2.LerpPrecise(Position, owner.Center, 0.35f);
+        Position = Vector2.LerpPrecise(Position, owner.Center - HalfSize, 0.15f);
     }
     // main state method.
     private void _stateManager(GameTime gt, Entity owner) 
