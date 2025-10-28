@@ -18,7 +18,7 @@ public sealed class WebClump : Projectile
     private float _speedMulti = 1f;
     private float _damage = 25f;
     private float _damageMulti = 1f;
-    private float radius = 48f;
+    private float radius = 38f;
     private float distance = 1f;
     private float maxRadius = 48f;
     // public properties
@@ -36,7 +36,7 @@ public sealed class WebClump : Projectile
     
     public float Distance => distance > 0 ? Vector2.Distance(Center, Target) : 1f;
     
-    public WebClump(int x = 0, int y = 0, int width = 16 * 3, int height = 16 * 3) : base(x, y, width, height, Vector2.UnitX) 
+    public WebClump(int x = 0, int y = 0, int width = 48, int height = 48) : base(x, y, width, height, Vector2.UnitX) 
     {
         _lifeSpan = new(5f, TimeStates.Down, false, true);
     }
@@ -45,14 +45,12 @@ public sealed class WebClump : Projectile
         Atlas = new TextureAtlas(3, 2, 48, 32);
         WebAnimation = new(content.Load<Texture2D>("GameAssets/ProjectileTextures/WebClump_Active"), Atlas, 0, 5);
         WebAnimation.FPS = 5;
-        
-        WebAnimation.FPS = 5f;
     }
     // state methods
     private void ready(Entity owner) 
     {
         AimAt(MouseManager.WorldMousePosition);
-        Position = owner.Center - HalfSize + Direction * Radius;
+        Position = owner.Center - new Vector2(HalfSize.X, HalfSize.Y + QuarterSize.Y) + Direction * Radius;
     }
     private void active(GameTime gt) 
     {
@@ -89,6 +87,4 @@ public sealed class WebClump : Projectile
         WebAnimation.Scroll(batch, Bounds);
     }
     // Helper Methods-(ish)
-    public void SetTarget(Vector2 location) => Target = location;
-    public void SetTarget(Point location) => Target = new Vector2(location.X, location.Y);
 }
