@@ -12,17 +12,16 @@ namespace Main;
 public sealed class WebClump : Projectile 
 {
     // private fields
-    private Timer _lifeSpan;
     private float _moveSpeed = 500f;
     private float _maxSpeed = 500f;
     private float _speedMulti = 1f;
     private float _damage = 25f;
     private float _damageMulti = 1f;
     private float radius = 38f;
-    private float distance = 1f;
     private float maxRadius = 48f;
     // public properties
-    public Vector2 Target { get; set; } = Vector2.Zero;
+    public TextureAtlas Atlas { get; private set; }
+    public Animation WebAnimation { get; set; }
     public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value * _speedMulti; }
     public float MaxSpeed { get => _maxSpeed; set => _maxSpeed = MathHelper.Clamp(value, _moveSpeed, float.PositiveInfinity) * _speedMulti; }
     public float SpeedMulti { get => _speedMulti; set => _speedMulti = Math.Abs(value); }
@@ -30,15 +29,11 @@ public sealed class WebClump : Projectile
     public float DamageMulti { get => _damageMulti; set => _damageMulti = Math.Abs(value); }
     public float Radius { get => radius; set => radius = MathHelper.Clamp(value, 0f, MaxRadius); }
     public float MaxRadius { get => maxRadius; set => maxRadius = Math.Abs(value); }
-    
-    public TextureAtlas Atlas { get; private set; }
-    public Animation WebAnimation { get; set; }
-    
-    public float Distance => distance > 0 ? Vector2.Distance(Center, Target) : 1f;
+    public Timer LifeSpan { get; private set; }
     
     public WebClump(int x = 0, int y = 0, int width = 48, int height = 48) : base(x, y, width, height, Vector2.UnitX) 
     {
-        _lifeSpan = new(5f, TimeStates.Down, false, true);
+        LifeSpan = new(5f, TimeStates.Down, false, false);
     }
     public void LoadContent(ContentManager content) 
     {
@@ -49,7 +44,6 @@ public sealed class WebClump : Projectile
     // state methods
     private void ready(Entity owner) 
     {
-        AimAt(MouseManager.WorldMousePosition);
         Position = owner.Center - new Vector2(HalfSize.X, HalfSize.Y + QuarterSize.Y) + Direction * Radius;
     }
     private void active(GameTime gt) 
@@ -68,17 +62,13 @@ public sealed class WebClump : Projectile
             case Actions.Ready: ready(owner); break;
             case Actions.Active: active(gt); break;
             case Actions.Cooldown: cooldown(owner); break;
-            case Actions.Interrupted: break;
-            case Actions.Charging: break;
-            case Actions.Completed: break;
-            case Actions.Disabled: break;
         }
     }
     // main Update Method
     public void ShootingTime(GameTime gt, Entity owner) 
     {
-        _lifeSpan.TickTock(gt);
-        if (IsDead || _lifeSpan.TimeHitsFloor()) return;
+        LifeSpan.TickTock(gt);
+        if (IsDead) return;
         WebAnimation.Roll(gt);
         _stateManager(gt, owner);
     }

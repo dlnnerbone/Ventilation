@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GameComponents.Entity;
 namespace Main;
-public class PlayerMovement 
+public class CharacterMovementModule 
 {
     private Timer dashCool, dashDur, staminaRegen, staminaDur;
     private Motions motionState = Motions.Idle;
@@ -34,7 +34,7 @@ public class PlayerMovement
     public void SwitchStates(Motions newState) => motionState = newState;
     
     // main constructor
-    public PlayerMovement(ContentManager content) 
+    public CharacterMovementModule(ContentManager content) 
     {
         dashCool = new(0.4f, TimeStates.Down, false, false);
         dashDur = new(0.2f, TimeStates.Down, false, false);

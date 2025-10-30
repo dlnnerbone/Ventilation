@@ -17,9 +17,6 @@ public sealed class Core : Game
     public Core(string title, bool isFullScreen = false, bool isMouseVisible = true, string rootDir = "Content") 
     {
         device = new(this);
-        device.PreferredBackBufferHeight = 1080;
-        device.PreferredBackBufferWidth = 1920;
-        device.ApplyChanges();
         
         Window.Title = title ?? throw new ArgumentNullException($"title of game can not be null. {nameof(title)}");
         device.IsFullScreen = isFullScreen;
@@ -38,6 +35,10 @@ public sealed class Core : Game
     protected override void LoadContent() 
     {
         base.LoadContent();
+        
+        device.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+        device.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+        device.ApplyChanges();
 
         spriteBatch = new(GraphicsDevice);
         sceneManager.LoadSceneContent(this);
