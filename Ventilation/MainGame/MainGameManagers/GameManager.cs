@@ -11,7 +11,7 @@ public sealed class GameManager : Scene
     
     public GameManager(string name = "GameLogicManager") : base(name) 
     {
-        Player = new(50, 500, 64 * 3, 64 * 3);
+        Player = new(50, 500, 64, 64);
     }
     public override void Initialize(Game game) 
     {

@@ -7,6 +7,7 @@ namespace Main;
 public sealed class Core : Game
 {
     private SceneManager sceneManager;
+    private RenderTarget2D RenderTarget;
     
     private SpriteBatch spriteBatch;
     private GraphicsDeviceManager device;
@@ -40,6 +41,8 @@ public sealed class Core : Game
         device.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         device.ApplyChanges();
 
+        RenderTarget = new RenderTarget2D(GraphicsDevice, 160, 90);
+
         spriteBatch = new(GraphicsDevice);
         sceneManager.LoadSceneContent(this);
     }
@@ -55,7 +58,9 @@ public sealed class Core : Game
     protected override void Draw(GameTime gt) 
     {
         GraphicsDevice.Clear(Color.Transparent);
+        
         sceneManager.DrawScene(spriteBatch);
+        
         base.Draw(gt);
     }
 }
