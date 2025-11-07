@@ -25,6 +25,7 @@ public sealed class Player : Entity
         IdleAtlas = new TextureAtlas(4, 4, 256, 256);
         PlayerIdleAnimation = new(content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), IdleAtlas, 0, 15);
         PlayerIdleAnimation.FPS = 10;
+        PlayerIdleAnimation.LayerDepth = 0.5f;
         clump.LoadContent(content);
         
         Movement = new(content);
@@ -36,10 +37,22 @@ public sealed class Player : Entity
         Movement.UpdateMovement(gt, this);
         clump.ShootingTime(gt);
         clump.SetTarget(Center);
-        clump.AimAt(MouseManager.WorldMousePosition);
 
-        if (MouseManager.IsLeftHeld) clump.OverrideFlags(Actions.Ready);
-        else clump.OverrideFlags(Actions.Cooldown);
+        if (MouseManager.IsLeftHeld)
+        {
+            clump.LifeSpan.Restart();
+            clump.AimAt(MouseManager.WorldMousePosition);
+            clump.OverrideFlags(Actions.Ready);
+        }
+        else if (!clump.InCooldown)
+        {
+            clump.OverrideFlags(Actions.Active);
+        }
+        if (clump.LifeSpan.TimeHitsFloor()) 
+        {
+            clump.OverrideFlags(Actions.Cooldown);
+        }
+        
     }
     public void DrawPlayer(SpriteBatch batch) 
     {
