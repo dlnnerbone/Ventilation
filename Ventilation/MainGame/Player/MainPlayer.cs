@@ -23,8 +23,7 @@ public sealed class Player : Entity
     public void LoadPlayerContent(ContentManager content) 
     {
         IdleAtlas = new TextureAtlas(4, 4, 256, 256);
-        PlayerIdleAnimation = new(content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), IdleAtlas, 0, 15);
-        PlayerIdleAnimation.FPS = 10;
+        PlayerIdleAnimation = new(content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), IdleAtlas, 10, 0, 15);
         PlayerIdleAnimation.LayerDepth = 0.5f;
         clump.LoadContent(content);
         

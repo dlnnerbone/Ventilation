@@ -18,6 +18,10 @@ public sealed class WebClump : Projectile
     private float maxDamage = 50f;
     private float damageMulti = 1;
 
+    private bool _justBecameInCooldown = false;
+    private bool _justTurnedToReady = false;
+    private float _chargingMeter;
+
     private readonly Timer readyingTimer = new(3f, TimeStates.Down, false, false);
     private readonly Timer cooldownMeter = new(8f, TimeStates.Down, false, false);
     // public properties
@@ -51,8 +55,6 @@ public sealed class WebClump : Projectile
     
     public WebClump(int width, int height, Vector2 dir, Actions flags) : base(0, 0, width, height, dir, flags) {}
     
-    private bool _justTurnedToReady = false;
-    private float _chargingMeter;
     
     private void readying()
     {
@@ -67,8 +69,6 @@ public sealed class WebClump : Projectile
         _chargingMeter = 1 - progress;
         Position = TargetLocation - offset + Direction * RadiusVector * MathHelper.Clamp(progress, 0.25f, 1f);
     }
-
-    bool _justBecameInCooldown = false;
     
     private void _cooldown() 
     {
@@ -98,17 +98,15 @@ public sealed class WebClump : Projectile
     public void LoadContent(ContentManager content) 
     {
         TextureAtlas = new TextureAtlas(3, 2, 48, 32);
-        Animation = new Animation(content.Load<Texture2D>("GameAssets/ProjectileTextures/WebClump_Active"), TextureAtlas, 0, 5);
-        Animation.FPS = 5;
+        Animation = new Animation(content.Load<Texture2D>("GameAssets/ProjectileTextures/WebClump_Active"), TextureAtlas, 5, 0, 5);
     }
     public override void ShootingTime(GameTime gt) 
     {
         if (IsDead) return;
         timerManagement(gt);
         Animation.Roll(gt);
-        
-        if (Radians < 0f && Radians > -3f) Animation.LayerDepth = 0.45f;
-        else Animation.LayerDepth = 0.65f;
+
+        Animation.LayerDepth = MathHelper.Clamp((float)Math.Sin(Radians), 0.4f, 0.65f);
         
         switch(ActionStates) 
         {
