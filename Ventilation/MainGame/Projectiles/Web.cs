@@ -98,13 +98,13 @@ public sealed class WebClump : Projectile
     public void LoadContent(ContentManager content) 
     {
         TextureAtlas = new TextureAtlas(3, 2, 48, 32);
-        Animation = new Animation(content.Load<Texture2D>("GameAssets/ProjectileTextures/WebClump_Active"), TextureAtlas, 5, 0, 5);
+        Animation = new Animation(content.Load<Texture2D>("GameAssets/ProjectileTextures/WebClump_Active"), TextureAtlas, 0, 5, 5);
     }
     public override void ShootingTime(GameTime gt) 
     {
         if (IsDead) return;
         timerManagement(gt);
-        Animation.Roll(gt);
+        Animation.Advance(gt);
 
         Animation.LayerDepth = MathHelper.Clamp((float)Math.Sin(Radians), 0.4f, 0.65f);
         
@@ -137,6 +137,6 @@ public sealed class WebClump : Projectile
     public override void DrawProjectile(SpriteBatch batch) 
     {
         if (IsDead) return;
-        Animation.Scroll(batch, Bounds);
+        Animation.Animate(batch, Bounds);
     }
 }

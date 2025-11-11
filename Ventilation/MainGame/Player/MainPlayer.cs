@@ -23,7 +23,7 @@ public sealed class Player : Entity
     public void LoadPlayerContent(ContentManager content) 
     {
         IdleAtlas = new TextureAtlas(4, 4, 256, 256);
-        PlayerIdleAnimation = new(content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), IdleAtlas, 10, 0, 15);
+        PlayerIdleAnimation = new(content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), IdleAtlas, 0, 15, 10);
         PlayerIdleAnimation.LayerDepth = 0.5f;
         clump.LoadContent(content);
         
@@ -32,7 +32,7 @@ public sealed class Player : Entity
     public void RollThePlayer(GameTime gt) 
     {
         MoveAndSlide(gt);
-        PlayerIdleAnimation.Roll(gt);
+        PlayerIdleAnimation.Advance(gt);
         Movement.UpdateMovement(gt, this);
         clump.ShootingTime(gt);
         clump.SetTarget(Center);
@@ -55,7 +55,7 @@ public sealed class Player : Entity
     }
     public void DrawPlayer(SpriteBatch batch) 
     {
-        PlayerIdleAnimation.Scroll(batch, Bounds);
+        PlayerIdleAnimation.Animate(batch, Bounds);
         batch.Draw(PlayerIdleAnimation.SpriteSheet, new Rectangle(0, 0, 100, 100), Color.White);
         clump.DrawProjectile(batch);
     }
