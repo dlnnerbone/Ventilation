@@ -7,7 +7,6 @@ public sealed class SceneManager : Scene
 {
     public readonly GameManager GameManager = new();
     public readonly Interface Interface = new();
-    public Player MainPlayer => GameManager.Player;
     // base methods
     public SceneManager(string name) : base(name) {}
     public override void Initialize(Game game) 
@@ -35,6 +34,6 @@ public sealed class SceneManager : Scene
     {
         DrawScene();
         GameManager.DrawScene(batch);
-        Interface.DrawScene(batch, MainPlayer);
+        Interface.DrawScene(batch, GameManager.Player);
     }
 }

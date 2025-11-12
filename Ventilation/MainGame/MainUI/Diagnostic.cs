@@ -15,7 +15,7 @@ public class FPSChecker
     
     public void LoadFPSFont(ContentManager content) 
     {
-        spriteText = new(content.Load<SpriteFont>("GameAssets/SpriteFonts/PixelatedElegance"), new Vector2(1920 - 100, 50));
+        spriteText = new(content.Load<SpriteFont>("Game/SpriteFonts/VcrEas"), new Vector2(1920 - 100, 50));
         spriteText.Color = spriteText.DColor;
         spriteText.Scale = new(2, 2);
     }

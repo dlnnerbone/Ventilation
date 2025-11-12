@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin GameAssets/ProjectileTextures/WebClump_Active.png
+#begin Game/Assets/ProjectileAssets/WebClump/WebClump_Active.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,24 +23,24 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GameAssets/ProjectileTextures/WebClump_Active.png
+/build:Game/Assets/ProjectileAssets/WebClump/WebClump_Active.png
 
-#begin GameAssets/SpriteFonts/PixelatedElegance.spritefont
+#begin Game/Assets/ProjectileAssets/WebClump/WebClump_Ready.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Game/Assets/ProjectileAssets/WebClump/WebClump_Ready.png
+
+#begin Game/SpriteFonts/VcrEas.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:GameAssets/SpriteFonts/PixelatedElegance.spritefont
-
-#begin PlayerAssets/CreatureSpriteIdle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:PlayerAssets/CreatureSpriteIdle.png
+/build:Game/SpriteFonts/VcrEas.spritefont
 

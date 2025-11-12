@@ -9,58 +9,24 @@ namespace Main;
 public sealed class Player : Entity
 {
     public CharacterMovementModule Movement { get; private set; }
+    public Sprite PlayerSprite { get; private set; }
     
-    public Animation PlayerIdleAnimation { get; private set; }
-    public TextureAtlas IdleAtlas { get; private set; }
-
-    private WebClump clump = new(16, 16, Vector2.UnitX, Actions.Ready);
+    public Player() : base(50, 250, 32 * 4, 32 * 4, 100, 0, 100) {}
     
-    public Player(int x, int y, int width = 64, int height = 64, float HP = 100) : base(x, y, width, height, HP)
+    public void LoadContent(GraphicsDevice device, ContentManager content) 
     {
-        Size *= 4;
-        clump.Size *= 4;
+        Movement = new CharacterMovementModule(content);
+        PlayerSprite = new Sprite(device, 1, 1);
+        PlayerSprite.SetData(new Color[] { Color.White });
     }
-    public void LoadPlayerContent(ContentManager content) 
-    {
-        IdleAtlas = new TextureAtlas(4, 4, 256, 256);
-        PlayerIdleAnimation = new(content.Load<Texture2D>("PlayerAssets/CreatureSpriteIdle"), IdleAtlas, 0, 15, 10);
-        PlayerIdleAnimation.LayerDepth = 0.5f;
-        clump.LoadContent(content);
-        
-        Movement = new(content);
-    }
-    public void RollThePlayer(GameTime gt) 
+    
+    public void UpdatePlayer(GameTime gt) 
     {
         MoveAndSlide(gt);
-        PlayerIdleAnimation.Advance(gt);
         Movement.UpdateMovement(gt, this);
-        clump.ShootingTime(gt);
-        clump.SetTarget(Center);
-
-        if (MouseManager.IsLeftHeld)
-        {
-            clump.LifeSpan.Restart();
-            clump.AimAt(MouseManager.WorldMousePosition);
-            clump.OverrideFlags(Actions.Ready);
-        }
-        else if (!clump.InCooldown)
-        {
-            clump.OverrideFlags(Actions.Active);
-        }
-        if (clump.LifeSpan.TimeHitsFloor()) 
-        {
-            clump.OverrideFlags(Actions.Cooldown);
-        }
-        
     }
-    public void DrawPlayer(SpriteBatch batch) 
+    public void DrawPlayer(SpriteBatch spriteBatch) 
     {
-        PlayerIdleAnimation.Animate(batch, Bounds);
-        batch.Draw(PlayerIdleAnimation.SpriteSheet, new Rectangle(0, 0, 100, 100), Color.White);
-        clump.DrawProjectile(batch);
-    }
-    public void DrawPlayerStats(SpriteBatch batch) 
-    {
-        Movement.DisplayPlayerMovementStats(batch);
+        PlayerSprite.Draw(spriteBatch, Bounds);
     }
 }

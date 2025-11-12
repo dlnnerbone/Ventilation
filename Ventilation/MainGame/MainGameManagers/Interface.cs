@@ -26,7 +26,7 @@ public sealed class Interface : Scene
         DrawScene();
         batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Matrix.Identity);
         FPSChecker.DrawFPS(batch);
-        player.DrawPlayerStats(batch);
+        player.Movement.DisplayPlayerMovementStats(batch);
         batch.End();
     }
 }

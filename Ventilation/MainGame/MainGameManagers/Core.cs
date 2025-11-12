@@ -7,7 +7,6 @@ namespace Main;
 public sealed class Core : Game
 {
     private SceneManager sceneManager;
-    private RenderTarget2D RenderTarget;
     
     private SpriteBatch spriteBatch;
     private GraphicsDeviceManager device;
@@ -40,8 +39,6 @@ public sealed class Core : Game
         device.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         device.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         device.ApplyChanges();
-
-        RenderTarget = new RenderTarget2D(GraphicsDevice, 160, 90);
 
         spriteBatch = new(GraphicsDevice);
         sceneManager.LoadSceneContent(this);

@@ -41,7 +41,7 @@ public class CharacterMovementModule
         staminaRegen = new(1.2f, TimeStates.Down, true, false);
         staminaDur = new(0.25f, TimeStates.Down, false, false);
 
-        MotionDisplay = new(content.Load<SpriteFont>("GameAssets/SpriteFonts/PixelatedElegance"));
+        MotionDisplay = new(content.Load<SpriteFont>("Game/SpriteFonts/VcrEas"));
         MotionDisplay.Position = new(50, 100);
         MotionDisplay.Scale = new(2, 2);
         MotionDisplay.Color = Color.White;
