@@ -164,3 +164,5 @@
 /home/dinnerbone/Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.pdb
 /home/dinnerbone/Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.genruntimeconfig.cache
 /home/dinnerbone/Games/Ventilation/Ventilation/obj/Debug/net8.0/ref/Ventilation.dll
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/Game/SpriteFonts/PixelatedElegance.xnb
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/Game/SpriteFonts/PixelBasel.xnb

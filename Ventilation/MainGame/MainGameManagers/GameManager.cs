@@ -34,7 +34,7 @@ public sealed class GameManager : Scene
     public void DrawScene(SpriteBatch batch) 
     {
         DrawScene();
-        batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, null);
+        batch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, MainCamera.WorldMatrix);
         Player.DrawPlayer(batch);
         batch.End();
     }

@@ -43,10 +43,21 @@ public sealed class Core : Game
         spriteBatch = new(GraphicsDevice);
         sceneManager.LoadSceneContent(this);
     }
+    
+    protected override void UnloadContent() 
+    {
+        base.UnloadContent();
+        sceneManager.UnloadContent();
+    }
     protected override void Update(GameTime gt) 
     {
         input.UpdateInputs();
-        if (input.IsKeyPressed(keyForExit) && canExitGame) Exit();
+        if (input.IsKeyPressed(keyForExit) && canExitGame) 
+        {
+            UnloadContent();
+            Exit();
+            canExitGame = false;
+        }
 
         sceneManager.UpdateScene(gt);
         

@@ -21,6 +21,12 @@ public sealed class SceneManager : Scene
         GameManager.LoadSceneContent(game);
         Interface.LoadSceneContent(game);
     }
+    public override void UnloadContent() 
+    {
+        Dispose();
+        GameManager.UnloadContent();
+        Interface.UnloadContent();
+    }
     public override void UpdateScene(GameTime gt) 
     {
         base.UpdateScene(gt);
