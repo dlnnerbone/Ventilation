@@ -12,6 +12,8 @@ public sealed class Player : Entity
     public Sprite PlayerSprite { get; private set; }
     public bool IsAlive { get; set; } = true;
     
+    public WebClump Clump { get; set; } = new WebClump();
+    
     public Player() : base(50, 250, 32 * 4, 32 * 4, 100, 0, 100) {}
     
     public void LoadContent(GraphicsDevice device, ContentManager content) 
@@ -19,6 +21,8 @@ public sealed class Player : Entity
         Movement = new CharacterMovementModule(content);
         PlayerSprite = new Sprite(device, 1, 1);
         PlayerSprite.SetData(Color.White);
+        
+        Clump.LoadContent(content);
     }
     
     public void UpdatePlayer(GameTime gt) 
@@ -26,10 +30,19 @@ public sealed class Player : Entity
         if (!IsAlive) return;
         MoveAndSlide(gt);
         Movement.UpdateMovement(gt, this);
+        
+        Clump.ShootingTime(gt);
+        if (MouseManager.IsLeftHeld) 
+        {
+            Clump.SetDestination(Center);
+            Clump.AimAt(MouseManager.WorldMousePosition);
+            Clump.OverrideFlags(Actions.Ready);
+        }
     }
     public void DrawPlayer(SpriteBatch spriteBatch) 
     {
         if (!IsAlive) return;
         PlayerSprite.Draw(spriteBatch, Bounds);
+        Clump.DrawProjectile(spriteBatch);
     }
 }

@@ -4,14 +4,12 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/Game/Assets/ProjectileAssets/WebClump/WebClump_Active.png</File>
-    <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/Game/Assets/ProjectileAssets/WebClump/WebClump_Ready.png</File>
+    <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/Game/Assets/ProjectileAssets/WebClump/WebClump_Master.png</File>
     <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/Game/SpriteFonts/PixelatedElegance.spritefont</File>
     <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/Game/SpriteFonts/PixelBasel.spritefont</File>
     <File>/home/dinnerbone/Games/Ventilation/Ventilation/Content/Game/SpriteFonts/VcrEas.spritefont</File>
   </SourceFiles>
   <DestFiles>
-    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

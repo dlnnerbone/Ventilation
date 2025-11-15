@@ -126,8 +126,6 @@
 /home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/Ventilation.genruntimeconfig.cache
 /home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/obj/Debug/net8.0/ref/Ventilation.dll
 /home/dinnerbone/Documents/Ameen's Files/Programmed Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/PixelatedElegance.xnb
-/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/Game/Assets/ProjectileAssets/WebClump/WebClump_Active.xnb
-/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/Game/Assets/ProjectileAssets/WebClump/WebClump_Ready.xnb
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/Game/SpriteFonts/VcrEas.xnb
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/WebClump_Active.xnb
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Ventilation
@@ -141,9 +139,6 @@
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/android-arm64/native/libopenal.so
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/android-x64/native/libopenal.so
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/android-x86/native/libopenal.so
-/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/ios-arm64/native/libopenal.dylib
-/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/iossimulator-arm64/native/libopenal.dylib
-/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/iossimulator-x64/native/libopenal.dylib
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/linux-x64/native/libopenal.so
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/osx/native/libopenal.dylib
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/win-x64/native/openal.dll
@@ -166,3 +161,9 @@
 /home/dinnerbone/Games/Ventilation/Ventilation/obj/Debug/net8.0/ref/Ventilation.dll
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/Game/SpriteFonts/PixelatedElegance.xnb
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/Game/SpriteFonts/PixelBasel.xnb
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/Game/Assets/ProjectileAssets/WebClump/WebClump_Master.xnb
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/ios-arm64/native/libopenal.a
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/iossimulator-arm64/native/libopenal.a
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/iossimulator-x64/native/libopenal.a
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/linux-arm64/native/libopenal.so
+/home/dinnerbone/Games/Ventilation/Ventilation/obj/Debug/net8.0/mgcb.tool.restore
