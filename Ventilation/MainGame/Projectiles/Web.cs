@@ -31,7 +31,7 @@ public sealed class WebClump : Projectile
     public readonly Timer LifeSpan = new Timer(5f, TimeStates.Down, false, true);
     
     public Vector2 Destination { get; set; } = Vector2.Zero;
-    public Vector2 RadiusVector { get; set; } = new Vector2(50, 50);
+    public Vector2 RadiusVector { get; set; } = new Vector2(150, 100);
     
     public float MoveSpeed { get => moveSpeed; set => moveSpeed = MathHelper.Clamp(value, 0, MaxSpeed) * SpeedMulti; }
     public float MaxSpeed { get => maxSpeed; set => maxSpeed = MathHelper.Clamp(value, MoveSpeed, float.PositiveInfinity) * SpeedMulti; }
@@ -43,7 +43,7 @@ public sealed class WebClump : Projectile
     
     public WebClump() : base(0, 0, 16 * 4, 16 * 4, Vector2.UnitX, Actions.Disabled) 
     {
-        readyingTimer = new Timer(4f, TimeStates.Down, false, false);
+        readyingTimer = new Timer(6f, TimeStates.Down, false, false);
     }
     // general methods
     public float NormalizedSpeedProgress => MoveSpeed / MaxSpeed;
@@ -70,6 +70,7 @@ public sealed class WebClump : Projectile
         
         Animation.AddPreset("Active", 0, 4);
         Animation.AddPreset("Readying", 14, 27);
+        Animation.AddPreset("Waiting", 24, 27);
     }
     
     public override void Reset() 
@@ -106,17 +107,30 @@ public sealed class WebClump : Projectile
     {
         LifeSpan.TickTock(gt);
         readyingTimer.TickTock(gt);
+        
+        if (!IsReady) 
+        {
+            _hasJustEnteredReady = false;
+        }
     }
     
     private void _readying() 
     {
         Animation.SetToPreset("Readying");
-        if (!readyingTimer.TimeHitsFloor() && !_hasJustEnteredReady) 
+        
+        if (!_hasJustEnteredReady) 
         {
             Animation.Restart();
             readyingTimer.Restart();
             _hasJustEnteredReady = true;
         }
-        Diagnostics.Write($"Current Frame: {Animation.CurrentFrameIndex}");
+        else if (Animation.CurrentFrameIndex >= 24) 
+        {
+            Animation.SetToPreset("Waiting");
+        }
+        
+        float progress = Easing.EaseInExpo(readyingTimer.NormalizedProgress);
+        buildUpMeter = 1 - progress;
+        Position = Destination - HalfSize + Direction * RadiusVector * progress;
     }
 }
