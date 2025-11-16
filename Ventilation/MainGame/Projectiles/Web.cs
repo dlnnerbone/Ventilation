@@ -13,8 +13,8 @@ public sealed class WebClump : Projectile
 {
     private readonly Timer readyingTimer;
     
-    private float moveSpeed = 400f;
-    private float maxSpeed = 400f;
+    private float moveSpeed = 750f;
+    private float maxSpeed = 1000f;
     private float speedMulti = 1f;
     
     private float damage = 25f;
@@ -25,8 +25,9 @@ public sealed class WebClump : Projectile
     
     private bool _hasJustEnteredReady = false;
     private bool _hasJustEnteredCooldown = false;
+    private bool _hasJustEnteredActive = false;
     //
-    public TextureAtlas Atlas { get; private set; }
+    public TileGrid Atlas { get; private set; }
     public Animation Animation { get; private set; }
     public readonly Timer LifeSpan = new Timer(5f, TimeStates.Down, false, true);
     
@@ -65,7 +66,7 @@ public sealed class WebClump : Projectile
     public void LoadContent(ContentManager content) 
     {
         var texture = content.Load<Texture2D>("Game/Assets/ProjectileAssets/WebClump/WebClump_Master");
-        Atlas = new TextureAtlas(14, 2, texture);
+        Atlas = new TileGrid(14, 2, texture);
         Animation = new Animation(texture, Atlas, 0, 5, 3);
         
         Animation.AddPreset("Active", 0, 4);
@@ -90,7 +91,7 @@ public sealed class WebClump : Projectile
         switch(ActionStates) 
         {
             case Actions.Ready: _readying(); break;
-            case Actions.Active: break;
+            case Actions.Active: active(gt); break;
             case Actions.Cooldown: break;
         }
     }
@@ -129,8 +130,18 @@ public sealed class WebClump : Projectile
             Animation.SetToPreset("Waiting");
         }
         
-        float progress = Easing.EaseInExpo(readyingTimer.NormalizedProgress);
+        float progress = Easing.EaseOutExpo(readyingTimer.NormalizedProgress);
         buildUpMeter = 1 - progress;
         Position = Destination - HalfSize + Direction * RadiusVector * progress;
+    }
+    
+    private void active(GameTime gt)
+    {
+        var curRange = Animation.CurrentFrameIndex;
+        if (!_hasJustEnteredActive) 
+        {
+            
+        }
+        Position += Direction * MoveSpeed * buildUpMeter * (float)gt.ElapsedGameTime.TotalSeconds;
     }
 }

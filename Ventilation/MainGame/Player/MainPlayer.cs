@@ -39,7 +39,7 @@ public sealed class Player : Entity
         } 
         else 
         {
-            web.OverrideFlags(Actions.Cooldown);
+            web.OverrideFlags(Actions.Active);
         }
     }
     public void DrawPlayer(SpriteBatch spriteBatch) 
