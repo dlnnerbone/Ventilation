@@ -113,6 +113,7 @@ public sealed class WebClump : Projectile
         {
             _hasJustEnteredReady = false;
         }
+        if (!IsCurrentlyActive) _hasJustEnteredActive = false;
     }
     
     private void _readying() 
@@ -130,17 +131,21 @@ public sealed class WebClump : Projectile
             Animation.SetToPreset("Waiting");
         }
         
-        float progress = Easing.EaseOutExpo(readyingTimer.NormalizedProgress);
+        float progress = Easing.EaseInExpo(readyingTimer.NormalizedProgress);
         buildUpMeter = 1 - progress;
         Position = Destination - HalfSize + Direction * RadiusVector * progress;
     }
     
     private void active(GameTime gt)
     {
-        var curRange = Animation.CurrentFrameIndex;
         if (!_hasJustEnteredActive) 
         {
-            
+            Animation.SetRange(Animation.CurrentFrameIndex, Animation.CurrentFrameIndex + 3);
+            _hasJustEnteredActive = true;
+        }
+        else if (Animation.CurrentFrameIndex >= 24) 
+        {
+            Animation.SetToPreset("Active");
         }
         Position += Direction * MoveSpeed * buildUpMeter * (float)gt.ElapsedGameTime.TotalSeconds;
     }
