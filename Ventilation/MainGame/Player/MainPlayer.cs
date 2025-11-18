@@ -41,6 +41,11 @@ public sealed class Player : Entity
         {
             web.OverrideFlags(Actions.Active);
         }
+        if (web.LifeSpan.TimeHitsFloor()) 
+        {
+            web.SetDestination(Center);
+            web.OverrideFlags(Actions.Cooldown);
+        }
     }
     public void DrawPlayer(SpriteBatch spriteBatch) 
     {

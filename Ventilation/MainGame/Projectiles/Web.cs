@@ -12,6 +12,7 @@ namespace Main;
 public sealed class WebClump : Projectile 
 {
     private readonly Timer readyingTimer;
+    private readonly Timer cooldownTimer;
     
     private float moveSpeed = 750f;
     private float maxSpeed = 1000f;
@@ -29,7 +30,7 @@ public sealed class WebClump : Projectile
     //
     public TileGrid Atlas { get; private set; }
     public Animation Animation { get; private set; }
-    public readonly Timer LifeSpan = new Timer(5f, TimeStates.Down, false, true);
+    public readonly Timer LifeSpan = new Timer(5f, TimeStates.Down, false, false);
     
     public Vector2 Destination { get; set; } = Vector2.Zero;
     public Vector2 RadiusVector { get; set; } = new Vector2(150, 100);
@@ -45,21 +46,13 @@ public sealed class WebClump : Projectile
     public WebClump() : base(0, 0, 16 * 4, 16 * 4, Vector2.UnitX, Actions.Disabled) 
     {
         readyingTimer = new Timer(6f, TimeStates.Down, false, false);
+        cooldownTimer = new Timer(10f, TimeStates.Down, false, false);
     }
     // general methods
     public float NormalizedSpeedProgress => MoveSpeed / MaxSpeed;
     public float NormalizedDamage => Damage / MaxDamage;
     public float NormalizedLifeSpan => LifeSpan.NormalizedProgress;
     public void SetDestination(Vector2 location) => Destination = location;
-    
-    public float DistanceFrom(Vector2 location) 
-    {
-        return Vector2.Distance(Position, location);
-    }
-    public float DistanceFromSquared(Vector2 location) 
-    {
-        return Vector2.DistanceSquared(Position, location);
-    }
     
     // main methods
     
@@ -92,7 +85,7 @@ public sealed class WebClump : Projectile
         {
             case Actions.Ready: _readying(); break;
             case Actions.Active: active(gt); break;
-            case Actions.Cooldown: break;
+            case Actions.Cooldown: cooldown(); break;
         }
     }
     
@@ -102,18 +95,26 @@ public sealed class WebClump : Projectile
         Animation.Animate(spriteBatch, Bounds);
     }
     
+    public void Inflict(Entity opposer) 
+    {
+        opposer.Health -= Damage;
+    }
+    
     // private methods
     
     private void timeManager(GameTime gt) 
     {
         LifeSpan.TickTock(gt);
         readyingTimer.TickTock(gt);
+        cooldownTimer.TickTock(gt);
         
         if (!IsReady) 
         {
             _hasJustEnteredReady = false;
         }
-        if (!IsCurrentlyActive) _hasJustEnteredActive = false;
+        else if (!IsCurrentlyActive) _hasJustEnteredActive = false;
+        if (!InCooldown) _hasJustEnteredCooldown = false;
+        
     }
     
     private void _readying() 
@@ -124,6 +125,8 @@ public sealed class WebClump : Projectile
         {
             Animation.Restart();
             readyingTimer.Restart();
+            LifeSpan.IsPaused = true;
+            LifeSpan.Restart();
             _hasJustEnteredReady = true;
         }
         else if (Animation.CurrentFrameIndex >= 24) 
@@ -141,6 +144,7 @@ public sealed class WebClump : Projectile
         if (!_hasJustEnteredActive) 
         {
             Animation.SetRange(Animation.CurrentFrameIndex, Animation.CurrentFrameIndex + 3);
+            LifeSpan.IsPaused = false;
             _hasJustEnteredActive = true;
         }
         else if (Animation.CurrentFrameIndex >= 24) 
@@ -148,5 +152,15 @@ public sealed class WebClump : Projectile
             Animation.SetToPreset("Active");
         }
         Position += Direction * MoveSpeed * buildUpMeter * (float)gt.ElapsedGameTime.TotalSeconds;
+    }
+    
+    private void cooldown() 
+    {
+        if (!_hasJustEnteredCooldown) 
+        {
+            cooldownTimer.Restart();
+            _hasJustEnteredCooldown = true;
+        }
+        Position = Vector2.Lerp(Position, Destination - HalfSize, 0.01f);
     }
 }
