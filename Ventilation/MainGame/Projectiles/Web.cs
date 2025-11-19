@@ -1,6 +1,6 @@
 using System;
 using GameComponents;
-using GameComponents.Managers;
+using GameComponents.Interfaces;
 using GameComponents.Helpers;
 using GameComponents.Rendering;
 using GameComponents.Entity;
@@ -62,9 +62,9 @@ public sealed class WebClump : Projectile
         Atlas = new TileGrid(14, 2, texture);
         Animation = new Animation(texture, Atlas, 0, 5, 3);
         
-        Animation.AddPreset("Active", 0, 4);
-        Animation.AddPreset("Readying", 14, 27);
-        Animation.AddPreset("Waiting", 24, 27);
+        Animation.AddPreset("Active", 0, 5);
+        Animation.AddPreset("Readying", 14, 28);
+        Animation.AddPreset("Waiting", 24, 28);
     }
     
     public override void Reset() 
@@ -95,7 +95,7 @@ public sealed class WebClump : Projectile
         Animation.Animate(spriteBatch, Bounds);
     }
     
-    public void Inflict(Entity opposer) 
+    public void Inflict<T>(T opposer) where T : IHealthComponent 
     {
         opposer.Health -= Damage;
     }
@@ -161,6 +161,6 @@ public sealed class WebClump : Projectile
             cooldownTimer.Restart();
             _hasJustEnteredCooldown = true;
         }
-        Position = Vector2.Lerp(Position, Destination - HalfSize, 0.01f);
+        Position = Vector2.LerpPrecise(Position, Destination - HalfSize, 0.1f);
     }
 }
