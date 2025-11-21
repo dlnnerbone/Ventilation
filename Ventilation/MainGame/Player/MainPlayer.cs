@@ -9,10 +9,10 @@ namespace Main;
 public sealed class Player : Entity
 {
     public CharacterMovementModule Movement { get; private set; }
+    public PlayerCombatModule combatModule { get; private set; }
+    
     public Sprite PlayerSprite { get; private set; }
     public bool IsAlive { get; set; } = true;
-    
-    WebClump web = new();
     
     public Player() : base(50, 250, 32 * 4, 32 * 4, 100, 0, 100) {}
     
@@ -21,7 +21,8 @@ public sealed class Player : Entity
         Movement = new CharacterMovementModule(content);
         PlayerSprite = new Sprite(device, 1, 1);
         PlayerSprite.SetData(Color.White);
-        web.LoadContent(content);
+        
+        combatModule = new(content);
     }
     
     public void UpdatePlayer(GameTime gt) 
@@ -29,28 +30,10 @@ public sealed class Player : Entity
         if (!IsAlive) return;
         MoveAndSlide(gt);
         Movement.UpdateMovement(gt, this);
-        web.ShootingTime(gt);
-        
-        if (MouseManager.IsLeftHeld) 
-        {
-            web.SetDestination(Center);
-            web.AimAt(MouseManager.WorldMousePosition);
-            web.OverrideFlags(Actions.Ready);
-        } 
-        else 
-        {
-            web.OverrideFlags(Actions.Active);
-        }
-        if (web.LifeSpan.TimeHitsFloor()) 
-        {
-            web.SetDestination(Center);
-            web.OverrideFlags(Actions.Cooldown);
-        }
     }
     public void DrawPlayer(SpriteBatch spriteBatch) 
     {
         if (!IsAlive) return;
         PlayerSprite.Draw(spriteBatch, Bounds);
-        web.DrawProjectile(spriteBatch);
     }
 }

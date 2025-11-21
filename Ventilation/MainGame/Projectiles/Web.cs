@@ -43,7 +43,7 @@ public sealed class WebClump : Projectile
     public float MaxDamage { get => maxDamage; set => maxDamage = MathHelper.Clamp(value, Damage, float.PositiveInfinity); }
     public float DamageMulti { get => damageMulti; set => damageMulti = Math.Abs(value); }
     
-    public WebClump() : base(0, 0, 16 * 4, 16 * 4, Vector2.UnitX, Actions.Disabled) 
+    public WebClump() : base(0, 0, 16 * 4, 16 * 4, Vector2.UnitX, Actions.Ready) 
     {
         readyingTimer = new Timer(6f, TimeStates.Down, false, false);
         cooldownTimer = new Timer(10f, TimeStates.Down, false, false);
