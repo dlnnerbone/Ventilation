@@ -34,12 +34,41 @@ public sealed class PlayerCombatModule
     {
         GeneralCooldown = new(0.4f);
         ClumpPool = new(() => new WebClump());
-        Clumps = [new(), new(), new(), new(), new()];
+        Clumps = new();
         
-        for(int i = 0; i < Clumps.Count; i++) 
+        for (int i = 0; i < maxProjectiles; i++) 
         {
-            Clumps[i].LoadContent(content);
+            var clump = new WebClump();
+            clump.LoadContent(content);
+            Clumps.Add(clump);
         }
+        
+        for(int i = Clumps.Count - 1; i >= 0; i--) PushToPool(i);
     }
     
+    public void UpdateCombat(GameTime gt, Entity owner) 
+    {
+        GeneralCooldown.TickTock(gt);
+        Input.UpdateInputs();
+        
+        foreach(var web in Clumps) web.ShootingTime(gt);
+        
+        if ((MouseManager.IsLeftHeld || MouseManager.IsLeftClicked) && Clumps.Count <= 0) 
+        {
+            Clumps.Add(ClumpPool.Request());
+        }
+        
+        if (MouseManager.IsLeftHeld) 
+        {
+            Clumps[^1].AimAt(mousePos);
+            Clumps[^1].SetDestination(owner.Center);
+            Clumps[^1].OverrideFlags(Actions.Ready);
+        }
+        else if (Clumps.Count > 0) Clumps[^1].OverrideFlags(Actions.Active);
+    }
+    
+    public void DrawCombat(SpriteBatch batch) 
+    {
+        foreach(var web in Clumps) web.DrawProjectile(batch);
+    }
 }
