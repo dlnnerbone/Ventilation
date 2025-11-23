@@ -51,9 +51,34 @@ public sealed class PlayerCombatModule
         GeneralCooldown.TickTock(gt);
         Input.UpdateInputs();
         
-        foreach(var web in Clumps) web.ShootingTime(gt);
+        _generalizedSelectionManager(gt, owner);
+        _singularSelectionManager(gt, owner);
+    }
+    // the main function methods.
+    private void _generalizedSelectionManager(GameTime gt, Entity owner) 
+    {
+        foreach(var web in Clumps) 
+        {
+            web.ShootingTime(gt);
+            
+            if (web.NormalizedLifeSpan <= 0f) 
+            {
+                web.SetDestination(owner.Center);
+                web.OverrideFlags(Actions.Cooldown);
+            }
+            
+            
+        }
+    }
+    
+    private void _singularSelectionManager(GameTime gt, Entity owner) 
+    {
+        bool leftClick = MouseManager.IsLeftClicked;
+        bool countCheck = Clumps.Count - 1 >= 0;
         
-        if ((MouseManager.IsLeftHeld || MouseManager.IsLeftClicked) && Clumps.Count <= 0) 
+        if (Clumps.Count >= maxProjectiles) PushToPool(0);
+        
+        if ((leftClick && Clumps.Count - 1 < 0) || (leftClick && (Clumps[^1].IsCurrentlyActive || Clumps[^1].InCooldown))) 
         {
             Clumps.Add(ClumpPool.Request());
         }
@@ -64,7 +89,8 @@ public sealed class PlayerCombatModule
             Clumps[^1].SetDestination(owner.Center);
             Clumps[^1].OverrideFlags(Actions.Ready);
         }
-        else if (Clumps.Count > 0) Clumps[^1].OverrideFlags(Actions.Active);
+        else if (countCheck && !Clumps[^1].InCooldown) Clumps[^1].OverrideFlags(Actions.Active);
+        
     }
     
     public void DrawCombat(SpriteBatch batch) 

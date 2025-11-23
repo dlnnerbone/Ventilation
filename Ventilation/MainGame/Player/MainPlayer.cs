@@ -32,6 +32,7 @@ public sealed class Player : Entity
         Movement.UpdateMovement(gt, this);
         combatModule.UpdateCombat(gt, this);
     }
+    
     public void DrawPlayer(SpriteBatch spriteBatch) 
     {
         if (!IsAlive) return;
