@@ -36,7 +36,7 @@ public sealed class PlayerCombatModule
         ClumpPool = new(() => new WebClump());
         Clumps = new();
         
-        for (int i = 0; i < maxProjectiles; i++) 
+        for (int i = 0; i <= maxProjectiles; i++) 
         {
             var clump = new WebClump();
             clump.LoadContent(content);
@@ -52,38 +52,44 @@ public sealed class PlayerCombatModule
         Input.UpdateInputs();
         
         _generalizedSelectionManager(gt, owner);
-        _singularSelectionManager(gt, owner);
+        _singularSelectionManager(owner);
     }
     // the main function methods.
     private void _generalizedSelectionManager(GameTime gt, Entity owner) 
     {
-        foreach(var web in Clumps) 
+        // for-loop to update every Projectile.
+        
+        for(int i = Clumps.Count - 1; i >= 0; i--) 
         {
-            web.ShootingTime(gt);
-            
-            if (web.NormalizedLifeSpan <= 0f) 
+            // to update every projectile.
+            Clumps[i].ShootingTime(gt);
+            // check if the unit-scale of the life-span of each projectile hits zero to be pushed into the Inactive List.
+            if (Clumps[i].NormalizedLifeSpan <= 0) 
             {
-                web.SetDestination(owner.Center);
-                web.OverrideFlags(Actions.Cooldown);
+                Clumps[i].SetDestination(owner.Center);
+                Clumps[i].OverrideFlags(Actions.Cooldown);
             }
-            
-            
+            // pushes them in.
+            if (Clumps[i].DistanceFrom(owner.Center) <= 50f && Clumps[i].InCooldown) 
+            {
+                PushToPool(i);
+            }
         }
     }
     
-    private void _singularSelectionManager(GameTime gt, Entity owner) 
+    private void _singularSelectionManager(Entity owner) 
     {
         bool leftClick = MouseManager.IsLeftClicked;
         bool countCheck = Clumps.Count - 1 >= 0;
         
-        if (Clumps.Count >= maxProjectiles) PushToPool(0);
+        if (Clumps.Count > maxProjectiles) PushToPool(0);
         
         if ((leftClick && Clumps.Count - 1 < 0) || (leftClick && (Clumps[^1].IsCurrentlyActive || Clumps[^1].InCooldown))) 
         {
             Clumps.Add(ClumpPool.Request());
         }
         
-        if (MouseManager.IsLeftHeld) 
+        if (MouseManager.IsLeftHeld && !_isStunned) 
         {
             Clumps[^1].AimAt(mousePos);
             Clumps[^1].SetDestination(owner.Center);
