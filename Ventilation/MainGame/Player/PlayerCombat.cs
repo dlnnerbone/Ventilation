@@ -18,7 +18,7 @@ public sealed class PlayerCombatModule
     // properties
     public readonly Timer GeneralCooldown;
     public int MaxProjectiles { get => maxProjectiles; set => maxProjectiles = Math.Abs(value); }
-    public readonly ProjectilePool<WebClump> ClumpPool;
+    public readonly ObjectPool<WebClump> ClumpPool;
     public readonly List<WebClump> Clumps;
     public readonly InputManager Input = new();
     // methods

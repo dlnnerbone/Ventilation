@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GameComponents.Logic;
 namespace Main;
-public sealed class WebClump : Projectile 
+public sealed class WebClump : Projectile, IPoolable<WebClump> 
 {
     private readonly Timer readyingTimer;
     private readonly Timer cooldownTimer;
