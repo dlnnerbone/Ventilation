@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameComponents;
 using GameComponents.Managers;
+using System.IO;
 namespace Main;
 public sealed class SceneManager : Scene 
 {
