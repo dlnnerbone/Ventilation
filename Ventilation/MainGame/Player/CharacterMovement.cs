@@ -22,7 +22,7 @@ public class CharacterMovementModule
     public float SpeedMulti { get => speedMulti; set => speedMulti = Math.Abs(value); }
     public float DashForce { get => dashForce; set => dashForce = MathHelper.Clamp(value, MaxSpeed, float.PositiveInfinity) * speedMulti; }
     public float Stamina { get => stamina; set => stamina = MathHelper.Clamp(value, 0, MaxStamina); }
-    public float MaxStamina { get => maxStamina; set => Math.Abs(value); }
+    public float MaxStamina { get => maxStamina; set => maxStamina = Math.Abs(value); }
     public float EaseLevel { get => easeLvl; set => easeLvl = MathHelper.Clamp(value, 0f, 1f); }
     public bool IsControllable { get; set; } = true;
     public bool IsActive { get; set; } = true;
