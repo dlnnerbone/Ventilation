@@ -27,10 +27,13 @@ public sealed class Player : Entity
         combatModule = new(content);
     }
     
+    protected override void MoveAndSlide(GameTime gt) => Position += Velocity * (float)gt.ElapsedGameTime.TotalSeconds;
+    
     public void UpdatePlayer(GameTime gt) 
     {
         if (!IsAlive) return;
         MoveAndSlide(gt);
+        
         Movement.UpdateMovement(gt, this);
         combatModule.UpdateCombat(gt, this);
         
