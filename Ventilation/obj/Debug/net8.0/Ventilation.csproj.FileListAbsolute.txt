@@ -167,3 +167,4 @@
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/iossimulator-x64/native/libopenal.a
 /home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/runtimes/linux-arm64/native/libopenal.so
 /home/dinnerbone/Games/Ventilation/Ventilation/obj/Debug/net8.0/mgcb.tool.restore
+/home/dinnerbone/Games/Ventilation/Ventilation/bin/Debug/net8.0/Content/Game/Assets/TileSets/BasicTileSet.xnb
