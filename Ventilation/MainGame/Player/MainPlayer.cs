@@ -32,12 +32,12 @@ public sealed class Player : Entity
         
         texture = content.Load<Texture2D>("Game/Assets/TileSets/BasicTileSet");
         grid = new TileGrid(4, 4, texture);
-        map = new TileMap(Vector2.Zero, grid, 64 * 2, 64 * 2, new int[,] 
+        map = new TileMap(Vector2.Zero, grid, 64 * 2, 64 * 2, LayoutDirection.Horizontal, new int[,]
         {
-            {1, 2, 3, 4},
-            {1, 2, 3, 4},
-            {1, 1, 1, 1}
+            {1, 2, 3, 4}
         });
+        map.AddColliders(0, 1, new(0, 0, 64 * 2, 64 * 2));
+        
     }
     
     protected override void MoveAndSlide(GameTime gt) => Position += Velocity * (float)gt.ElapsedGameTime.TotalSeconds;
@@ -47,6 +47,11 @@ public sealed class Player : Entity
         if (!IsAlive) return;
         
         MoveAndSlide(gt);
+        map.UpdateTileMap((int index, bool isCollided, Rectangle collider) => 
+        {
+            if (isCollided && X < collider.Right) X = collider.Right;
+            if (isCollided && X > collider.Left + Width) X = collider.Left - Width;
+        }, this);
         
         Movement.UpdateMovement(gt, this);
         combatModule.UpdateCombat(gt, this);
