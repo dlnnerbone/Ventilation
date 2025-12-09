@@ -3,10 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using GameComponents.Entity;
 using GameComponents.Rendering;
-using GameComponents.Helpers;
-using Microsoft.Xna.Framework.Input;
 using GameComponents.Logic;
-using GameComponents;
+using System.Collections.Generic;
 namespace Main;
 
 public sealed class Player : Entity
@@ -19,6 +17,10 @@ public sealed class Player : Entity
     
     public Player() : base(50, 250, 32 * 4, 32 * 4, 100, 0, 100) {}
     
+    TileMap Map;
+    TileGrid grid;
+    Texture2D texture;
+    
     public void LoadContent(GraphicsDevice device, ContentManager content) 
     {
         Movement = new CharacterMovementModule(content);
@@ -26,6 +28,21 @@ public sealed class Player : Entity
         PlayerSprite.SetData(Color.White);
         
         combatModule = new(content);
+        
+        texture = content.Load<Texture2D>("Game/Assets/TileSets/BasicTileSet");
+        grid = new(4, 4, texture);
+        Map = new(new byte[,] 
+        {
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 1},
+            {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 1},
+            {1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 1}
+        } 
+        , new byte[50, 50], Vector2.Zero, 128, 128, LayoutDirection.Horizontal);
+        Map.SetSourceGrid(grid);
+        
+        Map.ToggleCollidersFromLayout(new HashSet<byte> { 1, 3 }, true);
+        
     }
     
     protected override void MoveAndSlide(GameTime gt) => Position += Velocity * (float)gt.ElapsedGameTime.TotalSeconds;
@@ -46,5 +63,6 @@ public sealed class Player : Entity
         if (!IsAlive) return;
         PlayerSprite.Draw(spriteBatch, Bounds);
         combatModule.DrawCombat(spriteBatch);
+        Map.Draw(spriteBatch, texture);
     }
 }
