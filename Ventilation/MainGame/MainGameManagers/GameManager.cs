@@ -30,6 +30,8 @@ public sealed class GameManager : Scene
         Player.UpdatePlayer(gt);
         MainCamera.Recording();
         MainCamera.SetTarget(-Player.Center);
+        
+        
     }
     public void DrawScene(SpriteBatch batch) 
     {

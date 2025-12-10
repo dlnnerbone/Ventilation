@@ -5,6 +5,9 @@ using GameComponents.Entity;
 using GameComponents.Rendering;
 using GameComponents.Logic;
 using System.Collections.Generic;
+using GameComponents.Helpers;
+using GameComponents;
+using System;
 namespace Main;
 
 public sealed class Player : Entity
@@ -25,12 +28,14 @@ public sealed class Player : Entity
     {
         Movement = new CharacterMovementModule(content);
         PlayerSprite = new Sprite(device, 1, 1);
-        PlayerSprite.SetData(Color.White);
+        PlayerSprite.SetData(Color.Purple);
+        PlayerSprite.LayerDepth = 1;
         
         combatModule = new(content);
         
         texture = content.Load<Texture2D>("Game/Assets/TileSets/BasicTileSet");
         grid = new(4, 4, texture);
+        
         Map = new(new byte[,] 
         {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -38,7 +43,15 @@ public sealed class Player : Entity
             {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 1},
             {1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 1}
         } 
-        , new byte[50, 50], Vector2.Zero, 128, 128, LayoutDirection.Horizontal);
+        , new byte[,] 
+        {
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 1},
+            {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 1},
+            {1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 1}
+        } 
+        , Vector2.Zero, 128, 128, LayoutDirection.Horizontal);
+        
         Map.SetSourceGrid(grid);
         
         Map.ToggleCollidersFromLayout(new HashSet<byte> { 1, 3 }, true);
@@ -55,6 +68,21 @@ public sealed class Player : Entity
         
         Movement.UpdateMovement(gt, this);
         combatModule.UpdateCombat(gt, this);
+        
+        Map.Update((int i, ref Collider collider) => 
+        {
+            if (!collider.Bounds.Intersects(Bounds)) return;
+            
+            var distanceFromLeft = Left - collider.Bounds.Left;
+            var distanceFromRight = Right - collider.Bounds.Right;
+            var distanceFromTop = Top - collider.Bounds.Top;
+            var distanceFromBottom = Bottom - collider.Bounds.Bottom;
+            
+            if (distanceFromLeft <= 128 && distanceFromLeft >= 64) X = collider.Bounds.Right;
+            if (distanceFromRight <= 128 && distanceFromRight <= 64) X = collider.Bounds.Left - Width;
+            
+            Diagnostics.Write($"{i},{distanceFromLeft}");
+        });
         
     }
     
