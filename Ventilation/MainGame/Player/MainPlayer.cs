@@ -18,43 +18,31 @@ public sealed class Player : Entity
     public Sprite PlayerSprite { get; private set; }
     public bool IsAlive { get; set; } = true;
     
-    public Player() : base(50, 250, 32 * 4, 32 * 4, 100, 0, 100) {}
-    
-    TileMap Map;
+    TileMapVisuals MapVisual;
     TileGrid grid;
-    Texture2D texture;
+    Texture2D tileSet;
+    
+    public Player() : base(50, 250, 32 * 4, 32 * 4, 100, 0, 100) {}
     
     public void LoadContent(GraphicsDevice device, ContentManager content) 
     {
         Movement = new CharacterMovementModule(content);
         PlayerSprite = new Sprite(device, 1, 1);
-        PlayerSprite.SetData(Color.Purple);
+        PlayerSprite.SetData(Color.Purple); 
         PlayerSprite.LayerDepth = 1;
         
+        tileSet = content.Load<Texture2D>("Game/Assets/TileSets/BasicTileSet");
+        grid = new(4, 4, tileSet);
+        
+        MapVisual = new(Vector2.Zero, LayoutDirection.Horizontal, 128, new byte[,] 
+        {
+            {1, 1, 1, 1, 1, 1},
+            {1, 2, 2, 2, 2, 1}
+        });
+        
+        MapVisual.SetSourceGrid(grid);
+        
         combatModule = new(content);
-        
-        texture = content.Load<Texture2D>("Game/Assets/TileSets/BasicTileSet");
-        grid = new(4, 4, texture);
-        
-        Map = new(new byte[,] 
-        {
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 1},
-            {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 1},
-            {1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 1}
-        } 
-        , new byte[,] 
-        {
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 1},
-            {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 1},
-            {1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 1}
-        } 
-        , Vector2.Zero, 128, 128, LayoutDirection.Horizontal);
-        
-        Map.SetSourceGrid(grid);
-        
-        Map.ToggleCollidersFromLayout(new HashSet<byte> { 1, 3 }, true);
         
     }
     
@@ -69,20 +57,8 @@ public sealed class Player : Entity
         Movement.UpdateMovement(gt, this);
         combatModule.UpdateCombat(gt, this);
         
-        Map.Update((int i, ref Collider collider) => 
-        {
-            if (!collider.Bounds.Intersects(Bounds)) return;
-            
-            var distanceFromLeft = Left - collider.Bounds.Left;
-            var distanceFromRight = Right - collider.Bounds.Right;
-            var distanceFromTop = Top - collider.Bounds.Top;
-            var distanceFromBottom = Bottom - collider.Bounds.Bottom;
-            
-            if (distanceFromLeft <= 128 && distanceFromLeft >= 64) X = collider.Bounds.Right;
-            if (distanceFromRight <= 128 && distanceFromRight <= 64) X = collider.Bounds.Left - Width;
-            
-            Diagnostics.Write($"{i},{distanceFromLeft}");
-        });
+        var tile = MapVisual.GetNeighbouringTopTile(1, 3);
+        MapVisual.GetNeighbouringTopTile(1, 3).Bounds = new(tile.Bounds.X + 1, tile.Bounds.Y - 1, tile.Bounds.Width, tile.Bounds.Height);
         
     }
     
@@ -91,6 +67,6 @@ public sealed class Player : Entity
         if (!IsAlive) return;
         PlayerSprite.Draw(spriteBatch, Bounds);
         combatModule.DrawCombat(spriteBatch);
-        Map.Draw(spriteBatch, texture);
+        MapVisual.Draw(spriteBatch, tileSet, Color.White);
     }
 }
