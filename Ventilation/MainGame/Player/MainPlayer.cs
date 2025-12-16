@@ -19,6 +19,7 @@ public sealed class Player : Entity
     public bool IsAlive { get; set; } = true;
     
     TileMapVisuals MapVisual;
+    TileMapLogic MapLogic;
     TileGrid grid;
     Texture2D tileSet;
     
@@ -40,6 +41,12 @@ public sealed class Player : Entity
             {1, 2, 2, 2, 2, 1}
         });
         
+        MapLogic = new(LayoutDirection.Horizontal, Vector2.Zero, 128, new byte[,] 
+        {
+            {1, 1, 1, 1, 1, 1},
+            {1, 0, 0, 0, 1, 0}
+        }, true);
+        
         MapVisual.SetSourceGrid(grid);
         
         combatModule = new(content);
@@ -57,8 +64,10 @@ public sealed class Player : Entity
         Movement.UpdateMovement(gt, this);
         combatModule.UpdateCombat(gt, this);
         
-        var tile = MapVisual.GetNeighbouringTopTile(1, 3);
-        MapVisual.GetNeighbouringTopTile(1, 3).Bounds = new(tile.Bounds.X + 1, tile.Bounds.Y - 1, tile.Bounds.Width, tile.Bounds.Height);
+        MapLogic.Update((int i, ref Collider c) => 
+        {
+            Diagnostics.Write($"{MapLogic.GetNeighbouringLeftCollider(i).Bounds.X}");
+        });
         
     }
     
