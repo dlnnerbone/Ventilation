@@ -23,7 +23,7 @@ public sealed class Player : Entity
     TileGrid grid;
     Texture2D tileSet;
     
-    public Player() : base(50, 250, 32 * 4, 32 * 4, 100, 0, 100) {}
+    public Player() : base(50, 250, 16 * 4, 16 * 4, 100, 0, 100) {}
     
     public void LoadContent(GraphicsDevice device, ContentManager content) 
     {
@@ -44,10 +44,13 @@ public sealed class Player : Entity
         MapLogic = new(LayoutDirection.Horizontal, Vector2.Zero, 128, new byte[,] 
         {
             {1, 1, 1, 1, 1, 1},
-            {1, 0, 0, 0, 1, 0}
+            {1, 0, 0, 0, 0, 1}
         }, true);
         
+        MapLogic.IsLogicActive = true;
+        
         MapVisual.SetSourceGrid(grid);
+        MapLogic.ToggleCollision(new HashSet<int> {0}, false);
         
         combatModule = new(content);
         
@@ -64,9 +67,34 @@ public sealed class Player : Entity
         Movement.UpdateMovement(gt, this);
         combatModule.UpdateCombat(gt, this);
         
-        MapLogic.Update((int i, ref Collider c) => 
+        MapLogic.Update((int i, ref Collider c) =>
         {
-            Diagnostics.Write($"{MapLogic.GetNeighbouringLeftCollider(i).Bounds.X}");
+            if (!Intersects(c.Bounds)) return;
+            
+            var rightOverlap = Right - c.Bounds.Left;
+            var leftOverlap = Math.Abs(Left - c.Bounds.Right);
+            var topOverlap = Math.Abs(Top - c.Bounds.Bottom);
+            var bottomOverlap = Bottom - c.Bounds.Top;
+            
+            bool isTouchingRight = rightOverlap < leftOverlap;
+            bool isTouchingLeft = leftOverlap < rightOverlap;
+            bool isTouchingTop = topOverlap < bottomOverlap;
+            bool isTouchingBottom = bottomOverlap < topOverlap;
+            
+            if (isTouchingRight && Velocity_X > 0) 
+            {
+                X -= (int)rightOverlap;
+                Velocity_X = 0;
+            }
+            else if (isTouchingLeft && Velocity_X < 0) 
+            {
+                X += (int)leftOverlap;
+                Velocity_X = 0;
+            }
+            
+            if (isTouchingTop && Velocity_Y < 0) Y += (int)topOverlap;
+            
+            Diagnostics.Write($"right: {rightOverlap}, {leftOverlap}");
         });
         
     }
@@ -74,8 +102,9 @@ public sealed class Player : Entity
     public void DrawPlayer(SpriteBatch spriteBatch) 
     {
         if (!IsAlive) return;
+        MapVisual.Draw(spriteBatch, tileSet, Color.White);
         PlayerSprite.Draw(spriteBatch, Bounds);
         combatModule.DrawCombat(spriteBatch);
-        MapVisual.Draw(spriteBatch, tileSet, Color.White);
+        
     }
 }
