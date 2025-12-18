@@ -71,30 +71,29 @@ public sealed class Player : Entity
         {
             if (!Intersects(c.Bounds)) return;
             
-            var rightOverlap = Right - c.Bounds.Left;
-            var leftOverlap = Math.Abs(Left - c.Bounds.Right);
-            var topOverlap = Math.Abs(Top - c.Bounds.Bottom);
-            var bottomOverlap = Bottom - c.Bounds.Top;
+            Vector2 colliderCenter = new Vector2(c.Bounds.X + c.Bounds.Width / 2, c.Bounds.Y + c.Bounds.Height / 2);
+            Vector2 vectorDistance = Center - colliderCenter;
             
-            bool isTouchingRight = rightOverlap < leftOverlap;
-            bool isTouchingLeft = leftOverlap < rightOverlap;
-            bool isTouchingTop = topOverlap < bottomOverlap;
-            bool isTouchingBottom = bottomOverlap < topOverlap;
+            float minDistanceX = Width / 2 + c.Bounds.Width / 2;
+            float minDistanceY = Height / 2 + c.Bounds.Height / 2;
             
-            if (isTouchingRight && Velocity_X > 0) 
+            float overlapX = Center.X < colliderCenter.X ? vectorDistance.X + minDistanceX : Math.Abs(vectorDistance.X - minDistanceX);
+            float overlapY = Center.Y < colliderCenter.Y ? vectorDistance.Y + minDistanceY : Math.Abs(vectorDistance.Y - minDistanceY);
+            
+            bool isTouchingHorizontally = overlapX < overlapY;
+            
+            if (isTouchingHorizontally) 
             {
-                X -= (int)rightOverlap;
-                Velocity_X = 0;
+                if (Center.X < colliderCenter.X) X -= (int)overlapX;
+                else X += (int)overlapX;
             }
-            else if (isTouchingLeft && Velocity_X < 0) 
+            else 
             {
-                X += (int)leftOverlap;
-                Velocity_X = 0;
+                if (Center.Y < colliderCenter.Y) Y -= (int)overlapY;
+                else Y += (int)overlapY;
             }
             
-            if (isTouchingTop && Velocity_Y < 0) Y += (int)topOverlap;
-            
-            Diagnostics.Write($"right: {rightOverlap}, {leftOverlap}");
+            Diagnostics.Write($"{overlapX} vs {overlapY}");
         });
         
     }
