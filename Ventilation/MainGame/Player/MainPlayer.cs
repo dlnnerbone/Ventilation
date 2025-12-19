@@ -23,7 +23,7 @@ public sealed class Player : Entity
     TileGrid grid;
     Texture2D tileSet;
     
-    public Player() : base(50, 250, 16 * 4, 16 * 4, 100, 0, 100) {}
+    public Player() : base(50, 250, 32 * 4, 32 * 4, 100, 0, 100) {}
     
     public void LoadContent(GraphicsDevice device, ContentManager content) 
     {
@@ -37,20 +37,22 @@ public sealed class Player : Entity
         
         MapVisual = new(Vector2.Zero, LayoutDirection.Horizontal, 128, new byte[,] 
         {
-            {1, 1, 1, 1, 1, 1},
-            {1, 2, 2, 2, 2, 1}
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,2,2,2,2,2,2,2,2,2,2,2,2,1},
+            {1,2,2,2,2,2,2,2,2,2,2,2,3,1}
         });
         
         MapLogic = new(LayoutDirection.Horizontal, Vector2.Zero, 128, new byte[,] 
         {
-            {1, 1, 1, 1, 1, 1},
-            {1, 0, 0, 0, 0, 1}
-        }, true);
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,2,2,2,2,2,2,2,2,2,2,2,2,1},
+            {1,2,2,2,2,2,2,2,2,2,2,2,3,1}
+        }, false);
         
         MapLogic.IsLogicActive = true;
         
         MapVisual.SetSourceGrid(grid);
-        MapLogic.ToggleCollision(new HashSet<int> {0}, false);
+        MapLogic.ToggleCollision(new HashSet<int> {1, 3}, true);
         
         combatModule = new(content);
         
@@ -92,8 +94,6 @@ public sealed class Player : Entity
                 if (Center.Y < colliderCenter.Y) Y -= (int)overlapY;
                 else Y += (int)overlapY;
             }
-            
-            Diagnostics.Write($"{overlapX} vs {overlapY}");
         });
         
     }
